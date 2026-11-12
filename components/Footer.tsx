@@ -18,10 +18,6 @@ export default function Footer() {
           <Link href="/" className="hover:text-[#FF5A1F] transition-colors">Каталог</Link>
           <Link href="/community" className="hover:text-[#FF5A1F] transition-colors">Сообщество</Link>
           <Link href="/submit" className="hover:text-[#FF5A1F] transition-colors">Опубликовать проект</Link>
-          <Link href="/admin" className="hover:text-[#FF5A1F] transition-colors font-bold text-slate-800 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F]" />
-            <span>Аналитика & Админка</span>
-          </Link>
         </div>
 
         <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">
