@@ -2,17 +2,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function cleanDemoData() {
-  const mode = process.argv[2] || '--test-only';
+  const mode = process.argv[2] || '--all';
 
   console.log(`🧹 Cleaning database (Mode: ${mode})...`);
 
   try {
     if (mode === '--all') {
-      console.log('Removing all startups, comments, changelogs, founder asks...');
-      await prisma.comment.deleteMany({});
+      console.log('Removing all startups, comments, changelogs, reviews, community posts...');
+      await prisma.startupComment.deleteMany({});
       await prisma.changelog.deleteMany({});
-      await prisma.founderAsk.deleteMany({});
+      await prisma.review.deleteMany({});
       await prisma.startup.deleteMany({});
+      await prisma.postComment.deleteMany({});
+      await prisma.post.deleteMany({});
       await prisma.telegramAuthCode.deleteMany({});
       await prisma.userAccount.deleteMany({
         where: {
