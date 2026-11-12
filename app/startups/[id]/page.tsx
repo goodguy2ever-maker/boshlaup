@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         startup.region,
         'стартап узбекистан',
         'mvp ташкент',
-        'центральная азия',
+        'it стартапы',
         'boshlaup',
       ],
       openGraph: {

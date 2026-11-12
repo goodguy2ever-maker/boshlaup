@@ -3,7 +3,7 @@ export type Language = 'ru' | 'uz' | 'en';
 export const translations = {
   ru: {
     appName: "BoshlaUp",
-    appTagline: "Платформа для запуска стартапов Центральной Азии",
+    appTagline: "Платформа для запуска стартапов в Узбекистане",
     nav: {
       catalog: "Каталог стартапов",
       community: "Комьюнити",
@@ -30,7 +30,7 @@ export const translations = {
       checkError: "Ошибка проверки кода",
     },
     hero: {
-      badge: "Центральная Азия & Узбекистан",
+      badge: "IT-стартапы Узбекистана",
       title: "Запускайте, тестируйте и находите инвестиции для ранних стартапов",
       subtitle: "Платформа для фаундеров ранней стадии, первых тестировщиков с бонусами и бизнес-ангелов в поисках единорогов.",
       launchBtn: "Запустить свой стартап",
@@ -251,7 +251,7 @@ export const translations = {
       guest: "Гость платформы",
       telegramConnected: "Telegram привязан",
       telegramNotConnected: "Не привязан",
-      ecosystemMember: "Участник экосистемы стартапов Центральной Азии",
+      ecosystemMember: "Участник экосистемы стартапов Узбекистана",
       loginWithTelegram: "Войти через Telegram",
       addStartup: "Добавить стартап",
     },
@@ -259,7 +259,7 @@ export const translations = {
 
   uz: {
     appName: "BoshlaUp",
-    appTagline: "Markaziy Osiyo startaplarini ishga tushirish platformasi",
+    appTagline: "O'zbekiston startaplarini ishga tushirish platformasi",
     nav: {
       catalog: "Startaplar katalogi",
       community: "Hamjamiyat",
@@ -286,7 +286,7 @@ export const translations = {
       checkError: "Kodni tekshirishda xatolik",
     },
     hero: {
-      badge: "Markaziy Osiyo & O'zbekiston",
+      badge: "O'zbekiston IT-startaplari",
       title: "Erta bosqichdagi startaplarni ishga tushiring, sinang va investitsiya toping",
       subtitle: "Boshlang'ich asoschilar, bonusli birinchi testerlar va yakkashoxlarni izlayotgan biznes-farishtalar uchun platforma.",
       launchBtn: "O'z startapingizni ishga tushiring",
@@ -507,7 +507,7 @@ export const translations = {
       guest: "Platforma mehmoni",
       telegramConnected: "Telegram ulangan",
       telegramNotConnected: "Ulanmagan",
-      ecosystemMember: "Markaziy Osiyo startap ekotizimi a'zosi",
+      ecosystemMember: "O'zbekiston startap ekotizimi a'zosi",
       loginWithTelegram: "Telegram orqali kirish",
       addStartup: "Startap qo'shish",
     },
@@ -515,7 +515,7 @@ export const translations = {
 
   en: {
     appName: "BoshlaUp",
-    appTagline: "Platform for Early-Stage Startups in Central Asia",
+    appTagline: "Platform for Early-Stage Startups in Uzbekistan",
     nav: {
       catalog: "Startup Directory",
       community: "Community",
@@ -542,9 +542,9 @@ export const translations = {
       checkError: "Code verification error",
     },
     hero: {
-      badge: "Central Asia & Uzbekistan",
+      badge: "IT Startups of Uzbekistan",
       title: "Launch, test, and fund early-stage startups",
-      subtitle: "The go-to launchpad for early founders, incentivized beta testers, and business angels discovering Central Asian unicorns.",
+      subtitle: "The go-to launchpad for early founders, beta testers, and business angels discovering tech innovations in Uzbekistan.",
       launchBtn: "Launch Your Startup",
       exploreBtn: "Explore Feed",
       testersStat: "500+ Testers",
@@ -763,7 +763,7 @@ export const translations = {
       guest: "Platform Guest",
       telegramConnected: "Telegram connected",
       telegramNotConnected: "Not connected",
-      ecosystemMember: "Central Asian startup ecosystem member",
+      ecosystemMember: "Uzbekistan startup ecosystem member",
       loginWithTelegram: "Sign in with Telegram",
       addStartup: "Add Startup",
     },

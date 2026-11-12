@@ -559,7 +559,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                 <span>{t.detail.pitchTabs.target}</span>
               </h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
-                {startup.targetAudience || 'Широкая аудитория пользователей и бизнес-клиентов Центральной Азии.'}
+                {startup.targetAudience || 'Широкая аудитория пользователей и бизнес-клиентов в Узбекистане.'}
               </p>
             </div>
 
