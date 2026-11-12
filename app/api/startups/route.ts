@@ -110,6 +110,13 @@ export async function POST(request: Request) {
     const cleanWebsiteUrl = sanitizeUrl(websiteUrl);
     const cleanCategory = sanitizeText(category, 50);
 
+    if (!telegramUserId) {
+      return NextResponse.json(
+        { error: 'Для запуска стартапа необходимо авторизоваться через Telegram' },
+        { status: 401 }
+      );
+    }
+
     if (!cleanName || !cleanTagline || !cleanWebsiteUrl || !cleanCategory) {
       return NextResponse.json(
         { error: 'Заполните корректно обязательные поля: название, слоган, ссылку и категорию' },

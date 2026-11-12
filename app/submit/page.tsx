@@ -39,7 +39,8 @@ import {
   Hammer,
   TrendingUp,
   UserCheck,
-  Phone
+  Phone,
+  Send
 } from 'lucide-react';
 
 function CategoryIcon({ name, className }: { name: string; className?: string }) {
@@ -90,7 +91,7 @@ const REGION_OPTIONS = [
 
 export default function SubmitStartupWizard() {
   const router = useRouter();
-  const { t, user } = useApp();
+  const { t, user, setAuthModalOpen } = useApp();
 
   const CATEGORY_CARDS = [
     { value: 'AI', label: t.wizard.categories.ai.label, iconName: 'Bot', desc: t.wizard.categories.ai.desc },
@@ -262,6 +263,55 @@ export default function SubmitStartupWizard() {
     { step: 2, label: t.wizard.step2 },
     { step: 3, label: t.wizard.step3 },
   ];
+
+  if (!user.isLoggedIn) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center animate-in fade-in">
+        <div className="w-20 h-20 rounded-3xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto mb-6 text-[#FF5A1F] shadow-sm">
+          <Send className="w-10 h-10 ml-0.5" />
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
+          Вход для публикации стартапа
+        </h1>
+        <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
+          Чтобы опубликовать проект на BoshlaUp, сначала авторизуйтесь через Telegram.
+          Это необходимо, чтобы проект закрепился за вашим профилем, и вы могли получать отзывы, баг-репорты и контакты первых тестеров.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
+          <button
+            type="button"
+            onClick={() => setAuthModalOpen(true)}
+            className="w-full sm:w-auto px-6 py-3.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-extrabold rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2.5 transition-all text-sm active:scale-95 cursor-pointer"
+          >
+            <Send className="w-4 h-4" />
+            <span>Войти через Telegram</span>
+          </button>
+          <Link
+            href="/"
+            className="w-full sm:w-auto px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all text-sm text-center"
+          >
+            В каталог
+          </Link>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+          <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
+            <p className="font-extrabold text-xs text-slate-900 mb-1">Без паролей</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">Вход по безопасному 6-значному PIN-коду из Telegram-бота.</p>
+          </div>
+          <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
+            <p className="font-extrabold text-xs text-slate-900 mb-1">Прямой фидбек</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">Уведомления о найденных багах приходят в ваш Telegram.</p>
+          </div>
+          <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
+            <p className="font-extrabold text-xs text-slate-900 mb-1">Статус Фаундера</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">Управление апдейтами, сменой стадий и офферами тестерам.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">

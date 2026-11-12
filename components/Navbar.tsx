@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import { Language } from '@/lib/i18n';
 import {
@@ -20,6 +20,7 @@ import {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { lang, setLang, t, user, isAdmin, logout, setAuthModalOpen } = useApp();
   const [langOpen, setLangOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -98,14 +99,21 @@ export default function Navbar() {
           </div>
 
           {/* Add Project CTA */}
-          <Link
-            href="/submit"
-            className="flex items-center gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-orange-500/25 hover:shadow-md transition-all active:scale-95"
+          <button
+            type="button"
+            onClick={() => {
+              if (!user.isLoggedIn) {
+                setAuthModalOpen(true);
+              } else {
+                router.push('/submit');
+              }
+            }}
+            className="flex items-center gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-orange-500/25 hover:shadow-md transition-all active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4 stroke-[2.8]" />
             <span className="hidden sm:inline">{t.nav.addProject}</span>
             <span className="sm:hidden">{t.nav.addProjectShort}</span>
-          </Link>
+          </button>
 
           {/* Admin shortcut button if Nazarov is logged in */}
           {isAdmin && (
