@@ -20,7 +20,6 @@ export default function TelegramAuthModal() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [demoCodeNotice, setDemoCodeNotice] = useState('');
 
   if (!authModalOpen) return null;
 
@@ -55,17 +54,6 @@ export default function TelegramAuthModal() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleGetDemoCode = async () => {
-    try {
-      const res = await fetch('/api/auth/telegram/demo-code', { method: 'POST' });
-      const data = await res.json();
-      if (data.code) {
-        setCode(data.code);
-        setDemoCodeNotice(`Сгенерирован код: ${data.code}. Нажмите "Подтвердить код"!`);
-      }
-    } catch (e) {}
   };
 
   return (
@@ -166,12 +154,6 @@ export default function TelegramAuthModal() {
                 </div>
               )}
 
-              {demoCodeNotice && (
-                <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium">
-                  {demoCodeNotice}
-                </div>
-              )}
-
               <button
                 type="submit"
                 disabled={loading || code.length !== 6}
@@ -181,18 +163,6 @@ export default function TelegramAuthModal() {
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
-
-            {/* Test Helper for Instant Demo */}
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-              <span className="text-slate-400">Нет доступа к Telegram прямо сейчас?</span>
-              <button
-                type="button"
-                onClick={handleGetDemoCode}
-                className="font-bold text-[#FF5A1F] hover:underline"
-              >
-                Тестовый код
-              </button>
-            </div>
           </div>
         )}
       </div>
