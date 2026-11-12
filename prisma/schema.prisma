@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Startup {
+  id              String   @id @default(cuid())
+  name            String
+  tagline         String
+  description     String
+  problem         String?
+  solution        String?
+  targetAudience  String?
+  websiteUrl      String
+  category        String
+  region          String
+  logoUrl         String?
+  bannerUrl       String?
+  galleryUrls     String?
+  
+  stage           String   @default("MVP / Прототип")
+  founderNeed     String   @default("Ищу тестеров")
+  firstLaunch     Boolean  @default(true)
+  
+  earlyUserOffer  String?
+  hasTesterBonus  Boolean  @default(true)
+  
+  investorAsk     String?
+  investorEquity  String?
+  investorUseOfFunds String?
+  userMetrics     String?
+  mrrMetrics      String?
+  telegramContact String?
+  telegramUserId  String?  // Telegram ID для личных уведомлений в ЛС
+  emailContact    String?
+
+  upvotes         Int      @default(0)
+  websiteClicks   Int      @default(0)
+  viewsCount      Int      @default(0)
+  rating          Float    @default(5.0)
+  reviewCount     Int      @default(0)
+  commentCount    Int      @default(0)
+  
+  founderName     String   @default("Фаундер")
+  founderBio      String?
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  comments        StartupComment[]
+  changelogs      Changelog[]
+  reviews         Review[]
+}
+
+model TelegramAuthCode {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  telegramId String
+  username   String?
+  firstName  String?
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+}
+
+model UserAccount {
+  id         String   @id @default(cuid())
+  telegramId String   @unique
+  username   String?
+  firstName  String
+  avatarUrl  String?
+  role       String   @default("Фаундер")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model StartupComment {
+  id        String   @id @default(cuid())
+  startupId String
+  startup   Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  author    String
+  role      String?
+  tag       String   @default("Идея")
+  status    String   @default("Новый")
+  content   String
+  upvotes   Int      @default(0)
+  parentId  String?
+  createdAt DateTime @default(now())
+}
+
+model Changelog {
+  id        String   @id @default(cuid())
+  startupId String
+  startup   Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  version   String
+  title     String
+  content   String
+  date      DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  startupId String
+  startup   Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  author    String
+  role      String?
+  rating    Int
+  pros      String?
+  cons      String?
+  comment   String
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id          String         @id @default(cuid())
+  title       String
+  content     String
+  category    String
+  author      String
+  upvotes     Int            @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  comments    PostComment[]
+}
+
+model PostComment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    String
+  content   String
+  createdAt DateTime @default(now())
+}
