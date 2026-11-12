@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
 
     const title = searchParams.get('title') || 'BoshlaUp';
-    const tagline = searchParams.get('tagline') || 'Платформа запуска стартапов Центральной Азии';
+    const tagline = searchParams.get('tagline') || 'Платформа запуска и валидации стартапов';
     const category = searchParams.get('category') || 'Startup';
     const stage = searchParams.get('stage') || 'MVP';
     const region = searchParams.get('region') || 'Ташкент';

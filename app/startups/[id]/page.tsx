@@ -19,8 +19,7 @@ const REGION_GEO_MAP: Record<string, { placename: string; position: string; coun
   'Андижан': { placename: 'Andijan, Uzbekistan', position: '40.7821;72.3442', countryCode: 'UZ' },
   'Наманган': { placename: 'Namangan, Uzbekistan', position: '40.9983;71.6726', countryCode: 'UZ' },
   'Узбекистан': { placename: 'Uzbekistan', position: '41.3775;64.5853', countryCode: 'UZ' },
-  'Центральная Азия': { placename: 'Central Asia', position: '45.0000;65.0000', countryCode: 'Central Asia' },
-  'Global': { placename: 'Global / Central Asia', position: '41.2995;69.2401', countryCode: 'UZ' },
+  'Global': { placename: 'Global', position: '41.2995;69.2401', countryCode: 'UZ' },
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -98,7 +97,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   } catch (e) {
     return {
       title: 'Стартап | BoshlaUp',
-      description: 'Платформа запуска стартапов Центральной Азии',
+      description: 'Платформа запуска стартапов в Узбекистане',
     };
   }
 }

@@ -85,7 +85,6 @@ const REGION_OPTIONS = [
   { value: 'Андижан', label: 'Андижан' },
   { value: 'Наманган', label: 'Наманган' },
   { value: 'Узбекистан', label: 'Весь Узбекистан' },
-  { value: 'Центральная Азия', label: 'Центральная Азия' },
   { value: 'Global', label: 'Global / Весь мир' },
 ];
 

@@ -118,7 +118,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/15 text-[#FF5A1F] text-xs font-bold mb-3 border border-[#FF5A1F]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            <span>Центральная Азия & Узбекистан</span>
+            <span>IT-стартапы Узбекистана</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight mb-2.5">

@@ -10,18 +10,17 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://boshlaup.uz';
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: 'BoshlaUp — IDEA LAUNCHPAD | Платформа запуска стартапов Центральной Азии',
+    default: 'BoshlaUp — IDEA LAUNCHPAD | Платформа запуска стартапов в Узбекистане',
     template: '%s | BoshlaUp',
   },
   description:
-    'Платформа №1 в Центральной Азии и Узбекистане для запуска, тестирования и продвижения стартапов. Презентуйте продукт, собирайте обратную связь и находите первых пользователей.',
+    'Платформа №1 в Узбекистане для запуска, тестирования и продвижения стартапов. Презентуйте продукт, собирайте обратную связь и находите первых пользователей.',
   keywords: [
     'стартапы узбекистана',
     'стартапы ташкент',
     'boshlaup',
     'idea launchpad',
     'индихакеры узбекистан',
-    'стартапы центральная азия',
     'it стартапы',
     'ранний доступ mvp',
     'тестирование стартапов',
@@ -48,12 +47,12 @@ export const metadata: Metadata = {
     locale: 'ru_RU',
     url: APP_URL,
     siteName: 'BoshlaUp — IDEA LAUNCHPAD',
-    title: 'BoshlaUp — IDEA LAUNCHPAD | Платформа запуска стартапов Центральной Азии',
+    title: 'BoshlaUp — IDEA LAUNCHPAD | Платформа запуска стартапов в Узбекистане',
     description:
-      'Платформа №1 в Центральной Азии и Узбекистане для запуска, тестирования и продвижения стартапов.',
+      'Платформа №1 в Узбекистане для запуска, тестирования и продвижения стартапов.',
     images: [
       {
-        url: '/api/og?title=BoshlaUp&tagline=Платформа%20запуска%20стартапов%20Центральной%20Азии&category=Launchpad&stage=Live&region=Узбекистан',
+        url: '/api/og?title=BoshlaUp&tagline=Платформа%20запуска%20стартапов&category=Launchpad&stage=Live&region=Узбекистан',
         width: 1200,
         height: 630,
         alt: 'BoshlaUp — IDEA LAUNCHPAD',
@@ -63,9 +62,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'BoshlaUp — IDEA LAUNCHPAD',
-    description: 'Платформа запуска и валидации стартапов Центральной Азии.',
+    description: 'Платформа запуска и валидации стартапов в Узбекистане.',
     images: [
-      '/api/og?title=BoshlaUp&tagline=Платформа%20запуска%20стартапов%20Центральной%20Азии&category=Launchpad&stage=Live&region=Узбекистан',
+      '/api/og?title=BoshlaUp&tagline=Платформа%20запуска%20стартапов&category=Launchpad&stage=Live&region=Узбекистан',
     ],
   },
   other: {
@@ -73,7 +72,7 @@ export const metadata: Metadata = {
     'geo.placename': 'Tashkent, Uzbekistan',
     'geo.position': '41.2995;69.2401',
     'ICBM': '41.2995, 69.2401',
-    'DC.coverage': 'Uzbekistan, Central Asia',
+    'DC.coverage': 'Uzbekistan',
   },
 };
 
@@ -89,7 +88,7 @@ export default function RootLayout({
     alternateName: 'BoshlaUp — IDEA LAUNCHPAD',
     url: APP_URL,
     description:
-      'Платформа запуска, тестирования и продвижения ранних стартапов Узбекистана и Центральной Азии.',
+      'Платформа запуска, тестирования и продвижения ранних стартапов Узбекистана.',
     inLanguage: 'ru-RU',
     publisher: {
       '@type': 'Organization',
