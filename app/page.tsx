@@ -7,7 +7,6 @@ import { FEATURES } from '@/lib/config';
 import {
   Rocket,
   Sparkles,
-  Gift,
   Briefcase,
   ArrowRight,
   TrendingUp,
@@ -15,7 +14,9 @@ import {
   ExternalLink,
   Flame,
   CheckCircle2,
-  Table as TableIcon
+  Table as TableIcon,
+  Users,
+  Send
 } from 'lucide-react';
 import StartupCard from '@/components/StartupCard';
 import FilterBar, { ViewMode } from '@/components/FilterBar';
@@ -34,7 +35,6 @@ export default function HomePage() {
   const [category, setCategory] = useState('Все');
   const [stage, setStage] = useState('Все');
   const [founderNeed, setFounderNeed] = useState('Все');
-  const [bonusOnly, setBonusOnly] = useState(false);
   const [search, setSearch] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('cards');
 
@@ -60,7 +60,6 @@ export default function HomePage() {
         if (category && category !== 'Все') params.append('category', category);
         if (stage && stage !== 'Все') params.append('stage', stage);
         if (founderNeed && founderNeed !== 'Все') params.append('founderNeed', founderNeed);
-        if (bonusOnly) params.append('hasTesterBonus', 'true');
         if (search) params.append('search', search);
 
         const res = await fetch(`/api/startups?${params.toString()}`);
@@ -80,11 +79,10 @@ export default function HomePage() {
       ignore = true;
       clearTimeout(timer);
     };
-  }, [tab, category, stage, founderNeed, bonusOnly, search]);
+  }, [tab, category, stage, founderNeed, search]);
 
   const featuredStartup = startups.find(s => s.featured) || startups[0];
-  const testerBonusStartups = startups.filter(s => s.hasTesterBonus).slice(0, 3);
-  const isFiltering = search.trim() !== '' || category !== 'Все' || stage !== 'Все' || founderNeed !== 'Все' || bonusOnly;
+  const isFiltering = search.trim() !== '' || category !== 'Все' || stage !== 'Все' || founderNeed !== 'Все';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
@@ -125,7 +123,7 @@ export default function HomePage() {
             Запускайте проекты, находите первых пользователей и собирайте честный фидбек
           </h1>
           <p className="text-zinc-300 text-xs sm:text-sm mb-6 leading-relaxed max-w-2xl font-normal">
-            Платформа для смелых фаундеров, первых бета-тестировщиков с бонусами и быстрого запуска пет-проектов и MVP.
+            Платформа для смелых фаундеров, первых пользователей и быстрого запуска пет-проектов и MVP в Узбекистане.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -136,18 +134,6 @@ export default function HomePage() {
               <Rocket className="w-4 h-4 stroke-[2.5]" />
               <span>Запустить свой проект</span>
             </Link>
-
-            <button
-              onClick={() => {
-                setFounderNeed('Ищу тестеров');
-                const el = document.getElementById('feed-section');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-4 py-2.5 bg-white/10 hover:bg-white/15 text-white font-semibold rounded-xl text-xs sm:text-sm border border-white/10 flex items-center gap-2 transition-all"
-            >
-              <Gift className="w-4 h-4 text-emerald-400" />
-              <span>Тестировать за бонусы</span>
-            </button>
           </div>
 
           {/* Quick Metrics (100% Live & Dynamic from Database) */}
@@ -190,8 +176,6 @@ export default function HomePage() {
             search={search}
             setSearch={setSearch}
             resultsCount={startups.length}
-            bonusOnly={bonusOnly}
-            setBonusOnly={setBonusOnly}
             viewMode={viewMode}
             setViewMode={setViewMode}
           />
@@ -226,7 +210,6 @@ export default function HomePage() {
                     setStage('Все');
                     setFounderNeed('Все');
                     setSearch('');
-                    setBonusOnly(false);
                   }}
                   className="text-xs font-bold text-[#FF5A1F] hover:underline"
                 >
@@ -303,7 +286,6 @@ export default function HomePage() {
 
               {featuredStartup.earlyUserOffer && (
                 <div className="mb-4 p-2.5 rounded-xl bg-white/80 border border-orange-200 text-xs text-orange-950 flex items-start gap-2">
-                  <Gift className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span className="line-clamp-2 text-[11px] font-medium">{featuredStartup.earlyUserOffer}</span>
                 </div>
               )}
@@ -312,50 +294,11 @@ export default function HomePage() {
                 href={`/startups/${featuredStartup.id}`}
                 className="w-full py-2.5 px-3 bg-white hover:bg-slate-50 border border-orange-200 rounded-xl text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
               >
-                <span>Подробнее и тест</span>
+                <span>Подробнее о проекте</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#FF5A1F]" />
               </Link>
             </div>
           )}
-
-          {/* Tester Rewards Widget */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-2xs">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <Gift className="w-4 h-4" />
-              </div>
-              <h3 className="font-extrabold text-slate-900 text-sm">
-                Офферы для бета-тестеров
-              </h3>
-            </div>
-            <p className="text-xs text-slate-500 leading-relaxed mb-4">
-              Тестируйте новые локальные продукты, пишите баг-репорты и получайте бесплатный Premium, статус VIP и бонусы от фаундеров.
-            </p>
-
-            <div className="space-y-2.5 text-xs">
-              {testerBonusStartups.length > 0 ? (
-                testerBonusStartups.map((st) => (
-                  <Link
-                    key={st.id}
-                    href={`/startups/${st.id}`}
-                    className="block p-2.5 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:border-emerald-200 border border-transparent transition-all"
-                  >
-                    <p className="font-bold text-slate-900 truncate">{st.name}</p>
-                    <p className="text-[11px] text-emerald-700 line-clamp-1 mt-0.5 font-medium flex items-center gap-1">
-                      <Gift className="w-3 h-3 text-emerald-600 shrink-0" />
-                      <span>{st.earlyUserOffer}</span>
-                    </p>
-                  </Link>
-                ))
-              ) : (
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
-                  <p className="text-[11px] text-slate-400">
-                    Пока нет активных офферов. Опубликуйте свой проект с бонусом для первых тестеров!
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* Founder Community Callout */}
           <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-2xs">
@@ -374,6 +317,30 @@ export default function HomePage() {
             >
               <span>+ Запустить проект бесплатно</span>
             </Link>
+          </div>
+
+          {/* Telegram Channel / Community */}
+          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-2xs">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#FF5A1F] flex items-center justify-center">
+                <Users className="w-4 h-4" />
+              </div>
+              <h3 className="font-extrabold text-slate-900 text-sm">
+                Сообщество фаундеров
+              </h3>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed mb-4 font-normal">
+              Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в экосистеме Узбекистана.
+            </p>
+            <a
+              href="https://t.me/boshlaup_community"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
+            >
+              <Send className="w-3.5 h-3.5 text-[#FF5A1F]" />
+              <span>Присоединиться к Telegram</span>
+            </a>
           </div>
         </div>
       </div>

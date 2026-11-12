@@ -10,7 +10,6 @@ import {
   RotateCcw,
   LayoutGrid,
   List,
-  Gift,
   X,
   SlidersHorizontal
 } from 'lucide-react';
@@ -49,8 +48,6 @@ export default function FilterBar({
   resultsCount,
   viewMode,
   setViewMode,
-  bonusOnly = false,
-  setBonusOnly,
 }: FilterBarProps) {
   const { t } = useApp();
 
@@ -81,14 +78,13 @@ export default function FilterBar({
     { value: 'Ищу кофаундера', label: t.filters.needs.cofounder },
   ];
 
-  const hasActiveFilters = category !== 'Все' || stage !== 'Все' || founderNeed !== 'Все' || search.trim() !== '' || bonusOnly;
+  const hasActiveFilters = category !== 'Все' || stage !== 'Все' || founderNeed !== 'Все' || search.trim() !== '';
 
   const handleReset = () => {
     setCategory('Все');
     setStage('Все');
     setFounderNeed('Все');
     setSearch('');
-    if (setBonusOnly) setBonusOnly(false);
   };
 
   return (
@@ -188,10 +184,10 @@ export default function FilterBar({
           )}
         </div>
 
-        {/* Filter Controls Row */}
-        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+        {/* Filter Controls Row: wrap smoothly with flexible column widths */}
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Category Dropdown */}
-          <div className="w-full sm:w-44">
+          <div className="flex-1 min-w-[140px] max-w-full sm:max-w-[200px]">
             <CustomSelect
               options={CATEGORIES}
               value={category}
@@ -201,7 +197,7 @@ export default function FilterBar({
           </div>
 
           {/* Stage Dropdown */}
-          <div className="w-full sm:w-44">
+          <div className="flex-1 min-w-[140px] max-w-full sm:max-w-[200px]">
             <CustomSelect
               options={STAGE_OPTIONS}
               value={stage}
@@ -210,8 +206,8 @@ export default function FilterBar({
             />
           </div>
 
-          {/* Founder Need Dropdown (Wider to prevent truncation) */}
-          <div className="w-full sm:w-52">
+          {/* Founder Need Dropdown */}
+          <div className="flex-1 min-w-[160px] max-w-full sm:max-w-[220px]">
             <CustomSelect
               options={NEED_OPTIONS}
               value={founderNeed}
@@ -219,22 +215,6 @@ export default function FilterBar({
               placeholder={t.filters.needs.all}
             />
           </div>
-
-          {/* Quick Bonus Toggle Chip (Teal #14B8A6 accent) */}
-          {setBonusOnly && (
-            <button
-              type="button"
-              onClick={() => setBonusOnly(!bonusOnly)}
-              className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border shrink-0 ${
-                bonusOnly
-                  ? 'bg-[#14B8A6] text-white border-[#14B8A6] shadow-sm shadow-teal-500/25'
-                  : 'bg-teal-50/70 text-teal-800 border-teal-200 hover:bg-teal-100 hover:border-teal-300'
-              }`}
-            >
-              <Gift className="w-3.5 h-3.5" />
-              <span>{t.filters.bonusOnly}</span>
-            </button>
-          )}
 
           {/* Reset Filters */}
           {hasActiveFilters && (
