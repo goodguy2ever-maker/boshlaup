@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const [totalUsers, totalAuthCodes, totalComments, totalReviews] = await Promise.all([
-      prisma.userAccount.count(),
-      prisma.telegramAuthCode.count(),
-      prisma.startupComment.count(),
-      prisma.review.count(),
+      prisma.userAccount.count().catch(() => 0),
+      prisma.telegramAuthCode.count().catch(() => 0),
+      prisma.startupComment.count().catch(() => 0),
+      prisma.review.count().catch(() => 0),
     ]);
 
     const startups = await prisma.startup.findMany({
@@ -29,10 +32,14 @@ export async function GET() {
         telegramContact: true,
         createdAt: true,
       },
-    });
+    }).catch(() => []);
 
-    const totalClicks = startups.reduce((acc, s) => acc + (s.websiteClicks || 0), 0);
-    const totalUpvotes = startups.reduce((acc, s) => acc + (s.upvotes || 0), 0);
+    let totalClicks = 0;
+    let totalUpvotes = 0;
+    for (const s of startups) {
+      totalClicks += (s as any).websiteClicks || 0;
+      totalUpvotes += (s as any).upvotes || 0;
+    }
 
     // Group by stage
     const stageMap: Record<string, number> = {};
@@ -87,7 +94,7 @@ export async function GET() {
         role: true,
         createdAt: true,
       },
-    });
+    }).catch(() => []);
 
     return NextResponse.json({
       totalUsers,
@@ -106,6 +113,22 @@ export async function GET() {
       recentUsers,
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({
+      totalUsers: 0,
+      totalAuthCodes: 0,
+      totalStartups: 0,
+      totalClicks: 0,
+      totalUpvotes: 0,
+      totalFeedback: 0,
+      stages: [],
+      regions: [],
+      categories: [],
+      topByClicks: [],
+      topByUpvotes: [],
+      topByFeedback: [],
+      startups: [],
+      recentUsers: [],
+      error: error.message,
+    });
   }
 }

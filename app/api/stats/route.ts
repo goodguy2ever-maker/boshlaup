@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const [totalStartups, totalUsers, totalComments, totalReviews] = await Promise.all([
-      prisma.startup.count(),
-      prisma.userAccount.count(),
-      prisma.startupComment.count(),
-      prisma.review.count(),
+      prisma.startup.count().catch(() => 0),
+      prisma.userAccount.count().catch(() => 0),
+      prisma.startupComment.count().catch(() => 0),
+      prisma.review.count().catch(() => 0),
     ]);
 
     return NextResponse.json({
