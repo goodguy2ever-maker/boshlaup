@@ -22,6 +22,14 @@ export default function Footer() {
           <Link href="/submit" className="hover:text-[#FF5A1F] transition-colors">Опубликовать проект</Link>
           <Link href="/terms" className="hover:text-[#FF5A1F] transition-colors">Оферта</Link>
           <Link href="/privacy" className="hover:text-[#FF5A1F] transition-colors">Конфиденциальность</Link>
+          <a
+            href="https://t.me/boshlaup_project"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#FF5A1F] hover:underline transition-colors font-bold"
+          >
+            Telegram-канал
+          </a>
         </div>
 
         <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">
