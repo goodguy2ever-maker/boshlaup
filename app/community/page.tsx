@@ -12,21 +12,25 @@ import {
   MessageCircle,
   HelpCircle,
   TrendingUp,
-  User
+  User,
+  Lightbulb,
+  Target,
+  Coffee
 } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'Все', label: 'Все темы', icon: '💬' },
-  { id: 'Co-founders', label: 'Поиск кофаундера', icon: '🤝' },
-  { id: 'Advice', label: 'Советы фаундерам', icon: '💡' },
-  { id: 'Feedback', label: 'Запрос фидбека', icon: '🎯' },
-  { id: 'General', label: 'Общее обсуждение', icon: '☕' },
+  { id: 'Все', label: 'Все темы', icon: MessageSquare },
+  { id: 'Co-founders', label: 'Поиск кофаундера', icon: Users },
+  { id: 'Advice', label: 'Советы фаундерам', icon: Lightbulb },
+  { id: 'Feedback', label: 'Запрос фидбека', icon: Target },
+  { id: 'General', label: 'Общее обсуждение', icon: Coffee },
 ];
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('Все');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
 
   // New post form state
@@ -98,13 +102,23 @@ export default function CommunityPage() {
     }
   };
 
+  const filteredPosts = posts.filter(post => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      post.title?.toLowerCase().includes(q) ||
+      post.content?.toLowerCase().includes(q) ||
+      post.author?.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[#ff6154] text-xs font-bold mb-2">
-            <Users className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[#FF5A1F] text-xs font-bold mb-2 border border-orange-100">
+            <Users className="w-3.5 h-3.5 text-[#FF5A1F]" />
             <span>Комьюнити фаундеров и создателей</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -117,32 +131,56 @@ export default function CommunityPage() {
 
         <button
           onClick={() => setShowNewPostModal(true)}
-          className="flex items-center gap-2 bg-[#ff6154] hover:bg-[#ea4e41] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 active:scale-95 transition-all"
+          className="flex items-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 active:scale-95 transition-all"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>Создать тему</span>
         </button>
       </div>
 
-      {/* Category Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
-        {CATEGORIES.map((c) => {
-          const isSelected = selectedCategory === c.id;
-          return (
+      {/* Category Filter & Search Bar */}
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 mb-6">
+        {/* Category Pills (Clean segmented, no emojis) */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+          {CATEGORIES.map((c) => {
+            const isSelected = selectedCategory === c.id;
+            const Icon = c.icon;
+            return (
+              <button
+                key={c.id}
+                onClick={() => setSelectedCategory(c.id)}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all border ${
+                  isSelected
+                    ? 'bg-[#18181B] text-white border-[#18181B] shadow-xs'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:text-slate-950 hover:bg-slate-50'
+                }`}
+              >
+                <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-[#FF5A1F]' : 'text-slate-400'}`} />
+                <span>{c.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Search Input */}
+        <div className="relative min-w-[240px]">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Поиск по темам..."
+            className="w-full pl-9 pr-8 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] text-slate-900 placeholder:text-slate-400 transition-all"
+          />
+          {searchQuery && (
             <button
-              key={c.id}
-              onClick={() => setSelectedCategory(c.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all border ${
-                isSelected
-                  ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-              }`}
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
             >
-              <span>{c.icon}</span>
-              <span>{c.label}</span>
+              ✕
             </button>
-          );
-        })}
+          )}
+        </div>
       </div>
 
       {/* Posts List */}
@@ -156,23 +194,28 @@ export default function CommunityPage() {
             </div>
           ))}
         </div>
-      ) : posts.length === 0 ? (
+      ) : filteredPosts.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
           <MessageSquare className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-          <h3 className="font-bold text-slate-800 text-lg mb-1">Пока нет тем в этой категории</h3>
+          <h3 className="font-bold text-slate-800 text-lg mb-1">
+            {searchQuery ? 'Ничего не найдено по вашему запросу' : 'Пока нет тем в этой категории'}
+          </h3>
           <p className="text-slate-500 text-sm mb-4">
-            Будьте первым, кто начнет обсуждение!
+            {searchQuery ? 'Попробуйте изменить формулировку поиска' : 'Будьте первым, кто начнет обсуждение!'}
           </p>
           <button
-            onClick={() => setShowNewPostModal(true)}
-            className="text-sm font-bold text-[#ff6154] hover:underline"
+            onClick={() => {
+              if (searchQuery) setSearchQuery('');
+              else setShowNewPostModal(true);
+            }}
+            className="text-sm font-bold text-[#FF5A1F] hover:underline"
           >
-            + Написать первый пост
+            {searchQuery ? 'Очистить поиск' : '+ Написать первый пост'}
           </button>
         </div>
       ) : (
         <div className="space-y-4">
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <Link
               key={post.id}
               href={`/community/${post.id}`}
@@ -181,7 +224,7 @@ export default function CommunityPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-50 text-[#ff6154] border border-orange-100">
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-50 text-[#FF5A1F] border border-orange-100">
                       {CATEGORIES.find(c => c.id === post.category)?.label || post.category}
                     </span>
                     <span className="text-xs text-slate-400">•</span>
@@ -195,7 +238,7 @@ export default function CommunityPage() {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-base sm:text-lg text-slate-900 group-hover:text-[#ff6154] transition-colors mb-2">
+                  <h3 className="font-bold text-base sm:text-lg text-slate-900 group-hover:text-[#FF5A1F] transition-colors mb-2">
                     {post.title}
                   </h3>
 
@@ -216,8 +259,8 @@ export default function CommunityPage() {
                   onClick={(e) => handleUpvote(post.id, e)}
                   className={`shrink-0 flex flex-col items-center justify-center min-w-[50px] h-14 rounded-xl border transition-all px-2 ${
                     post.hasUpvoted
-                      ? 'bg-[#ff6154] text-white border-[#ff6154]'
-                      : 'bg-white border-slate-200 text-slate-700 hover:border-[#ff6154] hover:bg-orange-50/50 hover:text-[#ff6154]'
+                      ? 'bg-[#FF5A1F] text-white border-[#FF5A1F]'
+                      : 'bg-white border-slate-200 text-slate-700 hover:border-[#FF5A1F] hover:bg-orange-50/50 hover:text-[#FF5A1F]'
                   }`}
                 >
                   <ChevronUp className="w-4 h-4 stroke-[3]" />
@@ -251,12 +294,12 @@ export default function CommunityPage() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff6154]/20 focus:border-[#ff6154]"
+                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 >
-                  <option value="Advice">💡 Советы фаундерам</option>
-                  <option value="Co-founders">🤝 Поиск кофаундера</option>
-                  <option value="Feedback">🎯 Запрос фидбека</option>
-                  <option value="General">☕ Общее обсуждение</option>
+                  <option value="Advice">Советы фаундерам</option>
+                  <option value="Co-founders">Поиск кофаундера</option>
+                  <option value="Feedback">Запрос фидбека</option>
+                  <option value="General">Общее обсуждение</option>
                 </select>
               </div>
 
@@ -270,7 +313,7 @@ export default function CommunityPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="О чем хотите спросить или рассказать?"
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff6154]/20 focus:border-[#ff6154]"
+                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 />
               </div>
 
@@ -284,7 +327,7 @@ export default function CommunityPage() {
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
                   placeholder="Например, Тимур (AI Startup)"
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff6154]/20 focus:border-[#ff6154]"
+                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 />
               </div>
 
@@ -298,7 +341,7 @@ export default function CommunityPage() {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Поделитесь подробностями, вопросом или предложением..."
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff6154]/20 focus:border-[#ff6154]"
+                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 />
               </div>
 
@@ -313,7 +356,7 @@ export default function CommunityPage() {
                 <button
                   type="submit"
                   disabled={creating}
-                  className="px-6 py-2 bg-[#ff6154] hover:bg-[#ea4e41] text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-50"
+                  className="px-6 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-50"
                 >
                   {creating ? 'Создаем...' : 'Опубликовать'}
                 </button>

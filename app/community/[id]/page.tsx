@@ -90,7 +90,7 @@ export default function PostDetailPage() {
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
-        <div className="w-10 h-10 border-4 border-[#ff6154] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <div className="w-10 h-10 border-4 border-[#FF5A1F] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
         <p className="text-slate-500 font-medium text-sm">Загружаем обсуждение...</p>
       </div>
     );
@@ -100,7 +100,7 @@ export default function PostDetailPage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-bold text-slate-800 mb-2">Тема не найдена</h2>
-        <Link href="/community" className="text-[#ff6154] font-semibold hover:underline">
+        <Link href="/community" className="text-[#FF5A1F] font-semibold hover:underline">
           Вернуться в комьюнити
         </Link>
       </div>
@@ -130,7 +130,7 @@ export default function PostDetailPage() {
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm mb-8">
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-50 text-[#ff6154] border border-orange-100">
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-50 text-[#FF5A1F] border border-orange-100">
               {post.category}
             </span>
             <span className="text-xs text-slate-400">•</span>
@@ -150,8 +150,8 @@ export default function PostDetailPage() {
             disabled={hasUpvoted}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${
               hasUpvoted
-                ? 'bg-[#ff6154] text-white border-[#ff6154]'
-                : 'bg-white border-slate-200 text-slate-700 hover:border-[#ff6154] hover:bg-orange-50/50'
+                ? 'bg-[#FF5A1F] text-white border-[#FF5A1F]'
+                : 'bg-white border-slate-200 text-slate-700 hover:border-[#FF5A1F] hover:bg-orange-50/50'
             }`}
           >
             <ChevronUp className="w-4 h-4 stroke-[3]" />
@@ -184,7 +184,7 @@ export default function PostDetailPage() {
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
               placeholder="Ваше имя / стартап..."
-              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ff6154]/20 focus:border-[#ff6154]"
+              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
             />
           </div>
           <div className="mb-3">
@@ -194,14 +194,14 @@ export default function PostDetailPage() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Напишите ответ или совет автору..."
-              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ff6154]/20 focus:border-[#ff6154]"
+              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
             />
           </div>
           <div className="flex justify-end">
             <button
               type="submit"
               disabled={submittingComment}
-              className="flex items-center gap-1.5 px-5 py-2 bg-[#ff6154] hover:bg-[#ea4e41] text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95 disabled:opacity-50"
+              className="flex items-center gap-1.5 px-5 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95 disabled:opacity-50"
             >
               <Send className="w-3.5 h-3.5" />
               <span>{submittingComment ? 'Отправляем...' : 'Ответить'}</span>
