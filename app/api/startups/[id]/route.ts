@@ -35,16 +35,18 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { stage, founderNeed, tagline, name } = body;
+    const { stage, founderNeed, tagline, name, isActive } = body;
+
+    const data: any = {};
+    if (stage !== undefined) data.stage = stage;
+    if (founderNeed !== undefined) data.founderNeed = founderNeed;
+    if (tagline !== undefined) data.tagline = tagline;
+    if (name !== undefined) data.name = name;
+    if (typeof isActive === 'boolean') data.isActive = isActive;
 
     const updated = await prisma.startup.update({
       where: { id: params.id },
-      data: {
-        ...(stage ? { stage } : {}),
-        ...(founderNeed ? { founderNeed } : {}),
-        ...(tagline ? { tagline } : {}),
-        ...(name ? { name } : {}),
-      },
+      data,
     });
 
     return NextResponse.json(updated);

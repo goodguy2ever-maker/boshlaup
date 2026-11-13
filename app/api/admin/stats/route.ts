@@ -30,6 +30,8 @@ export async function GET() {
         reviewCount: true,
         founderName: true,
         telegramContact: true,
+        isActive: true,
+        featured: true,
         createdAt: true,
       },
     }).catch(() => []);

@@ -31,7 +31,10 @@ import {
   Layers,
   Plus,
   ChevronDown,
-  Phone
+  Phone,
+  Eye,
+  EyeOff,
+  Loader2
 } from 'lucide-react';
 
 function formatContactLink(contact: string) {
@@ -254,6 +257,26 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   };
 
   const [updatingStage, setUpdatingStage] = useState(false);
+  const [updatingActive, setUpdatingActive] = useState(false);
+
+  const handleToggleActive = async (newActive: boolean) => {
+    setUpdatingActive(true);
+    try {
+      const res = await fetch(`/api/startups/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: newActive }),
+      });
+      if (res.ok) {
+        setStartup((prev: any) => ({ ...prev, isActive: newActive }));
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setUpdatingActive(false);
+    }
+  };
+
   const handleUpdateStage = async (newStage: string) => {
     setUpdatingStage(true);
     try {
@@ -292,6 +315,31 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
     );
   }
 
+  const isInactive = startup.isActive === false;
+
+  if (isInactive && !isOwner) {
+    return (
+      <div className="max-w-xl mx-auto py-20 px-4 text-center">
+        <div className="w-16 h-16 rounded-3xl bg-slate-100 flex items-center justify-center mx-auto mb-4 border border-slate-200 shadow-2xs">
+          <EyeOff className="w-8 h-8 text-slate-400" />
+        </div>
+        <h1 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
+          Проект временно отключен
+        </h1>
+        <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+          Автор стартапа временно скрыл этот проект из каталога или проводит обновление.
+        </p>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs font-bold rounded-xl shadow-md transition-all active:scale-95"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Вернуться в каталог стартапов</span>
+        </Link>
+      </div>
+    );
+  }
+
   const handleBack = () => {
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back();
@@ -311,6 +359,33 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
         <ArrowLeft className="w-4 h-4" />
         <span>{t.detail.back}</span>
       </button>
+
+      {/* Banner for founder if inactive */}
+      {isInactive && (
+        <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+              <EyeOff className="w-5 h-5 text-amber-700" />
+            </div>
+            <div>
+              <p className="font-extrabold text-sm text-amber-950">
+                Проект отключен и скрыт из публичного каталога
+              </p>
+              <p className="text-xs text-amber-800">
+                Посетители каталога не видят этот проект. Только вы можете открыть эту страницу по прямой ссылке.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => handleToggleActive(true)}
+            disabled={updatingActive}
+            className="px-4 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs font-bold rounded-xl shadow-md transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer"
+          >
+            {updatingActive ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Eye className="w-3.5 h-3.5" />}
+            <span>Включить проект в каталог</span>
+          </button>
+        </div>
+      )}
 
       {/* Main Header Card */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-2xs mb-8">
@@ -431,6 +506,18 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
               <Share2 className="w-3.5 h-3.5" />
               <span>{copied ? 'Скопировано!' : t.detail.share}</span>
             </button>
+
+            {isOwner && !isInactive && (
+              <button
+                onClick={() => handleToggleActive(false)}
+                disabled={updatingActive}
+                className="py-2.5 px-3 rounded-xl border border-slate-200 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-slate-500 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors sm:w-44 cursor-pointer"
+                title="Скрыть проект из каталога"
+              >
+                {updatingActive ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <EyeOff className="w-3.5 h-3.5" />}
+                <span>Отключить проект</span>
+              </button>
+            )}
           </div>
         </div>
 

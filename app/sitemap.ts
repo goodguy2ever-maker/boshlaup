@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     // Dynamic startup routes
     const startups = await prisma.startup.findMany({
+      where: { isActive: true },
       select: {
         id: true,
         updatedAt: true,

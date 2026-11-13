@@ -7,7 +7,7 @@ export const revalidate = 0;
 export async function GET() {
   try {
     const [totalStartups, totalUsers, totalComments, totalReviews] = await Promise.all([
-      prisma.startup.count().catch(() => 0),
+      prisma.startup.count({ where: { isActive: true } }).catch(() => 0),
       prisma.userAccount.count().catch(() => 0),
       prisma.startupComment.count().catch(() => 0),
       prisma.review.count().catch(() => 0),

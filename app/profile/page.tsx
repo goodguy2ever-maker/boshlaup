@@ -22,6 +22,8 @@ export default function ProfilePage() {
   const [allStartups, setAllStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [localCreatedIds, setLocalCreatedIds] = useState<string[]>([]);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -35,7 +37,7 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchStartups() {
       try {
-        const res = await fetch('/api/startups');
+        const res = await fetch('/api/startups?includeInactive=true');
         if (res.ok) {
           const data = await res.json();
           setAllStartups(data);
@@ -48,6 +50,50 @@ export default function ProfilePage() {
     }
     fetchStartups();
   }, []);
+
+  // Synchronize and clean up localStorage IDs if some projects were deleted from the DB
+  useEffect(() => {
+    if (allStartups.length > 0 && localCreatedIds.length > 0) {
+      const validIds = localCreatedIds.filter(id => allStartups.some(s => s.id === id));
+      if (validIds.length !== localCreatedIds.length) {
+        setLocalCreatedIds(validIds);
+        try {
+          localStorage.setItem('starthub_my_startups', JSON.stringify(validIds));
+          localStorage.setItem('boshlaup_my_startups', JSON.stringify(validIds));
+        } catch (e) {}
+      }
+    }
+  }, [allStartups, localCreatedIds]);
+
+  const handleToggleActive = async (startupId: string, newActive: boolean) => {
+    setTogglingId(startupId);
+    try {
+      const res = await fetch(`/api/startups/${startupId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: newActive }),
+      });
+
+      if (res.ok) {
+        setAllStartups(prev =>
+          prev.map(s => (s.id === startupId ? { ...s, isActive: newActive } : s))
+        );
+        setToastMessage(
+          newActive
+            ? 'Проект активирован и снова отображается в общем каталоге!'
+            : 'Проект отключен и скрыт из каталога.'
+        );
+        setTimeout(() => setToastMessage(null), 4000);
+      } else {
+        alert('Не удалось изменить статус проекта');
+      }
+    } catch (err) {
+      console.error('Error toggling startup active state:', err);
+      alert('Ошибка при соединении с сервером');
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   // Filter projects created by this user
   const myProjects = allStartups.filter(s => {
@@ -255,12 +301,31 @@ export default function ProfilePage() {
         </button>
       </div>
 
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="mb-6 p-4 rounded-2xl bg-slate-900 text-white flex items-center justify-between text-xs font-bold shadow-lg animate-in fade-in slide-in-from-top-2">
+          <span>{toastMessage}</span>
+          <button
+            onClick={() => setToastMessage(null)}
+            className="text-slate-400 hover:text-white ml-4 text-sm"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Tab contents */}
       {activeTab === 'myProjects' && (
         <div className="space-y-4 animate-in fade-in">
           {myProjects.length > 0 ? (
             myProjects.map((s) => (
-              <StartupCard key={s.id} startup={s} />
+              <StartupCard
+                key={s.id}
+                startup={s}
+                isOwner={true}
+                onToggleActive={handleToggleActive}
+                isToggling={togglingId === s.id}
+              />
             ))
           ) : (
             <div className="bg-white rounded-3xl p-10 text-center border border-slate-200 shadow-2xs">

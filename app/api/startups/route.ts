@@ -14,7 +14,13 @@ export async function GET(request: Request) {
     const founderNeed = searchParams.get('founderNeed') || '';
     const hasTesterBonus = searchParams.get('hasTesterBonus');
 
+    const includeInactive = searchParams.get('includeInactive') === 'true';
+
     const where: any = {};
+
+    if (!includeInactive) {
+      where.isActive = true;
+    }
 
     if (hasTesterBonus === 'true') {
       where.hasTesterBonus = true;
