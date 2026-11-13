@@ -556,13 +556,6 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                     {localizeStage(startup.stage, lang)}
                   </span>
                 )}
-
-                {startup.firstLaunch && (
-                  <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{t.card.firstLaunch}</span>
-                  </span>
-                )}
               </div>
 
               {/* Tagline */}
