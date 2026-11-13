@@ -58,10 +58,14 @@ export default function FilterBar({
     { value: 'EdTech', label: t.filters.categories.edtech },
     { value: 'E-commerce', label: t.filters.categories.ecommerce },
     { value: 'SaaS', label: t.filters.categories.saas },
+    { value: 'PropTech', label: (t.filters.categories as any).proptech || 'PropTech & Стройка' },
+    { value: 'Логистика', label: (t.filters.categories as any).logistics || 'Логистика & Авто' },
     { value: 'AgriTech', label: t.filters.categories.agritech },
     { value: 'HealthTech', label: t.filters.categories.health },
+    { value: 'Услуги', label: (t.filters.categories as any).services || 'Услуги & Сервисы' },
     { value: 'Игры', label: t.filters.categories.games },
     { value: 'Социальные', label: t.filters.categories.social },
+    { value: 'Другое', label: (t.filters.categories as any).other || 'Другое' },
   ];
 
   const STAGE_OPTIONS = [

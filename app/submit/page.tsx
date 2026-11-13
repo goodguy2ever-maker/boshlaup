@@ -35,6 +35,9 @@ import {
   Dna,
   Gamepad2,
   Users,
+  Building2,
+  Truck,
+  Briefcase,
   Lightbulb,
   Hammer,
   TrendingUp,
@@ -54,6 +57,9 @@ function CategoryIcon({ name, className }: { name: string; className?: string })
     case 'Dna': return <Dna className={className} />;
     case 'Gamepad2': return <Gamepad2 className={className} />;
     case 'Users': return <Users className={className} />;
+    case 'Building2': return <Building2 className={className} />;
+    case 'Truck': return <Truck className={className} />;
+    case 'Briefcase': return <Briefcase className={className} />;
     default: return <Sparkles className={className} />;
   }
 }
@@ -98,10 +104,14 @@ export default function SubmitStartupWizard() {
     { value: 'EdTech', label: t.wizard.categories.edtech.label, iconName: 'GraduationCap', desc: t.wizard.categories.edtech.desc },
     { value: 'E-commerce', label: t.wizard.categories.ecommerce.label, iconName: 'ShoppingBag', desc: t.wizard.categories.ecommerce.desc },
     { value: 'SaaS', label: t.wizard.categories.saas.label, iconName: 'Cloud', desc: t.wizard.categories.saas.desc },
+    { value: 'PropTech', label: (t.wizard.categories as any).proptech?.label || 'PropTech & Стройка', iconName: 'Building2', desc: (t.wizard.categories as any).proptech?.desc || 'Недвижимость, стройка, аренда' },
+    { value: 'Логистика', label: (t.wizard.categories as any).logistics?.label || 'Логистика & Авто', iconName: 'Truck', desc: (t.wizard.categories as any).logistics?.desc || 'Доставка, склады, авто' },
     { value: 'AgriTech', label: t.wizard.categories.agritech.label, iconName: 'Sprout', desc: t.wizard.categories.agritech.desc },
     { value: 'HealthTech', label: t.wizard.categories.health.label, iconName: 'Dna', desc: t.wizard.categories.health.desc },
+    { value: 'Услуги', label: (t.wizard.categories as any).services?.label || 'Услуги & Сервисы', iconName: 'Briefcase', desc: (t.wizard.categories as any).services?.desc || 'Бытовые услуги, b2c' },
     { value: 'Игры', label: t.wizard.categories.games.label, iconName: 'Gamepad2', desc: t.wizard.categories.games.desc },
     { value: 'Социальные', label: t.wizard.categories.social.label, iconName: 'Users', desc: t.wizard.categories.social.desc },
+    { value: 'Другое', label: (t.wizard.categories as any).other?.label || 'Другое / Своя сфера', iconName: 'Sparkles', desc: (t.wizard.categories as any).other?.desc || 'Указать своё направление' },
   ];
 
   const STAGE_CARDS = [
@@ -123,6 +133,7 @@ export default function SubmitStartupWizard() {
   const [tagline, setTagline] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [category, setCategory] = useState('AI');
+  const [customCategory, setCustomCategory] = useState('');
   const [region, setRegion] = useState('Ташкент');
   const [logoUrl, setLogoUrl] = useState('');
 
@@ -172,6 +183,9 @@ export default function SubmitStartupWizard() {
       if (!name.trim()) return setError('Укажите название стартапа');
       if (!tagline.trim()) return setError('Укажите слоган продукта');
       if (!websiteUrl.trim()) return setError('Укажите ссылку на сайт или Telegram-бота');
+      if (category === 'Другое' && !customCategory.trim()) {
+        return setError((t.wizard as any).customCategoryError || 'Укажите название вашей сферы (например: LegalTech, Туризм, Робототехника)');
+      }
     }
     if (currentStep === 2) {
       if (!problem.trim()) return setError('Опишите решаемую проблему');
@@ -201,6 +215,8 @@ export default function SubmitStartupWizard() {
 
     setSubmitting(true);
 
+    const finalCategory = (category === 'Другое' && customCategory.trim()) ? customCategory.trim() : category;
+
     try {
       const res = await fetch('/api/startups', {
         method: 'POST',
@@ -213,7 +229,7 @@ export default function SubmitStartupWizard() {
           solution: solution.trim(),
           targetAudience: targetAudience.trim(),
           websiteUrl: websiteUrl.trim(),
-          category,
+          category: finalCategory,
           region,
           logoUrl: logoUrl.trim() || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(name.trim())}`,
           bannerUrl: null, // Clean UX: only real logo, no forced fake banners
@@ -452,6 +468,30 @@ export default function SubmitStartupWizard() {
                       );
                     })}
                   </div>
+
+                  {/* Custom Category Input if "Другое" is selected */}
+                  {category === 'Другое' && (
+                    <div className="mt-3 p-3.5 sm:p-4 rounded-2xl bg-orange-50/70 border-2 border-[#FF5A1F]/30 animate-in fade-in slide-in-from-top-1">
+                      <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
+                        <label className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
+                          <span>{(t.wizard as any).customCategoryLabel || 'Ваша сфера или индустрия *'}</span>
+                        </label>
+                        <span className="text-[10px] text-slate-500 font-semibold">
+                          {(t.wizard as any).customCategoryHint || 'Отобразится на карточке проекта'}
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        required={category === 'Другое'}
+                        value={customCategory}
+                        onChange={(e) => setCustomCategory(e.target.value)}
+                        placeholder={(t.wizard as any).customCategoryPlaceholder || 'Например: PropTech, HR-Tech, LegalTech, Туризм...'}
+                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/30 focus:border-[#FF5A1F] font-semibold text-slate-900 shadow-2xs"
+                        maxLength={40}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -873,7 +913,7 @@ export default function SubmitStartupWizard() {
                   )}
 
                   <span className="font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px]">
-                    {category}
+                    {category === 'Другое' ? (customCategory.trim() || 'Своя сфера') : category}
                   </span>
 
                   <span className="inline-flex items-center gap-1 font-medium text-slate-500 text-[10px]">

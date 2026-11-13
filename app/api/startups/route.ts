@@ -31,7 +31,13 @@ export async function GET(request: Request) {
     }
 
     if (category && category !== 'Все' && category !== 'All' && category !== 'Barchasi') {
-      where.category = category;
+      if (category === 'Другое' || category === 'Other' || category === 'Boshqa') {
+        where.category = {
+          notIn: ['AI', 'FinTech', 'EdTech', 'E-commerce', 'SaaS', 'PropTech', 'Логистика', 'AgriTech', 'HealthTech', 'Услуги', 'Игры', 'Социальные'],
+        };
+      } else {
+        where.category = category;
+      }
     }
 
     if (stage && stage !== 'Все' && stage !== 'All' && stage !== 'Barchasi') {
