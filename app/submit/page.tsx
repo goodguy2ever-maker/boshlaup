@@ -151,6 +151,7 @@ export default function SubmitStartupWizard() {
   const [legalAgreed, setLegalAgreed] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -202,6 +203,7 @@ export default function SubmitStartupWizard() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting || isSubmittingRef.current) return;
     setError('');
 
     if (!legalAgreed) {
@@ -214,6 +216,7 @@ export default function SubmitStartupWizard() {
       return;
     }
 
+    isSubmittingRef.current = true;
     setSubmitting(true);
 
     const finalCategory = (category === 'Другое' && customCategory.trim()) ? customCategory.trim() : category;
@@ -258,10 +261,11 @@ export default function SubmitStartupWizard() {
         }
       } catch (e) {}
 
-      // Keep submitting state true so button shows loading spinner during client route transition
-      router.push(`/startups/${created.id}`);
+      // Redirect to Profile where the founder immediately sees their project in "Мои проекты"
+      router.push('/profile');
     } catch (err: any) {
       setError(err.message || 'Ошибка сервера');
+      isSubmittingRef.current = false;
       setSubmitting(false);
     }
   };
@@ -270,7 +274,7 @@ export default function SubmitStartupWizard() {
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back();
     } else {
-      router.push('/');
+      router.push('/profile');
     }
   };
 

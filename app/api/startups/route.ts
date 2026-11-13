@@ -130,6 +130,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Deduplication check: prevent multi-click duplicate creation within 60 seconds
+    const existingRecent = await prisma.startup.findFirst({
+      where: {
+        name: { equals: cleanName, mode: 'insensitive' },
+        telegramUserId: String(telegramUserId),
+        createdAt: {
+          gte: new Date(Date.now() - 60 * 1000),
+        },
+      },
+    });
+
+    if (existingRecent) {
+      return NextResponse.json(existingRecent, { status: 200 });
+    }
+
     const newStartup = await prisma.startup.create({
       data: {
         name: cleanName,
