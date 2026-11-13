@@ -37,7 +37,7 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchStartups() {
       try {
-        const res = await fetch('/api/startups?includeInactive=true');
+        const res = await fetch('/api/startups?includeInactive=true', { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           setAllStartups(data);
@@ -332,7 +332,7 @@ export default function ProfilePage() {
               <Rocket className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <h3 className="text-base font-bold text-slate-800 mb-1">У вас пока нет опубликованных проектов</h3>
               <p className="text-slate-500 text-xs max-w-md mx-auto mb-5 leading-relaxed font-medium">
-                Опубликуйте свой MVP или пет-проект за 3 минуты. Это откроет доступ к тестерам и первым отзывам.
+                Опубликуйте свой стартап или MVP за 3 минуты. Это откроет доступ к тестерам и первым отзывам.
               </p>
               <Link
                 href="/submit"

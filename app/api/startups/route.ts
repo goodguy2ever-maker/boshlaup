@@ -4,6 +4,9 @@ import { broadcastStartupToChannel } from '@/lib/telegram';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 import { sanitizeText, sanitizeUrl } from '@/lib/sanitize';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

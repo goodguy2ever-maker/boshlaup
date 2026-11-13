@@ -62,7 +62,7 @@ export default function HomePage() {
         if (founderNeed && founderNeed !== 'Все') params.append('founderNeed', founderNeed);
         if (search) params.append('search', search);
 
-        const res = await fetch(`/api/startups?${params.toString()}`);
+        const res = await fetch(`/api/startups?${params.toString()}`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (!ignore) setStartups(data);
@@ -308,7 +308,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2 mb-2">
                 <Rocket className="w-4 h-4 text-[#FF5A1F]" />
                 <h3 className="font-extrabold text-white text-sm">
-                  Сделали свой пет-проект?
+                  Создаете свой стартап?
                 </h3>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed mb-4 font-normal">
