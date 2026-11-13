@@ -15,7 +15,8 @@ import {
   User,
   Lightbulb,
   Target,
-  Coffee
+  Coffee,
+  X
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -138,48 +139,56 @@ export default function CommunityPage() {
         </button>
       </div>
 
-      {/* Category Filter & Search Bar */}
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 mb-6">
-        {/* Category Pills (Clean segmented, no emojis) */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
-          {CATEGORIES.map((c) => {
-            const isSelected = selectedCategory === c.id;
-            const Icon = c.icon;
-            return (
-              <button
-                key={c.id}
-                onClick={() => setSelectedCategory(c.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all border ${
-                  isSelected
-                    ? 'bg-[#18181B] text-white border-[#18181B] shadow-xs'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:text-slate-950 hover:bg-slate-50'
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-[#FF5A1F]' : 'text-slate-400'}`} />
-                <span>{c.label}</span>
-              </button>
-            );
-          })}
+      {/* Filter Bar (Identical form to Catalog FilterBar) */}
+      <div className="space-y-3 mb-6">
+        {/* Row 1: Unified Segmented Navigation in white card container */}
+        <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border border-slate-200/90 shadow-2xs">
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+            {CATEGORIES.map((c) => {
+              const isSelected = selectedCategory === c.id;
+              const Icon = c.icon;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedCategory(c.id)}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                    isSelected
+                      ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{c.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Search Input */}
-        <div className="relative min-w-[240px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Поиск по темам..."
-            className="w-full pl-9 pr-8 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] text-slate-900 placeholder:text-slate-400 transition-all"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
-            >
-              ✕
-            </button>
-          )}
+        {/* Row 2: Unified Command Bar (Search + Count) */}
+        <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-2.5">
+          <div className="relative flex-1 min-w-[200px]">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Поиск по темам, вопросам или авторам..."
+              className="w-full pl-10 pr-8 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] transition-all font-medium"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          <div className="text-xs font-semibold text-slate-500 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl shrink-0">
+            Тем: <span className="font-bold text-slate-900">{filteredPosts.length}</span>
+          </div>
         </div>
       </div>
 
