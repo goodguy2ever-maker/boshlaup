@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   try {
     const startup = await getStartup(params.id);
 
-    if (!startup) {
+    if (!startup || !startup.isActive) {
       return {
         title: 'Стартап не найден | BoshlaUp',
         description: 'Запрашиваемый стартап не найден на платформе BoshlaUp.',
@@ -121,7 +121,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function StartupPage({ params }: PageProps) {
   const startup = await getStartup(params.id);
 
-  if (!startup) {
+  if (!startup || !startup.isActive) {
     notFound();
   }
 

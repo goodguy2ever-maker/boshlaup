@@ -14,6 +14,7 @@ export async function GET() {
     ]);
 
     const startups = await prisma.startup.findMany({
+      where: { isActive: true },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,

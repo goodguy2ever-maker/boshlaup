@@ -55,6 +55,7 @@ export default function StartupCard({ startup, rank, isOwner, onToggleActive, is
   const [upvotesCount, setUpvotesCount] = useState(startup.upvotes);
   const [animating, setAnimating] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   const handleUpvote = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -127,15 +128,16 @@ export default function StartupCard({ startup, rank, isOwner, onToggleActive, is
 
         {/* Square Logo */}
         <Link href={`/startups/${startup.id}`} className="shrink-0">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xs group-hover:scale-105 transition-transform relative">
-            {startup.logoUrl ? (
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-amber-100 border border-slate-200 shadow-2xs group-hover:scale-105 transition-transform relative flex items-center justify-center">
+            {startup.logoUrl && !logoError ? (
               <img
                 src={startup.logoUrl}
                 alt={startup.name}
                 className="w-full h-full object-cover"
+                onError={() => setLogoError(true)}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center font-black text-lg text-[#FF5A1F] bg-orange-50">
+              <div className="w-full h-full flex items-center justify-center font-black text-lg text-[#FF5A1F] bg-orange-50 select-none">
                 {startup.name.slice(0, 2).toUpperCase()}
               </div>
             )}

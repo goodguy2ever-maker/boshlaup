@@ -29,6 +29,18 @@ import {
   Lock
 } from 'lucide-react';
 
+function AdminLogo({ url, name }: { url?: string; name: string }) {
+  const [err, setErr] = useState(false);
+  if (!url || err) {
+    return (
+      <div className="w-full h-full flex items-center justify-center font-black text-xs text-[#FF5A1F] bg-orange-50 select-none">
+        {(name || 'B').slice(0, 2).toUpperCase()}
+      </div>
+    );
+  }
+  return <img src={url} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />;
+}
+
 export default function AdminAnalyticsDashboard() {
   const { user, isAdmin, setAuthModalOpen } = useApp();
   const [data, setData] = useState<any>(null);
@@ -124,7 +136,7 @@ export default function AdminAnalyticsDashboard() {
     );
   }
 
-  const startups = data?.startups || [];
+  const startups = (data?.startups || []).filter((s: any) => s.isActive !== false);
   const filteredStartups = startups.filter((s: any) => {
     const matchesSearch = !searchQuery.trim() || 
       s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -408,7 +420,7 @@ export default function AdminAnalyticsDashboard() {
                 <div className="flex items-center gap-2.5 min-w-0">
                   <span className="font-black text-xs text-slate-400 w-4 text-center">#{idx + 1}</span>
                   <div className="w-9 h-9 rounded-xl overflow-hidden bg-white border border-slate-200 shrink-0">
-                    <img src={st.logoUrl || ''} alt="" className="w-full h-full object-cover" />
+                    <AdminLogo url={st.logoUrl} name={st.name} />
                   </div>
                   <div className="min-w-0">
                     <Link href={`/startups/${st.id}`} className="font-extrabold text-xs text-slate-900 hover:text-[#FF5A1F] truncate block">
@@ -444,7 +456,7 @@ export default function AdminAnalyticsDashboard() {
                 <div className="flex items-center gap-2.5 min-w-0">
                   <span className="font-black text-xs text-slate-400 w-4 text-center">#{idx + 1}</span>
                   <div className="w-9 h-9 rounded-xl overflow-hidden bg-white border border-slate-200 shrink-0">
-                    <img src={st.logoUrl || ''} alt="" className="w-full h-full object-cover" />
+                    <AdminLogo url={st.logoUrl} name={st.name} />
                   </div>
                   <div className="min-w-0">
                     <Link href={`/startups/${st.id}`} className="font-extrabold text-xs text-slate-900 hover:text-[#FF5A1F] truncate block">
@@ -480,7 +492,7 @@ export default function AdminAnalyticsDashboard() {
                 <div className="flex items-center gap-2.5 min-w-0">
                   <span className="font-black text-xs text-slate-400 w-4 text-center">#{idx + 1}</span>
                   <div className="w-9 h-9 rounded-xl overflow-hidden bg-white border border-slate-200 shrink-0">
-                    <img src={st.logoUrl || ''} alt="" className="w-full h-full object-cover" />
+                    <AdminLogo url={st.logoUrl} name={st.name} />
                   </div>
                   <div className="min-w-0">
                     <Link href={`/startups/${st.id}`} className="font-extrabold text-xs text-slate-900 hover:text-[#FF5A1F] truncate block">
@@ -571,7 +583,7 @@ export default function AdminAnalyticsDashboard() {
                   <td className="py-3.5 px-4">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
-                        <img src={s.logoUrl || ''} alt="" className="w-full h-full object-cover" />
+                        <AdminLogo url={s.logoUrl} name={s.name} />
                       </div>
                       <div className="min-w-0 max-w-xs">
                         <Link href={`/startups/${s.id}`} className="font-extrabold text-slate-900 hover:text-[#FF5A1F] truncate block">

@@ -114,6 +114,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   // Bonus claim state
   const claimed = hasClaimedBonus(id);
   const [claimToast, setClaimToast] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -401,12 +402,19 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
         <div className="flex flex-col sm:flex-row items-start justify-between gap-6 pb-6 border-b border-slate-100">
           <div className="flex items-start gap-4 sm:gap-5">
             {/* Square Logo */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm shrink-0">
-              <img
-                src={startup.logoUrl || ''}
-                alt={startup.name}
-                className="w-full h-full object-cover"
-              />
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-amber-100 border border-slate-200 shadow-sm shrink-0 flex items-center justify-center">
+              {startup.logoUrl && !logoError ? (
+                <img
+                  src={startup.logoUrl}
+                  alt={startup.name}
+                  className="w-full h-full object-cover"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <span className="font-black text-2xl sm:text-3xl text-[#FF5A1F] select-none">
+                  {(startup.name || 'B').slice(0, 2).toUpperCase()}
+                </span>
+              )}
             </div>
 
             <div>
