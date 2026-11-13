@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { TELEGRAM_BOT_TOKEN } from '@/lib/telegram';
 
 const API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://boshlaup.uz';
+const APP_URL = 'https://boshlaup.uz';
 
 async function sendTelegramMessage(chatId: string | number, text: string, replyMarkup?: any) {
   try {

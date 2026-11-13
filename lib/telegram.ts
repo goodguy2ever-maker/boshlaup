@@ -78,7 +78,7 @@ export async function broadcastStartupToChannel(startup: {
   logoUrl?: string | null;
   telegramContact?: string | null;
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://boshlaup.uz';
   const startupUrl = `${siteUrl}/startups/${startup.id}`;
 
   const caption = `<b>НОВЫЙ ЗАПУСК НА BOSHLAUP!</b>\n\n` +
@@ -127,7 +127,7 @@ export async function notifyFounderFeedback(
 ) {
   if (!telegramId) return;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://boshlaup.uz';
   const tagIcons: Record<string, string> = {
     'Баг': '[БАГ]',
     'Идея': '[ИДЕЯ]',
