@@ -170,15 +170,54 @@ export default function SubmitStartupWizard() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Файл логотипа слишком большой (максимум 5 МБ)');
+    if (file.size > 10 * 1024 * 1024) {
+      setError('Файл логотипа слишком большой (максимум 10 МБ)');
       return;
     }
 
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setLogoUrl(reader.result as string);
-      setError('');
+    reader.onload = (event) => {
+      const rawResult = event.target?.result as string;
+      if (!rawResult) return;
+
+      const img = new Image();
+      img.onload = () => {
+        // Resize to optimal square logo size (max 320x320)
+        const canvas = document.createElement('canvas');
+        const maxDim = 320;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          const optimizedDataUrl = canvas.toDataURL(mime, 0.88);
+          setLogoUrl(optimizedDataUrl);
+          setError('');
+        } else {
+          setLogoUrl(rawResult);
+          setError('');
+        }
+      };
+      img.onerror = () => {
+        setError('Не удалось прочитать изображение');
+      };
+      img.src = rawResult;
     };
     reader.readAsDataURL(file);
   };

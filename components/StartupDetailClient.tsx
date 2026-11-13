@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import { FEATURES } from '@/lib/config';
 import {
   ArrowLeft,
+  Camera,
+  Upload,
   ExternalLink,
   ChevronUp,
   Share2,
@@ -115,6 +117,73 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   const claimed = hasClaimedBonus(id);
   const [claimToast, setClaimToast] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [updatingLogo, setUpdatingLogo] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUpdatingLogo(true);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const rawResult = event.target?.result as string;
+      if (!rawResult) {
+        setUpdatingLogo(false);
+        return;
+      }
+
+      const img = new Image();
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        const maxDim = 320;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          const optimized = canvas.toDataURL(mime, 0.88);
+
+          try {
+            const res = await fetch(`/api/startups/${id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ logoUrl: optimized }),
+            });
+            if (res.ok) {
+              setStartup((prev: any) => ({ ...prev, logoUrl: optimized }));
+              setLogoError(false);
+            }
+          } catch (err) {
+            console.error('Failed to update logo', err);
+          } finally {
+            setUpdatingLogo(false);
+          }
+        } else {
+          setUpdatingLogo(false);
+        }
+      };
+      img.onerror = () => setUpdatingLogo(false);
+      img.src = rawResult;
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     async function loadData() {
@@ -402,18 +471,50 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
         <div className="flex flex-col sm:flex-row items-start justify-between gap-6 pb-6 border-b border-slate-100">
           <div className="flex items-start gap-4 sm:gap-5">
             {/* Square Logo */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-amber-100 border border-slate-200 shadow-sm shrink-0 flex items-center justify-center">
-              {startup.logoUrl && !logoError ? (
-                <img
-                  src={startup.logoUrl}
-                  alt={startup.name}
-                  className="w-full h-full object-cover"
-                  onError={() => setLogoError(true)}
-                />
-              ) : (
-                <span className="font-black text-2xl sm:text-3xl text-[#FF5A1F] select-none">
-                  {(startup.name || 'B').slice(0, 2).toUpperCase()}
-                </span>
+            <div className="relative group shrink-0">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-amber-100 border border-slate-200 shadow-sm flex items-center justify-center">
+                {startup.logoUrl && !logoError ? (
+                  <img
+                    src={startup.logoUrl}
+                    alt={startup.name}
+                    className="w-full h-full object-cover"
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  <span className="font-black text-2xl sm:text-3xl text-[#FF5A1F] select-none">
+                    {(startup.name || 'B').slice(0, 2).toUpperCase()}
+                  </span>
+                )}
+              </div>
+
+              {isOwner && (
+                <>
+                  <input
+                    type="file"
+                    ref={logoInputRef}
+                    accept="image/*"
+                    onChange={handleLogoChange}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => logoInputRef.current?.click()}
+                    disabled={updatingLogo}
+                    className="absolute inset-0 rounded-2xl bg-black/55 text-white opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1 cursor-pointer"
+                    title={lang === 'uz' ? "Logotipni o'zgartirish" : "Сменить логотип"}
+                  >
+                    {updatingLogo ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <Camera className="w-5 h-5" />
+                        <span className="text-[10px] font-bold">
+                          {lang === 'uz' ? "O'zgartirish" : "Сменить"}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                </>
               )}
             </div>
 

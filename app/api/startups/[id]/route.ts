@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sanitizeLogoUrl } from '@/lib/sanitize';
 
 export async function GET(
   request: Request,
@@ -35,7 +36,7 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { stage, founderNeed, tagline, name, isActive } = body;
+    const { stage, founderNeed, tagline, name, isActive, logoUrl } = body;
 
     const data: any = {};
     if (stage !== undefined) data.stage = stage;
@@ -43,6 +44,10 @@ export async function PATCH(
     if (tagline !== undefined) data.tagline = tagline;
     if (name !== undefined) data.name = name;
     if (typeof isActive === 'boolean') data.isActive = isActive;
+    if (logoUrl !== undefined) {
+      const clean = sanitizeLogoUrl(logoUrl);
+      if (clean) data.logoUrl = clean;
+    }
 
     const updated = await prisma.startup.update({
       where: { id: params.id },

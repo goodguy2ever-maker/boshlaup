@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { broadcastStartupToChannel } from '@/lib/telegram';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
-import { sanitizeText, sanitizeUrl } from '@/lib/sanitize';
+import { sanitizeText, sanitizeUrl, sanitizeLogoUrl } from '@/lib/sanitize';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -186,7 +186,7 @@ export async function POST(request: Request) {
         websiteUrl: cleanWebsiteUrl || '',
         category: cleanCategory,
         region: sanitizeText(region || 'Ташкент', 60),
-        logoUrl: logoUrl ? sanitizeText(logoUrl, 1000) : `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(cleanName)}`,
+        logoUrl: (logoUrl ? sanitizeLogoUrl(logoUrl) : null) || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(cleanName)}`,
         stage: sanitizeText(stage || 'MVP / Прототип', 60),
         founderNeed: sanitizeText(founderNeed || 'Ищу тестеров', 60),
         firstLaunch: true,
