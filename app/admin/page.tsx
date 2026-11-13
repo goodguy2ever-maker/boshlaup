@@ -62,6 +62,21 @@ export default function AdminAnalyticsDashboard() {
     fetchStats();
   };
 
+  const toggleFeatured = async (startupId: string, featured: boolean) => {
+    try {
+      const res = await fetch('/api/admin/featured', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ startupId, featured }),
+      });
+      if (res.ok) {
+        fetchStats();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   if (!isAdmin) {
     return (
       <div className="max-w-md mx-auto px-4 py-24 text-center">
@@ -608,6 +623,19 @@ export default function AdminAnalyticsDashboard() {
 
                   <td className="py-3.5 px-4 text-right">
                     <div className="flex items-center justify-end gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => toggleFeatured(s.id, !s.featured)}
+                        title={s.featured ? "Снять статус Проект дня" : "Сделать Проектом дня на главной"}
+                        className={`p-1.5 rounded-lg border transition-all flex items-center gap-1 ${
+                          s.featured
+                            ? "bg-amber-100 text-amber-800 border-amber-300 font-bold shadow-2xs"
+                            : "text-slate-400 hover:text-amber-600 hover:bg-amber-50 border-slate-200"
+                        }`}
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        {s.featured && <span className="text-[10px] hidden sm:inline">Проект дня</span>}
+                      </button>
                       <a
                         href={s.websiteUrl}
                         target="_blank"
