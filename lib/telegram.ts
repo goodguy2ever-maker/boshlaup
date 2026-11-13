@@ -102,11 +102,22 @@ export async function broadcastStartupToChannel(startup: {
     ],
   };
 
-  if (TELEGRAM_CHANNEL_ID) {
+  let targetChannel = TELEGRAM_CHANNEL_ID || '@boshlaup_project';
+
+  try {
+    const savedChannel = await prisma.userAccount.findUnique({
+      where: { telegramId: 'TELEGRAM_CHANNEL' },
+    });
+    if (savedChannel && savedChannel.role && savedChannel.role.startsWith('-')) {
+      targetChannel = savedChannel.role;
+    }
+  } catch (e) {}
+
+  if (targetChannel) {
     if (startup.logoUrl && startup.logoUrl.startsWith('http')) {
-      return await sendTelegramPhoto(TELEGRAM_CHANNEL_ID, startup.logoUrl, caption, inlineKeyboard);
+      return await sendTelegramPhoto(targetChannel, startup.logoUrl, caption, inlineKeyboard);
     } else {
-      return await sendTelegramMessage(TELEGRAM_CHANNEL_ID, caption, inlineKeyboard);
+      return await sendTelegramMessage(targetChannel, caption, inlineKeyboard);
     }
   }
 

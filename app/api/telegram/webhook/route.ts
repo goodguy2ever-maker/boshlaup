@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { TELEGRAM_BOT_TOKEN } from '@/lib/telegram';
+import { TELEGRAM_BOT_TOKEN, broadcastStartupToChannel } from '@/lib/telegram';
 
 const API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 const APP_URL = 'https://boshlaup.uz';
@@ -37,6 +37,43 @@ export async function POST(request: Request) {
     }
 
     const update = await request.json();
+
+    // 1. Detect channel actions (when bot is added to channel or message is posted in channel)
+    const channelPost = update?.channel_post;
+    const myChatMember = update?.my_chat_member;
+    const targetChat = channelPost?.chat || myChatMember?.chat;
+
+    if (targetChat && (targetChat.type === 'channel' || targetChat.type === 'supergroup')) {
+      const channelId = String(targetChat.id);
+      console.log('Detected Telegram Channel ID:', channelId, targetChat.title, targetChat.username);
+
+      await prisma.userAccount.upsert({
+        where: { telegramId: 'TELEGRAM_CHANNEL' },
+        update: {
+          username: targetChat.username ? `@${targetChat.username}` : channelId,
+          firstName: targetChat.title || 'Channel',
+          role: channelId,
+        },
+        create: {
+          telegramId: 'TELEGRAM_CHANNEL',
+          username: targetChat.username ? `@${targetChat.username}` : channelId,
+          firstName: targetChat.title || 'Channel',
+          role: channelId,
+        },
+      }).catch(() => {});
+
+      // Immediately broadcast latest startup to this channel
+      const latest = await prisma.startup.findFirst({
+        where: { isActive: true },
+        orderBy: { createdAt: 'desc' },
+      });
+      if (latest) {
+        await broadcastStartupToChannel(latest);
+      }
+
+      return NextResponse.json({ ok: true, channelId });
+    }
+
     const msg = update?.message;
 
     if (!msg || !msg.from || !msg.chat) {
