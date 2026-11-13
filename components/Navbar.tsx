@@ -15,7 +15,8 @@ import {
   User as UserIcon,
   Check,
   Globe,
-  ShieldCheck
+  ShieldCheck,
+  MessageSquare
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -46,7 +47,7 @@ export default function Navbar() {
           </Link>
 
           {/* Navigation links */}
-          <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
+          <nav className="hidden sm:flex items-center gap-1 text-xs sm:text-sm font-medium">
             <Link
               href="/"
               className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
@@ -57,6 +58,17 @@ export default function Navbar() {
             >
               <Compass className="w-4 h-4" />
               <span>{t.nav.catalog}</span>
+            </Link>
+            <Link
+              href="/community"
+              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                pathname.startsWith('/community')
+                  ? 'text-[#FF5A1F] bg-[#FF5A1F]/10 font-bold'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>{t.nav.community || 'Сообщество'}</span>
             </Link>
           </nav>
         </div>

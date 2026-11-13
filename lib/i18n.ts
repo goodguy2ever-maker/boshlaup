@@ -5,8 +5,8 @@ export const translations = {
     appName: "BoshlaUp",
     appTagline: "Платформа для запуска стартапов в Узбекистане",
     nav: {
-      catalog: "Каталог стартапов",
-      community: "Комьюнити",
+      catalog: "Каталог",
+      community: "Сообщество",
       addProject: "Опубликовать проект",
       addProjectShort: "Запуск",
       investorMode: "Режим инвестора",
