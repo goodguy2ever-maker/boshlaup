@@ -611,7 +611,7 @@ export const translations = {
       addStartup: "Startap qo'shish",
     },
     footer: {
-      catalog: "Startaplar katalogi",
+      catalog: "Katalog",
       community: "Hamjamiyat",
       addProject: "Loyiha qo'shish",
       channel: "Telegram-kanal",
