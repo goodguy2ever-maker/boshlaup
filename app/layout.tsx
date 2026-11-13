@@ -67,6 +67,11 @@ export const metadata: Metadata = {
       '/api/og?title=BoshlaUp&tagline=Платформа%20запуска%20стартапов&category=Launchpad&stage=Live&region=Узбекистан',
     ],
   },
+  icons: {
+    icon: '/logo-icon.svg',
+    shortcut: '/logo-icon.svg',
+    apple: '/logo.png',
+  },
   other: {
     'geo.region': 'UZ',
     'geo.placename': 'Tashkent, Uzbekistan',

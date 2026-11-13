@@ -6,10 +6,12 @@ export default function Footer() {
     <footer className="mt-20 border-t border-slate-200 bg-white py-12 text-slate-500 text-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col">
-          <p className="font-black text-xl text-slate-900 tracking-tight leading-none">
-            Boshla<span className="text-[#FF5A1F]">Up</span>
-          </p>
-          <p className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 mt-1">
+          <img
+            src="/logo.svg"
+            alt="BoshlaUp"
+            className="h-6 w-auto object-contain mb-1"
+          />
+          <p className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400">
             IDEA LAUNCHPAD
           </p>
         </div>

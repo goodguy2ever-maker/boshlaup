@@ -37,12 +37,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3 sm:gap-6">
         {/* Brand Logo */}
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex flex-col tracking-tight group">
-            <span className="text-2xl sm:text-3xl font-black text-[#18181B] tracking-tight leading-none group-hover:opacity-90 transition-opacity">
-              Boshla<span className="text-[#FF5A1F]">Up</span>
-            </span>
-            <span className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 mt-1">
-              IDEA LAUNCHPAD
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <img
+              src="/logo.svg"
+              alt="BoshlaUp"
+              className="h-7 sm:h-8 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+            />
+            <span className="hidden sm:inline-block text-[9px] font-extrabold text-slate-400 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded tracking-widest uppercase">
+              LAUNCHPAD
             </span>
           </Link>
 
