@@ -90,7 +90,7 @@ export default function AdminAnalyticsDashboard() {
           Доступ только для создателя BoshlaUp
         </h2>
         <p className="text-xs text-slate-500 leading-relaxed font-medium mb-6">
-          Панель сквозной аналитики и управления экосистемой предназначена исключительно для администратора платформы <strong>@nazarov_df</strong> (Telegram ID: 5463769569).
+          Панель сквозной аналитики и управления экосистемой предназначена исключительно для Администратора платформы (Admin).
         </p>
 
         <div className="space-y-2.5">
@@ -100,7 +100,7 @@ export default function AdminAnalyticsDashboard() {
             className="w-full py-3 px-5 bg-[#18181B] hover:bg-black text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Bot className="w-4 h-4 text-[#FF5A1F]" />
-            <span>Войти через Telegram (@nazarov_df)</span>
+            <span>Войти как Администратор</span>
           </button>
 
           <Link
@@ -149,7 +149,7 @@ export default function AdminAnalyticsDashboard() {
             </span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#14B8A6]/10 text-[#14B8A6] border border-[#14B8A6]/30">
               <ShieldCheck className="w-3.5 h-3.5 text-[#14B8A6]" />
-              <span>Администратор: @nazarov_df (ID: 5463769569)</span>
+              <span>Администратор платформы (Admin)</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />

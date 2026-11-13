@@ -47,8 +47,8 @@ export default function TermsPage() {
           </h2>
           <p>
             <strong className="text-slate-900">1.1. Платформа (Администрация)</strong> — Интернет-ресурс BoshlaUp, расположенный в сети Интернет по адресу{' '}
-            <a href="https://boshlaup.uz" className="text-[#FF5A1F] font-semibold hover:underline">https://boshlaup.uz</a>, администрируемый владельцем доменного имени{' '}
-            <strong className="text-slate-900">Nazarov Dilshodbek Farhodjon o‘g‘li</strong>.
+            <a href="https://boshlaup.uz" className="text-[#FF5A1F] font-semibold hover:underline">https://boshlaup.uz</a>, администрируемый{' '}
+            <strong className="text-slate-900">Администрацией платформы (Admin)</strong>.
           </p>
           <p>
             <strong className="text-slate-900">1.2. Пользователь</strong> — Любое дееспособное физическое или юридическое лицо, использующее функционал Платформы в роли Фаундера (автора проекта), Тестировщика (рядового пользователя) или Инвестора.
@@ -180,7 +180,7 @@ export default function TermsPage() {
                 </tr>
                 <tr>
                   <td className="p-3 sm:p-4 font-bold text-slate-900">Владелец / Администратор:</td>
-                  <td className="p-3 sm:p-4 text-slate-700">Nazarov Dilshodbek Farhodjon o‘g‘li</td>
+                  <td className="p-3 sm:p-4 text-slate-700">Администрация платформы BoshlaUp (Admin)</td>
                 </tr>
                 <tr className="bg-slate-50/60">
                   <td className="p-3 sm:p-4 font-bold text-slate-900">Официальный веб-сайт:</td>
