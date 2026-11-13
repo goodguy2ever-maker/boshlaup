@@ -16,11 +16,11 @@ import {
 } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'Все', label: 'Все темы' },
-  { id: 'Co-founders', label: 'Поиск кофаундера' },
-  { id: 'Advice', label: 'Советы фаундерам' },
-  { id: 'Feedback', label: 'Запрос фидбека' },
-  { id: 'General', label: 'Общее обсуждение' },
+  { id: 'Все', label: 'Все темы', icon: '💬' },
+  { id: 'Co-founders', label: 'Поиск кофаундера', icon: '🤝' },
+  { id: 'Advice', label: 'Советы фаундерам', icon: '💡' },
+  { id: 'Feedback', label: 'Запрос фидбека', icon: '🎯' },
+  { id: 'General', label: 'Общее обсуждение', icon: '☕' },
 ];
 
 export default function CommunityPage() {
@@ -117,27 +117,28 @@ export default function CommunityPage() {
 
         <button
           onClick={() => setShowNewPostModal(true)}
-          className="flex items-center gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-xs active:scale-95 transition-all"
+          className="flex items-center gap-2 bg-[#ff6154] hover:bg-[#ea4e41] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 active:scale-95 transition-all"
         >
-          <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+          <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>Создать тему</span>
         </button>
       </div>
 
       {/* Category Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar">
+      <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
         {CATEGORIES.map((c) => {
           const isSelected = selectedCategory === c.id;
           return (
             <button
               key={c.id}
               onClick={() => setSelectedCategory(c.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all border ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all border ${
                 isSelected
-                  ? 'bg-zinc-900 text-white border-zinc-900 font-semibold shadow-xs'
-                  : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50'
+                  ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                  : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
+              <span>{c.icon}</span>
               <span>{c.label}</span>
             </button>
           );

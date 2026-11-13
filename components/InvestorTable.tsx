@@ -19,7 +19,7 @@ export default function InvestorTable({ startups }: InvestorTableProps) {
   const { isUpvoted, toggleUpvote } = useApp();
 
   return (
-    <div className="bg-white rounded-xl border border-zinc-200/90 shadow-subtle overflow-hidden">
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
       <div className="p-4 bg-emerald-50/60 border-b border-emerald-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Briefcase className="w-4 h-4 text-emerald-700" />

@@ -55,37 +55,37 @@ export default function CustomSelect({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-3 py-1.5 text-xs bg-white border rounded-lg flex items-center justify-between transition-all outline-none text-left ${
+        className={`w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border rounded-xl flex items-center justify-between transition-all duration-200 outline-none text-left ${
           isOpen
-            ? 'border-[#FF5A1F] ring-1 ring-[#FF5A1F]'
-            : 'border-zinc-200 hover:border-zinc-300'
+            ? 'border-blue-600 ring-2 ring-blue-500/20 shadow-md'
+            : 'border-slate-200 hover:border-slate-300 shadow-2xs hover:bg-slate-50/50'
         }`}
       >
         <div className="flex items-center gap-2 truncate">
           {selectedOption ? (
             <>
-              {selectedOption.icon && <span className="text-sm shrink-0">{selectedOption.icon}</span>}
-              <span className="font-medium text-zinc-900 truncate">{selectedOption.label}</span>
+              {selectedOption.icon && <span className="text-base shrink-0">{selectedOption.icon}</span>}
+              <span className="font-bold text-slate-900 truncate">{selectedOption.label}</span>
               {selectedOption.badge && (
-                <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700">
+                <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-50 text-blue-700">
                   {selectedOption.badge}
                 </span>
               )}
             </>
           ) : (
-            <span className="text-zinc-400 font-normal">{placeholder}</span>
+            <span className="text-slate-400 font-medium">{placeholder}</span>
           )}
         </div>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-150 shrink-0 ml-1.5 ${
-            isOpen ? 'rotate-180 text-zinc-800' : ''
+          className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ml-2 ${
+            isOpen ? 'rotate-180 text-blue-600' : ''
           }`}
         />
       </button>
 
       {/* Floating Dropdown Menu */}
       {isOpen && (
-        <div className="absolute left-0 right-0 top-full mt-1 z-50 bg-white rounded-lg border border-zinc-200 shadow-lg py-1 max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute left-0 right-0 top-full mt-1.5 z-50 bg-white rounded-2xl border border-slate-200 shadow-2xl shadow-slate-900/10 py-1.5 max-h-64 overflow-y-auto animate-in fade-in zoom-in-95 duration-150 scrollbar-thin">
           {options.map((opt) => {
             const isSelected = opt.value === value;
             return (
@@ -96,25 +96,25 @@ export default function CustomSelect({
                   onChange(opt.value);
                   setIsOpen(false);
                 }}
-                className={`w-full px-3 py-1.5 text-left text-xs flex items-center justify-between transition-colors ${
+                className={`w-full px-3.5 py-2.5 text-left text-xs sm:text-sm flex items-center justify-between transition-colors ${
                   isSelected
-                    ? 'bg-orange-50/60 text-[#FF5A1F] font-semibold'
-                    : 'text-zinc-700 hover:bg-zinc-50 font-normal'
+                    ? 'bg-blue-50/80 text-blue-700 font-bold'
+                    : 'text-slate-700 hover:bg-slate-50 font-medium'
                 }`}
               >
-                <div className="flex items-center gap-2 truncate">
-                  {opt.icon && <span className="text-sm shrink-0">{opt.icon}</span>}
+                <div className="flex items-center gap-2.5 truncate">
+                  {opt.icon && <span className="text-base shrink-0">{opt.icon}</span>}
                   <div className="truncate">
                     <div className="flex items-center gap-1.5">
                       <span className="truncate">{opt.label}</span>
                       {opt.badge && (
-                        <span className="text-[10px] font-medium px-1 py-0.2 rounded bg-zinc-100 text-zinc-600">
+                        <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
                           {opt.badge}
                         </span>
                       )}
                     </div>
                     {opt.description && (
-                      <p className="text-[10px] text-zinc-400 truncate mt-0.5">
+                      <p className="text-[10px] text-slate-400 truncate font-normal mt-0.5">
                         {opt.description}
                       </p>
                     )}
@@ -122,7 +122,7 @@ export default function CustomSelect({
                 </div>
 
                 {isSelected && (
-                  <Check className="w-3.5 h-3.5 text-[#FF5A1F] shrink-0 ml-2" />
+                  <Check className="w-4 h-4 text-blue-600 shrink-0 ml-2" />
                 )}
               </button>
             );
