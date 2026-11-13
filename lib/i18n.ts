@@ -266,6 +266,17 @@ export const translations = {
       loginWithTelegram: "Войти через Telegram",
       addStartup: "Добавить стартап",
     },
+    footer: {
+      catalog: "Каталог",
+      community: "Сообщество",
+      addProject: "Опубликовать проект",
+      channel: "Telegram-канал",
+      terms: "Оферта",
+      termsFull: "Публичная оферта",
+      privacy: "Конфиденциальность",
+      privacyFull: "Политика конфиденциальности",
+      tagline: "Сделано для смелых фаундеров и тестеров",
+    },
   },
 
   uz: {
@@ -533,6 +544,17 @@ export const translations = {
       loginWithTelegram: "Telegram orqali kirish",
       addStartup: "Startap qo'shish",
     },
+    footer: {
+      catalog: "Startaplar katalogi",
+      community: "Hamjamiyat",
+      addProject: "Loyiha qo'shish",
+      channel: "Telegram-kanal",
+      terms: "Oferta",
+      termsFull: "Ommaviy oferta",
+      privacy: "Maxfiylik",
+      privacyFull: "Maxfiylik siyosati",
+      tagline: "Jasur startapchilar va testerlar uchun yaratilgan",
+    },
   },
 
   en: {
@@ -799,6 +821,17 @@ export const translations = {
       ecosystemMember: "Uzbekistan startup ecosystem member",
       loginWithTelegram: "Sign in with Telegram",
       addStartup: "Add Startup",
+    },
+    footer: {
+      catalog: "Directory",
+      community: "Community",
+      addProject: "Submit Project",
+      channel: "Telegram Channel",
+      terms: "Terms",
+      termsFull: "Terms of Service",
+      privacy: "Privacy",
+      privacyFull: "Privacy Policy",
+      tagline: "Built for bold founders and beta testers",
     },
   },
 };
