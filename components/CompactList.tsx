@@ -41,7 +41,7 @@ export default function CompactList({ startups }: CompactListProps) {
                   <img
                     src={st.logoUrl || ''}
                     alt={st.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain p-0.5 bg-white"
                   />
                 </div>
               </Link>

@@ -472,12 +472,12 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
           <div className="flex items-start gap-4 sm:gap-5">
             {/* Square Logo */}
             <div className="relative group shrink-0">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-amber-100 border border-slate-200 shadow-sm flex items-center justify-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm flex items-center justify-center">
                 {startup.logoUrl && !logoError ? (
                   <img
                     src={startup.logoUrl}
                     alt={startup.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain p-2"
                     onError={() => setLogoError(true)}
                   />
                 ) : (

@@ -128,12 +128,12 @@ export default function StartupCard({ startup, rank, isOwner, onToggleActive, is
 
         {/* Square Logo */}
         <Link href={`/startups/${startup.id}`} className="shrink-0">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-amber-100 border border-slate-200 shadow-2xs group-hover:scale-105 transition-transform relative flex items-center justify-center">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-2xs group-hover:scale-105 transition-transform relative flex items-center justify-center">
             {startup.logoUrl && !logoError ? (
               <img
                 src={startup.logoUrl}
                 alt={startup.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-1"
                 onError={() => setLogoError(true)}
               />
             ) : (

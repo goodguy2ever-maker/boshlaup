@@ -38,7 +38,7 @@ function AdminLogo({ url, name }: { url?: string; name: string }) {
       </div>
     );
   }
-  return <img src={url} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />;
+  return <img src={url} alt="" className="w-full h-full object-contain p-0.5 bg-white" onError={() => setErr(true)} />;
 }
 
 export default function AdminAnalyticsDashboard() {

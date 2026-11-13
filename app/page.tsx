@@ -266,11 +266,19 @@ export default function HomePage() {
               </div>
 
               <div className="flex items-center gap-3.5 mb-3">
-                <img
-                  src={featuredStartup.logoUrl || ''}
-                  alt={featuredStartup.name}
-                  className="w-12 h-12 rounded-xl object-cover border border-orange-200 bg-white"
-                />
+                <div className="w-12 h-12 rounded-xl overflow-hidden border border-orange-200 bg-white shadow-2xs flex items-center justify-center shrink-0">
+                  {featuredStartup.logoUrl ? (
+                    <img
+                      src={featuredStartup.logoUrl}
+                      alt={featuredStartup.name}
+                      className="w-full h-full object-contain p-1"
+                    />
+                  ) : (
+                    <span className="font-black text-base text-[#FF5A1F]">
+                      {(featuredStartup.name || 'B').slice(0, 2).toUpperCase()}
+                    </span>
+                  )}
+                </div>
                 <div>
                   <h4 className="font-extrabold text-slate-900 leading-tight">
                     {featuredStartup.name}

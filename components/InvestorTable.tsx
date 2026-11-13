@@ -54,7 +54,7 @@ export default function InvestorTable({ startups }: InvestorTableProps) {
                     <img
                       src={st.logoUrl || ''}
                       alt={st.name}
-                      className="w-8 h-8 rounded-lg object-cover border border-slate-200"
+                      className="w-8 h-8 rounded-lg object-contain p-0.5 bg-white border border-slate-200"
                     />
                     <div>
                       <Link href={`/startups/${st.id}`} className="font-extrabold text-slate-900 hover:text-blue-600 block">
