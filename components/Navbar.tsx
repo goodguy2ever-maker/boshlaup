@@ -191,10 +191,10 @@ export default function Navbar() {
                       logout();
                       setUserMenuOpen(false);
                     }}
-                    className="w-full px-3.5 py-2 text-left text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2 transition-colors"
+                    className="w-full px-3.5 py-2 text-left text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2 transition-colors cursor-pointer"
                   >
                     <LogOut className="w-3.5 h-3.5" />
-                    <span>Выйти</span>
+                    <span>{lang === 'uz' ? 'Chiqish' : lang === 'en' ? 'Sign out' : 'Выйти'}</span>
                   </button>
                 </div>
               )}

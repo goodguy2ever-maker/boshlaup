@@ -134,7 +134,7 @@ export default function HomePage() {
               className="px-5 py-2.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all active:scale-95"
             >
               <Rocket className="w-4 h-4 stroke-[2.5]" />
-              <span>Запустить свой проект</span>
+              <span>{t.hero.launchBtn}</span>
             </Link>
           </div>
 
@@ -144,19 +144,19 @@ export default function HomePage() {
               <p className="text-lg sm:text-xl font-black text-white tracking-tight">
                 {stats.totalStartups}
               </p>
-              <p className="text-[11px] text-slate-400">Проектов в каталоге</p>
+              <p className="text-[11px] text-slate-400">{(t.hero as any).liveStartups || 'Проектов в каталоге'}</p>
             </div>
             <div>
               <p className="text-lg sm:text-xl font-black text-emerald-400 tracking-tight">
                 {stats.totalUsers}
               </p>
-              <p className="text-[11px] text-slate-400">Пользователей</p>
+              <p className="text-[11px] text-slate-400">{(t.hero as any).liveUsers || 'Пользователей'}</p>
             </div>
             <div>
               <p className="text-lg sm:text-xl font-black text-[#FF5A1F] tracking-tight">
                 {stats.totalFeedbacks}
               </p>
-              <p className="text-[11px] text-slate-400">Идей и баг-репортов</p>
+              <p className="text-[11px] text-slate-400">{(t.hero as any).liveFeedbacks || 'Идей и баг-репортов'}</p>
             </div>
           </div>
         </div>

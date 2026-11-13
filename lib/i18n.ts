@@ -40,6 +40,9 @@ export const translations = {
       testersStat: "500+ тестеров",
       startupsStat: "120+ стартапов",
       investorsStat: "45+ ангелов",
+      liveStartups: "Проектов в каталоге",
+      liveUsers: "Пользователей",
+      liveFeedbacks: "Идей и баг-репортов",
     },
     filters: {
       tabs: {
@@ -376,6 +379,9 @@ export const translations = {
       testersStat: "500+ testerlar",
       startupsStat: "120+ startaplar",
       investorsStat: "45+ investorlar",
+      liveStartups: "Katalogdagi loyihalar",
+      liveUsers: "Foydalanuvchilar",
+      liveFeedbacks: "G'oyalar va fikrlar",
     },
     filters: {
       tabs: {
@@ -712,6 +718,9 @@ export const translations = {
       testersStat: "500+ Testers",
       startupsStat: "120+ Startups",
       investorsStat: "45+ Angels",
+      liveStartups: "Projects in Directory",
+      liveUsers: "Active Users",
+      liveFeedbacks: "Feedbacks & Bugs",
     },
     filters: {
       tabs: {
