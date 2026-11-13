@@ -48,15 +48,20 @@ export async function POST(request: Request) {
     const username = msg.from.username ? `@${msg.from.username}` : '';
     const firstName = msg.from.first_name || 'Фаундер';
 
-    // Check active unexpired code
-    const existingCode = await prisma.telegramAuthCode.findFirst({
-      where: {
-        telegramId,
-        used: false,
-        expiresAt: { gt: new Date() },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    // Parallelize code check and user lookup to cut DB latency in half
+    const [existingCode, existingUser] = await Promise.all([
+      prisma.telegramAuthCode.findFirst({
+        where: {
+          telegramId,
+          used: false,
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.userAccount.findUnique({
+        where: { telegramId },
+      }),
+    ]);
 
     let code: string;
 
@@ -77,10 +82,6 @@ export async function POST(request: Request) {
         },
       });
     }
-
-    const existingUser = await prisma.userAccount.findUnique({
-      where: { telegramId },
-    });
 
     const inlineKeyboard = {
       inline_keyboard: [
