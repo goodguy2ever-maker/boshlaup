@@ -24,6 +24,7 @@ export async function sendTelegramMessage(
         parse_mode: 'HTML',
         reply_markup: replyMarkup,
       }),
+      signal: AbortSignal.timeout(3500),
     });
     return await res.json();
   } catch (error) {
@@ -52,6 +53,7 @@ export async function sendTelegramPhoto(
         parse_mode: 'HTML',
         reply_markup: replyMarkup,
       }),
+      signal: AbortSignal.timeout(3500),
     });
     return await res.json();
   } catch (error) {
@@ -101,7 +103,7 @@ export async function broadcastStartupToChannel(startup: {
   };
 
   if (TELEGRAM_CHANNEL_ID) {
-    if (startup.logoUrl) {
+    if (startup.logoUrl && startup.logoUrl.startsWith('http')) {
       return await sendTelegramPhoto(TELEGRAM_CHANNEL_ID, startup.logoUrl, caption, inlineKeyboard);
     } else {
       return await sendTelegramMessage(TELEGRAM_CHANNEL_ID, caption, inlineKeyboard);

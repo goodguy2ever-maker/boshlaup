@@ -109,6 +109,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
 
   useEffect(() => {
     async function loadData() {
+      if (initialStartup) return;
       try {
         const res = await fetch(`/api/startups/${id}`);
         if (res.ok) {
@@ -122,8 +123,8 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
         setLoading(false);
       }
     }
-    if (id) loadData();
-  }, [id]);
+    if (id && !initialStartup) loadData();
+  }, [id, initialStartup]);
 
   const handleUpvote = async () => {
     if (upvoting) return;

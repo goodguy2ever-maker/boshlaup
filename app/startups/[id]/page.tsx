@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
@@ -10,6 +11,23 @@ interface PageProps {
     id: string;
   };
 }
+
+const getStartup = cache(async (id: string) => {
+  return prisma.startup.findUnique({
+    where: { id },
+    include: {
+      comments: {
+        orderBy: { createdAt: 'desc' },
+      },
+      changelogs: {
+        orderBy: { date: 'desc' },
+      },
+      reviews: {
+        orderBy: { createdAt: 'desc' },
+      },
+    },
+  });
+});
 
 const REGION_GEO_MAP: Record<string, { placename: string; position: string; countryCode: string }> = {
   'Ташкент': { placename: 'Tashkent, Uzbekistan', position: '41.2995;69.2401', countryCode: 'UZ' },
@@ -24,9 +42,7 @@ const REGION_GEO_MAP: Record<string, { placename: string; position: string; coun
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const startup = await prisma.startup.findUnique({
-      where: { id: params.id },
-    });
+    const startup = await getStartup(params.id);
 
     if (!startup) {
       return {
@@ -103,20 +119,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function StartupPage({ params }: PageProps) {
-  const startup = await prisma.startup.findUnique({
-    where: { id: params.id },
-    include: {
-      comments: {
-        orderBy: { createdAt: 'desc' },
-      },
-      changelogs: {
-        orderBy: { date: 'desc' },
-      },
-      reviews: {
-        orderBy: { createdAt: 'desc' },
-      },
-    },
-  });
+  const startup = await getStartup(params.id);
 
   if (!startup) {
     notFound();

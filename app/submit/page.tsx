@@ -43,7 +43,8 @@ import {
   TrendingUp,
   UserCheck,
   Phone,
-  Send
+  Send,
+  Loader2
 } from 'lucide-react';
 
 function CategoryIcon({ name, className }: { name: string; className?: string }) {
@@ -257,10 +258,10 @@ export default function SubmitStartupWizard() {
         }
       } catch (e) {}
 
+      // Keep submitting state true so button shows loading spinner during client route transition
       router.push(`/startups/${created.id}`);
     } catch (err: any) {
       setError(err.message || 'Ошибка сервера');
-    } finally {
       setSubmitting(false);
     }
   };
@@ -875,10 +876,19 @@ export default function SubmitStartupWizard() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-7 py-3 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-orange-500/25 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2"
+                  className="px-7 py-3 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-orange-500/25 transition-all active:scale-95 disabled:opacity-75 disabled:cursor-wait flex items-center gap-2"
                 >
-                  <Rocket className="w-4 h-4 stroke-[2.5]" />
-                  <span>{submitting ? t.wizard.submitting : t.wizard.publish}</span>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 stroke-[2.5] animate-spin" />
+                      <span>Запускаем проект...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Rocket className="w-4 h-4 stroke-[2.5]" />
+                      <span>{t.wizard.publish}</span>
+                    </>
+                  )}
                 </button>
               )}
             </div>

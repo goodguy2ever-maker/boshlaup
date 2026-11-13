@@ -156,8 +156,10 @@ export async function POST(request: Request) {
       },
     });
 
-    // Broadcast to Telegram channel
-    broadcastStartupToChannel(newStartup).catch(() => {});
+    // Broadcast to Telegram channel asynchronously without blocking HTTP response
+    setTimeout(() => {
+      broadcastStartupToChannel(newStartup).catch(() => {});
+    }, 0);
 
     return NextResponse.json(newStartup, { status: 201 });
   } catch (error) {
