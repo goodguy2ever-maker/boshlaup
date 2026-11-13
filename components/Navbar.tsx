@@ -129,12 +129,12 @@ export default function Navbar() {
           {/* Admin shortcut button if Nazarov is logged in */}
           {isAdmin && (
             <Link
-              href="/admin"
+              href="/logovo"
               className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#18181B] hover:bg-black text-white text-xs font-bold shadow-xs border border-slate-700 transition-all hover:border-[#FF5A1F]"
-              title="Панель администратора"
+              title="Логово администратора"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A1F]" />
-              <span>Админка</span>
+              <span>Логово</span>
             </Link>
           )}
 
@@ -168,12 +168,12 @@ export default function Navbar() {
 
                   {isAdmin && (
                     <Link
-                      href="/admin"
+                      href="/logovo"
                       onClick={() => setUserMenuOpen(false)}
                       className="w-full px-3.5 py-2 text-left text-xs font-bold text-[#FF5A1F] hover:bg-orange-50 flex items-center gap-2 transition-colors border-b border-slate-100"
                     >
                       <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A1F]" />
-                      <span>Панель админа</span>
+                      <span>Логово админа</span>
                     </Link>
                   )}
 
