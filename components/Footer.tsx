@@ -16,10 +16,12 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="flex items-center gap-6 text-xs text-slate-600 font-semibold">
+        <div className="flex items-center gap-5 sm:gap-6 text-xs text-slate-600 font-semibold flex-wrap">
           <Link href="/" className="hover:text-[#FF5A1F] transition-colors">Каталог</Link>
           <Link href="/community" className="hover:text-[#FF5A1F] transition-colors">Сообщество</Link>
           <Link href="/submit" className="hover:text-[#FF5A1F] transition-colors">Опубликовать проект</Link>
+          <Link href="/terms" className="hover:text-[#FF5A1F] transition-colors">Оферта</Link>
+          <Link href="/privacy" className="hover:text-[#FF5A1F] transition-colors">Конфиденциальность</Link>
         </div>
 
         <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">

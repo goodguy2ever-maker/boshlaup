@@ -825,7 +825,25 @@ export default function SubmitStartupWizard() {
                       className="mt-0.5 w-4 h-4 text-[#FF5A1F] rounded border-slate-300 focus:ring-[#FF5A1F] cursor-pointer"
                     />
                     <span className="text-xs text-slate-600 leading-snug font-medium">
-                      {t.wizard.legalCheckbox}
+                      Я подтверждаю согласие с{' '}
+                      <Link
+                        href="/terms"
+                        target="_blank"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                      >
+                        Пользовательским соглашением (офертой)
+                      </Link>{' '}
+                      и{' '}
+                      <Link
+                        href="/privacy"
+                        target="_blank"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                      >
+                        Политикой конфиденциальности
+                      </Link>{' '}
+                      платформы *
                     </span>
                   </label>
                 </div>
