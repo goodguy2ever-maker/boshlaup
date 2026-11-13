@@ -109,9 +109,10 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Hero Block (BoshlaUp: Dark Graphite + Coral Orange) */}
-      <section className="mb-8 rounded-3xl bg-[#18181B] p-6 sm:p-8 text-white relative overflow-hidden shadow-xl shadow-black/10">
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-gradient-to-br from-[#FF5A1F]/20 via-[#14B8A6]/10 to-transparent blur-3xl pointer-events-none" />
+      {/* Hero Block (BoshlaUp: Dark Graphite + Coral Orange with Orange Border and Floating Glows) */}
+      <section className="mb-8 rounded-3xl bg-[#18181B] p-6 sm:p-8 text-white relative overflow-hidden shadow-2xl border-[3px] border-[#FF5A1F]/60 shadow-orange-500/15">
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-gradient-to-br from-[#FF5A1F]/30 via-orange-500/20 to-transparent blur-3xl pointer-events-none animate-float-slow" />
+        <div className="absolute -bottom-20 -left-16 w-80 h-80 rounded-full bg-gradient-to-tr from-amber-500/20 via-[#FF5A1F]/25 to-transparent blur-3xl pointer-events-none animate-float-reverse" />
 
         <div className="relative z-10 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/15 text-[#FF5A1F] text-xs font-bold mb-3 border border-[#FF5A1F]/30">
@@ -300,47 +301,53 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Founder Community Callout */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-2xs">
-            <div className="flex items-center gap-2 mb-2">
-              <Rocket className="w-4 h-4 text-[#FF5A1F]" />
-              <h3 className="font-extrabold text-white text-sm">
-                Сделали свой пет-проект?
-              </h3>
+          {/* Founder Community Callout with Orange Border and Floating Glow */}
+          <div className="bg-[#18181B] text-white rounded-3xl p-5 shadow-xl shadow-orange-500/15 border-[3px] border-[#FF5A1F]/60 relative overflow-hidden">
+            <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-[#FF5A1F]/30 via-orange-400/20 to-transparent blur-2xl pointer-events-none animate-pulse-glow" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <Rocket className="w-4 h-4 text-[#FF5A1F]" />
+                <h3 className="font-extrabold text-white text-sm">
+                  Сделали свой пет-проект?
+                </h3>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed mb-4 font-normal">
+                Опубликуйте проект за 2 минуты без бюрократии. Получите первых пользователей, честный фидбек и поднимитесь в топ дня!
+              </p>
+              <Link
+                href="/submit"
+                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white shadow-md shadow-orange-500/25 active:scale-95"
+              >
+                <span>+ Запустить проект бесплатно</span>
+              </Link>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed mb-4 font-normal">
-              Опубликуйте проект за 2 минуты без бюрократии. Получите первых пользователей, честный фидбек и поднимитесь в топ дня!
-            </p>
-            <Link
-              href="/submit"
-              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white shadow-md shadow-orange-500/25"
-            >
-              <span>+ Запустить проект бесплатно</span>
-            </Link>
           </div>
 
           {/* Telegram Channel / Community */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-2xs">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#FF5A1F] flex items-center justify-center">
-                <Users className="w-4 h-4" />
+          <div className="bg-white rounded-3xl p-5 border-[3px] border-orange-200/90 hover:border-[#FF5A1F]/60 shadow-xs hover:shadow-xl hover:shadow-orange-500/10 transition-all relative overflow-hidden">
+            <div className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-tr from-amber-400/20 via-[#FF5A1F]/20 to-transparent blur-2xl pointer-events-none animate-float-slow" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#FF5A1F] flex items-center justify-center border border-orange-200/80">
+                  <Users className="w-4 h-4" />
+                </div>
+                <h3 className="font-extrabold text-slate-900 text-sm">
+                  Сообщество фаундеров
+                </h3>
               </div>
-              <h3 className="font-extrabold text-slate-900 text-sm">
-                Сообщество фаундеров
-              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4 font-normal">
+                Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в экосистеме Узбекистана.
+              </p>
+              <a
+                href="https://t.me/boshlaup_community"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
+              >
+                <Send className="w-3.5 h-3.5 text-[#FF5A1F]" />
+                <span>Присоединиться к Telegram</span>
+              </a>
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed mb-4 font-normal">
-              Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в экосистеме Узбекистана.
-            </p>
-            <a
-              href="https://t.me/boshlaup_community"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
-            >
-              <Send className="w-3.5 h-3.5 text-[#FF5A1F]" />
-              <span>Присоединиться к Telegram</span>
-            </a>
           </div>
         </div>
       </div>

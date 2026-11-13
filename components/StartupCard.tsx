@@ -76,7 +76,7 @@ export default function StartupCard({ startup, rank }: StartupCardProps) {
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 hover:border-[#FF5A1F]/40 hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-200 flex flex-col gap-3">
+    <div className="group relative bg-white rounded-2xl p-4 sm:p-5 border-2 border-slate-200/90 hover:border-[#FF5A1F] hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-200 flex flex-col gap-3">
       <div className="flex items-start gap-3.5 sm:gap-4">
         {/* Rank number */}
         {rank !== undefined && (

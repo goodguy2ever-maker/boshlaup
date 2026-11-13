@@ -110,7 +110,13 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgSite) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased bg-[#FAFAFA] text-[#18181B] selection:bg-[#FF5A1F]/20 selection:text-[#FF5A1F]">
+      <body className="min-h-screen flex flex-col antialiased bg-[#FAFAFA] text-[#18181B] selection:bg-[#FF5A1F]/20 selection:text-[#FF5A1F] relative overflow-x-hidden">
+        {/* Ambient Floating Glow Lights (Плавающие сияния) */}
+        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          <div className="absolute -top-32 -left-32 w-96 sm:w-[500px] h-96 sm:h-[500px] rounded-full bg-gradient-to-br from-[#FF5A1F]/20 via-orange-400/15 to-transparent blur-[120px] animate-float-slow" />
+          <div className="absolute top-1/3 -right-32 w-96 sm:w-[550px] h-96 sm:h-[550px] rounded-full bg-gradient-to-bl from-amber-400/20 via-[#FF5A1F]/15 to-transparent blur-[130px] animate-float-reverse" />
+          <div className="absolute -bottom-32 left-1/4 w-96 sm:w-[600px] h-96 sm:h-[600px] rounded-full bg-gradient-to-tr from-orange-500/15 via-[#FF5A1F]/15 to-transparent blur-[140px] animate-float-slow" />
+        </div>
         <AppProvider>
           <Navbar />
           <main className="flex-1">

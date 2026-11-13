@@ -142,7 +142,7 @@ export default function CommunityPage() {
       {/* Filter Bar (Identical form to Catalog FilterBar) */}
       <div className="space-y-3 mb-6">
         {/* Row 1: Unified Segmented Navigation in white card container */}
-        <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border-2 border-orange-200/80 hover:border-[#FF5A1F]/60 shadow-2xs hover:shadow-md hover:shadow-orange-500/5 transition-all">
           <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
             {CATEGORIES.map((c) => {
               const isSelected = selectedCategory === c.id;
@@ -166,7 +166,7 @@ export default function CommunityPage() {
         </div>
 
         {/* Row 2: Unified Command Bar (Search + Count) */}
-        <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-2.5">
+        <div className="bg-white rounded-2xl p-2.5 sm:p-3 border-2 border-orange-200/80 hover:border-[#FF5A1F]/60 shadow-2xs hover:shadow-md hover:shadow-orange-500/5 transition-all flex items-center justify-between gap-2.5">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
@@ -228,7 +228,7 @@ export default function CommunityPage() {
             <Link
               key={post.id}
               href={`/community/${post.id}`}
-              className="group block bg-white rounded-2xl p-5 border border-slate-200/80 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-500/5 transition-all"
+              className="group block bg-white rounded-2xl p-5 border-2 border-slate-200/90 hover:border-[#FF5A1F] hover:shadow-xl hover:shadow-orange-500/10 transition-all"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">

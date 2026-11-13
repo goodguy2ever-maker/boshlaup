@@ -90,7 +90,7 @@ export default function FilterBar({
   return (
     <div className="space-y-3 mb-6">
       {/* Row 1: Unified Segmented Navigation & View Switcher (Linear Style) */}
-      <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border border-slate-200/90 shadow-2xs">
+      <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border-2 border-orange-200/80 hover:border-[#FF5A1F]/60 shadow-2xs hover:shadow-md hover:shadow-orange-500/5 transition-all">
         {/* Left: Sorting Tabs */}
         <div className="flex items-center gap-1">
           <button
@@ -163,7 +163,7 @@ export default function FilterBar({
       </div>
 
       {/* Row 2: Unified Command Bar (Search + Dropdowns + Quick Toggle Chip) */}
-      <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
+      <div className="bg-white rounded-2xl p-2.5 sm:p-3 border-2 border-orange-200/80 hover:border-[#FF5A1F]/60 shadow-2xs hover:shadow-md hover:shadow-orange-500/5 transition-all flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
         {/* Search */}
         <div className="relative flex-1 min-w-[200px]">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
