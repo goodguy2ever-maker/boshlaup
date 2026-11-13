@@ -31,8 +31,8 @@ export const translations = {
     },
     hero: {
       badge: "IT-стартапы Узбекистана",
-      title: "Запускайте, тестируйте и находите инвестиции для ранних стартапов",
-      subtitle: "Платформа для фаундеров ранней стадии, первых тестировщиков с бонусами и бизнес-ангелов в поисках единорогов.",
+      title: "Есть идея? Boshla.",
+      subtitle: "Запусти MVP, найди первых пользователей и узнай, нужен ли твой продукт рынку.",
       launchBtn: "Запустить свой стартап",
       exploreBtn: "Лента проектов",
       testersStat: "500+ тестеров",
@@ -287,8 +287,8 @@ export const translations = {
     },
     hero: {
       badge: "O'zbekiston IT-startaplari",
-      title: "Erta bosqichdagi startaplarni ishga tushiring, sinang va investitsiya toping",
-      subtitle: "Boshlang'ich asoschilar, bonusli birinchi testerlar va yakkashoxlarni izlayotgan biznes-farishtalar uchun platforma.",
+      title: "G'oya bormi? Boshla.",
+      subtitle: "MVP ishga tushiring, birinchi foydalanuvchilarni toping va mahsulotingiz bozorga kerakligini bilib oling.",
       launchBtn: "O'z startapingizni ishga tushiring",
       exploreBtn: "Loyihalar lentasi",
       testersStat: "500+ testerlar",
@@ -543,8 +543,8 @@ export const translations = {
     },
     hero: {
       badge: "IT Startups of Uzbekistan",
-      title: "Launch, test, and fund early-stage startups",
-      subtitle: "The go-to launchpad for early founders, beta testers, and business angels discovering tech innovations in Uzbekistan.",
+      title: "Got an idea? Boshla.",
+      subtitle: "Launch your MVP, find your first users, and see if the market loves your product.",
       launchBtn: "Launch Your Startup",
       exploreBtn: "Explore Feed",
       testersStat: "500+ Testers",

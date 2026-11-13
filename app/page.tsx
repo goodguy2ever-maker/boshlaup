@@ -116,14 +116,14 @@ export default function HomePage() {
         <div className="relative z-10 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/15 text-[#FF5A1F] text-xs font-bold mb-3 border border-[#FF5A1F]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            <span>IT-стартапы Узбекистана</span>
+            <span>{t.hero.badge}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight mb-2.5">
-            Запускайте проекты, находите первых пользователей и собирайте честный фидбек
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-3">
+            {t.hero.title}
           </h1>
-          <p className="text-zinc-300 text-xs sm:text-sm mb-6 leading-relaxed max-w-2xl font-normal">
-            Платформа для смелых фаундеров, первых пользователей и быстрого запуска пет-проектов и MVP в Узбекистане.
+          <p className="text-zinc-300 text-sm sm:text-base mb-6 leading-relaxed max-w-2xl font-normal">
+            {t.hero.subtitle}
           </p>
 
           <div className="flex flex-wrap items-center gap-3">

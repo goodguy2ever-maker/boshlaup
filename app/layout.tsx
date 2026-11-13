@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | BoshlaUp',
   },
   description:
-    'Платформа №1 в Узбекистане для запуска, тестирования и продвижения стартапов. Презентуйте продукт, собирайте обратную связь и находите первых пользователей.',
+    'Есть идея? Boshla. Запусти MVP, найди первых пользователей и узнай, нужен ли твой продукт рынку.',
   keywords: [
     'стартапы узбекистана',
     'стартапы ташкент',
@@ -49,10 +49,10 @@ export const metadata: Metadata = {
     siteName: 'BoshlaUp — IDEA LAUNCHPAD',
     title: 'BoshlaUp — IDEA LAUNCHPAD | Платформа запуска стартапов в Узбекистане',
     description:
-      'Платформа №1 в Узбекистане для запуска, тестирования и продвижения стартапов.',
+      'Есть идея? Boshla. Запусти MVP, найди первых пользователей и узнай, нужен ли твой продукт рынку.',
     images: [
       {
-        url: '/api/og?title=BoshlaUp&tagline=Платформа%20запуска%20стартапов&category=Launchpad&stage=Live&region=Узбекистан',
+        url: '/api/og?title=BoshlaUp&tagline=Есть%20идея%3F%20Boshla.&category=Launchpad&stage=Live&region=Узбекистан',
         width: 1200,
         height: 630,
         alt: 'BoshlaUp — IDEA LAUNCHPAD',
