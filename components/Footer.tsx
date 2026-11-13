@@ -1,28 +1,29 @@
 import Link from 'next/link';
-import { Rocket, Heart } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-slate-200 bg-white py-12 text-slate-500 text-sm">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col">
-          <p className="font-black text-xl text-slate-900 tracking-tight leading-none">
+    <footer className="mt-24 border-t border-zinc-200/80 bg-white py-10 text-xs text-zinc-500">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5">
+          <span className="font-bold text-zinc-900 tracking-tight">
             Boshla<span className="text-[#FF5A1F]">Up</span>
-          </p>
-          <p className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 mt-1">
-            IDEA LAUNCHPAD
-          </p>
+          </span>
+          <span className="text-zinc-300">•</span>
+          <span className="text-zinc-500 font-medium">Платформа запуска IT-стартапов в Узбекистане</span>
         </div>
 
-        <div className="flex items-center gap-6 text-xs text-slate-600 font-semibold">
-          <Link href="/" className="hover:text-[#FF5A1F] transition-colors">Каталог</Link>
-          <Link href="/community" className="hover:text-[#FF5A1F] transition-colors">Сообщество</Link>
-          <Link href="/submit" className="hover:text-[#FF5A1F] transition-colors">Опубликовать проект</Link>
-        </div>
-
-        <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">
-          <span>Сделано для смелых фаундеров и тестеров</span>
-          <Heart className="w-3.5 h-3.5 text-[#FF5A1F] fill-[#FF5A1F] mx-0.5 inline" />
+        <div className="flex items-center gap-5 font-medium text-zinc-600">
+          <Link href="/" className="hover:text-zinc-950 transition-colors">Каталог</Link>
+          <Link href="/community" className="hover:text-zinc-950 transition-colors">Сообщество</Link>
+          <Link href="/submit" className="hover:text-zinc-950 transition-colors">Опубликовать</Link>
+          <a
+            href="https://t.me/boshlaupbot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-950 transition-colors text-zinc-400"
+          >
+            Telegram
+          </a>
         </div>
       </div>
     </footer>

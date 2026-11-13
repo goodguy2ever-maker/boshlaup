@@ -85,76 +85,116 @@ export default function HomePage() {
   const isFiltering = search.trim() !== '' || category !== 'Все' || stage !== 'Все' || founderNeed !== 'Все';
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
       {/* Investor Mode Alert Bar (Feature Flagged for Phase 2) */}
       {FEATURES.ENABLE_INVESTOR_MODE && investorMode && (
-        <div className="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center justify-between gap-4 animate-in fade-in">
+        <div className="mb-6 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-900 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <Briefcase className="w-5 h-5 text-emerald-700 shrink-0" />
+            <Briefcase className="w-4 h-4 text-emerald-700 shrink-0" />
             <div>
-              <p className="font-extrabold text-xs sm:text-sm">
+              <p className="font-bold text-xs sm:text-sm">
                 Режим инвестора активирован
               </p>
               <p className="text-[11px] text-emerald-700">
-                Вам открыты текущие метрики (MRR, пользователи), размер запрашиваемого раунда и прямые контакты фаундеров.
+                Вам открыты текущие метрики (MRR, пользователи), размер запрашиваемого раунда и контакты.
               </p>
             </div>
           </div>
           <button
             onClick={toggleInvestorMode}
-            className="text-xs font-bold text-emerald-800 hover:text-emerald-950 underline shrink-0"
+            className="text-xs font-semibold text-emerald-800 hover:text-emerald-950 underline shrink-0"
           >
             Выключить
           </button>
         </div>
       )}
 
-      {/* Hero Block (BoshlaUp: Dark Graphite + Coral Orange) */}
-      <section className="mb-8 rounded-3xl bg-[#18181B] p-6 sm:p-8 text-white relative overflow-hidden shadow-xl shadow-black/10">
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-gradient-to-br from-[#FF5A1F]/20 via-[#14B8A6]/10 to-transparent blur-3xl pointer-events-none" />
+      {/* Hero Section: Senior Editorial / Product-Led (Linear/Vercel style) */}
+      <section className="mb-10 pt-2 pb-6 border-b border-zinc-200/80">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Left Column: Value Proposition & CTAs */}
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-700 text-[11px] font-semibold mb-4 border border-zinc-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F]" />
+              <span>ЭКОСИСТЕМА СТАРТАПОВ УЗБЕКИСТАНА</span>
+            </div>
 
-        <div className="relative z-10 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/15 text-[#FF5A1F] text-xs font-bold mb-3 border border-[#FF5A1F]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            <span>IT-стартапы Узбекистана</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-zinc-950 leading-[1.15] mb-3">
+              Запускайте. Тестируйте. Находите первых пользователей.
+            </h1>
+
+            <p className="text-zinc-600 text-sm sm:text-base mb-6 leading-relaxed max-w-xl font-normal">
+              BoshlaUp помогает локальным фаундерам валидировать идеи, находить первых бета-тестеров и собирать структурированный продуктовый фидбек без бюрократии.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-2.5">
+              <Link
+                href="/submit"
+                className="px-4 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-semibold rounded-lg text-xs sm:text-sm shadow-xs transition-all active:scale-95 flex items-center gap-1.5"
+              >
+                <Rocket className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span>Запустить свой проект</span>
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('feed-section');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-4 py-2 bg-white hover:bg-zinc-50 text-zinc-800 font-semibold rounded-lg text-xs sm:text-sm border border-zinc-200 transition-colors"
+              >
+                Смотреть проекты
+              </button>
+            </div>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight mb-2.5">
-            Запускайте проекты, находите первых пользователей и собирайте честный фидбек
-          </h1>
-          <p className="text-zinc-300 text-xs sm:text-sm mb-6 leading-relaxed max-w-2xl font-normal">
-            Платформа для смелых фаундеров, первых пользователей и быстрого запуска пет-проектов и MVP в Узбекистане.
-          </p>
+          {/* Right Column: Product-Oriented Visual (Real interactive anatomy preview) */}
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-xl border border-zinc-200/90 p-4 shadow-subtle space-y-3 relative">
+              {/* Top bar indicator */}
+              <div className="flex items-center justify-between text-[11px] text-zinc-400 font-medium pb-2.5 border-b border-zinc-100">
+                <span>Как работает валидация на BoshlaUp</span>
+                <span className="text-zinc-600 font-semibold">1. Запуск → 2. Тест → 3. Итерация</span>
+              </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="/submit"
-              className="px-5 py-2.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all active:scale-95"
-            >
-              <Rocket className="w-4 h-4 stroke-[2.5]" />
-              <span>Запустить свой проект</span>
-            </Link>
-          </div>
+              {/* Sample Mini Project Card */}
+              <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200/80 flex items-start gap-3">
+                <div className="w-10 h-10 rounded-lg bg-orange-100 text-[#FF5A1F] font-bold flex items-center justify-center shrink-0 text-xs border border-orange-200">
+                  ZP
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <p className="font-bold text-xs text-zinc-900 truncate">ZaminPay</p>
+                    <span className="text-[10px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.2 rounded">
+                      MVP
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-600 line-clamp-1">
+                    QR-платежи для малого ритейла в Ташкенте
+                  </p>
+                  <p className="text-[10px] text-zinc-500 font-medium mt-1">
+                    Ищет: <span className="text-zinc-800 font-semibold">10 первых торговых точек</span>
+                  </p>
+                </div>
+              </div>
 
-          {/* Quick Metrics (100% Live & Dynamic from Database) */}
-          <div className="mt-6 pt-5 border-t border-slate-700/60 flex items-center gap-6 sm:gap-10 text-left">
-            <div>
-              <p className="text-lg sm:text-xl font-black text-white tracking-tight">
-                {stats.totalStartups}
-              </p>
-              <p className="text-[11px] text-slate-400">Проектов в каталоге</p>
-            </div>
-            <div>
-              <p className="text-lg sm:text-xl font-black text-emerald-400 tracking-tight">
-                {stats.totalUsers}
-              </p>
-              <p className="text-[11px] text-slate-400">Пользователей</p>
-            </div>
-            <div>
-              <p className="text-lg sm:text-xl font-black text-[#FF5A1F] tracking-tight">
-                {stats.totalFeedbacks}
-              </p>
-              <p className="text-[11px] text-slate-400">Идей и баг-репортов</p>
+              {/* Sample Structured Feedback Card */}
+              <div className="p-3 rounded-lg bg-emerald-50/50 border border-emerald-200/80 text-[11px] space-y-1.5">
+                <div className="flex items-center justify-between text-emerald-900 font-semibold">
+                  <span>Структурированный фидбек от тестера</span>
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded font-bold">
+                    Готов пользоваться: Да
+                  </span>
+                </div>
+                <p className="text-zinc-600 text-[11px] leading-relaxed">
+                  «Отличная скорость сканирования. Добавьте быструю интеграцию с Uzum/Payme в следующем релизе!»
+                </p>
+                <div className="pt-1 flex items-center justify-between text-[10px] text-zinc-400">
+                  <span>Статус: <strong className="text-emerald-700">Взято в работу фаундером</strong></span>
+                  <span>+12 голосов</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -182,27 +222,27 @@ export default function HomePage() {
 
           {/* Feed Content */}
           {loading ? (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[1, 2, 3].map((n) => (
                 <div
                   key={n}
-                  className="bg-white rounded-3xl p-5 border border-slate-200 animate-pulse flex items-start gap-4"
+                  className="bg-white rounded-xl p-4 border border-zinc-200 animate-pulse flex items-start gap-4"
                 >
-                  <div className="w-12 h-12 bg-slate-100 rounded-2xl shrink-0" />
+                  <div className="w-12 h-12 bg-zinc-100 rounded-lg shrink-0" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-slate-100 rounded-md w-1/4" />
-                    <div className="h-3 bg-slate-100 rounded-md w-3/4" />
+                    <div className="h-4 bg-zinc-100 rounded w-1/4" />
+                    <div className="h-3 bg-zinc-100 rounded w-3/4" />
                   </div>
                 </div>
               ))}
             </div>
           ) : startups.length === 0 ? (
             isFiltering ? (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
-                <Rocket className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-                <h3 className="font-bold text-slate-800 text-base mb-1">Проекты не найдены</h3>
-                <p className="text-slate-500 text-xs mb-4">
-                  Попробуйте изменить категорию или фильтр стадии
+              <div className="bg-white rounded-xl p-10 text-center border border-zinc-200">
+                <Rocket className="w-8 h-8 text-zinc-300 mx-auto mb-2.5" />
+                <h3 className="font-bold text-zinc-900 text-sm mb-1">Проекты не найдены</h3>
+                <p className="text-zinc-500 text-xs mb-4">
+                  Попробуйте изменить категорию или сбросить фильтры
                 </p>
                 <button
                   onClick={() => {
@@ -211,28 +251,28 @@ export default function HomePage() {
                     setFounderNeed('Все');
                     setSearch('');
                   }}
-                  className="text-xs font-bold text-[#FF5A1F] hover:underline"
+                  className="text-xs font-semibold text-[#FF5A1F] hover:underline"
                 >
                   Сбросить фильтры
                 </button>
               </div>
             ) : (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
-                <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto mb-4 text-[#FF5A1F]">
-                  <Rocket className="w-8 h-8" />
+              <div className="bg-white rounded-xl p-10 text-center border border-zinc-200 shadow-subtle">
+                <div className="w-12 h-12 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto mb-3.5 text-[#FF5A1F]">
+                  <Rocket className="w-6 h-6 stroke-[2]" />
                 </div>
-                <h3 className="font-extrabold text-slate-900 text-lg mb-1">
-                  Каталог готов к запуску первых стартапов
+                <h3 className="font-bold text-zinc-950 text-base mb-1.5">
+                  Экосистема открыта для первых проектов
                 </h3>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
-                  Будьте первым фаундером, который опубликует свой проект на BoshlaUp, займет верхнюю строчку в рейтинге и получит первых бета-тестеров!
+                <p className="text-zinc-600 text-xs sm:text-sm max-w-md mx-auto mb-5 leading-relaxed font-normal">
+                  Будьте первым фаундером, который опубликует свой проект на BoshlaUp, получит верхнюю строчку в каталоге и обратную связь от первых тестеров в Узбекистане.
                 </p>
                 <Link
                   href="/submit"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg shadow-orange-500/25 transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
                 >
-                  <Rocket className="w-4 h-4" />
-                  <span>Опубликовать первый проект →</span>
+                  <Rocket className="w-3.5 h-3.5" />
+                  <span>Опубликовать свой проект →</span>
                 </Link>
               </div>
             )
@@ -241,7 +281,7 @@ export default function HomePage() {
           ) : viewMode === 'investorTable' && FEATURES.ENABLE_INVESTOR_MODE ? (
             <InvestorTable startups={startups} />
           ) : (
-            <div className="space-y-3.5">
+            <div className="space-y-3">
               {startups.map((startup, idx) => (
                 <StartupCard
                   key={startup.id}
@@ -253,94 +293,62 @@ export default function HomePage() {
           )}
         </div>
 
-        {/* Right Column: Widgets / Sidebar */}
-        <div className="lg:col-span-4 space-y-6">
-          {/* Featured Startup */}
-          {featuredStartup && (
-            <div className="bg-gradient-to-br from-orange-50 to-amber-50/60 border border-orange-200/80 rounded-3xl p-5 shadow-2xs">
-              <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-orange-800 mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
-                <span>Проект дня в Узбекистане</span>
-              </div>
-
-              <div className="flex items-center gap-3.5 mb-3">
-                <img
-                  src={featuredStartup.logoUrl || ''}
-                  alt={featuredStartup.name}
-                  className="w-12 h-12 rounded-xl object-cover border border-orange-200 bg-white"
-                />
-                <div>
-                  <h4 className="font-extrabold text-slate-900 leading-tight">
-                    {featuredStartup.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-slate-400" />
-                    <span>{featuredStartup.region} • {featuredStartup.category}</span>
-                  </p>
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-600 line-clamp-3 mb-4 leading-relaxed font-normal">
-                {featuredStartup.tagline}
-              </p>
-
-              {featuredStartup.earlyUserOffer && (
-                <div className="mb-4 p-2.5 rounded-xl bg-white/80 border border-orange-200 text-xs text-orange-950 flex items-start gap-2">
-                  <span className="line-clamp-2 text-[11px] font-medium">{featuredStartup.earlyUserOffer}</span>
-                </div>
-              )}
-
-              <Link
-                href={`/startups/${featuredStartup.id}`}
-                className="w-full py-2.5 px-3 bg-white hover:bg-slate-50 border border-orange-200 rounded-xl text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
-              >
-                <span>Подробнее о проекте</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#FF5A1F]" />
-              </Link>
-            </div>
-          )}
-
-          {/* Founder Community Callout */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-2xs">
-            <div className="flex items-center gap-2 mb-2">
-              <Rocket className="w-4 h-4 text-[#FF5A1F]" />
-              <h3 className="font-extrabold text-white text-sm">
-                Сделали свой пет-проект?
-              </h3>
-            </div>
-            <p className="text-xs text-slate-300 leading-relaxed mb-4 font-normal">
-              Опубликуйте проект за 2 минуты без бюрократии. Получите первых пользователей, честный фидбек и поднимитесь в топ дня!
+        {/* Right Column: Refined Sidebar */}
+        <div className="lg:col-span-4 space-y-4">
+          {/* Founder Callout */}
+          <div className="bg-zinc-900 text-white rounded-xl p-5 border border-zinc-800">
+            <h3 className="font-bold text-white text-sm mb-1.5">
+              Создаете свой проект?
+            </h3>
+            <p className="text-xs text-zinc-400 leading-relaxed mb-4 font-normal">
+              Опубликуйте проект за 2 минуты без бюрократии. Получите первых пользователей, честный фидбек и поднимитесь в топ.
             </p>
             <Link
               href="/submit"
-              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white shadow-md shadow-orange-500/25"
+              className="w-full py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white"
             >
-              <span>+ Запустить проект бесплатно</span>
+              <span>+ Опубликовать проект</span>
             </Link>
           </div>
 
-          {/* Telegram Channel / Community */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-2xs">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#FF5A1F] flex items-center justify-center">
-                <Users className="w-4 h-4" />
-              </div>
-              <h3 className="font-extrabold text-slate-900 text-sm">
-                Сообщество фаундеров
-              </h3>
-            </div>
-            <p className="text-xs text-slate-500 leading-relaxed mb-4 font-normal">
-              Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в экосистеме Узбекистана.
+          {/* Telegram Community */}
+          <div className="bg-white rounded-xl p-5 border border-zinc-200/90 shadow-subtle">
+            <h3 className="font-bold text-zinc-950 text-sm mb-1.5">
+              Сообщество фаундеров
+            </h3>
+            <p className="text-xs text-zinc-600 leading-relaxed mb-4 font-normal">
+              Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в Узбекистане.
             </p>
             <a
-              href="https://t.me/boshlaup_community"
+              href="https://t.me/boshlaupbot"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
+              className="w-full py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border border-zinc-200"
             >
-              <Send className="w-3.5 h-3.5 text-[#FF5A1F]" />
-              <span>Присоединиться к Telegram</span>
+              <Send className="w-3 h-3 text-[#FF5A1F]" />
+              <span>Открыть @boshlaupbot</span>
             </a>
+          </div>
+
+          {/* Platform Principles */}
+          <div className="bg-white rounded-xl p-5 border border-zinc-200/90 shadow-subtle">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">
+              Принципы BoshlaUp
+            </h4>
+            <div className="space-y-2.5 text-xs text-zinc-600">
+              <div className="flex items-start gap-2">
+                <span className="font-bold text-zinc-900">01</span>
+                <span>Только реальные продукты и работающие прототипы.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="font-bold text-zinc-900">02</span>
+                <span>Структурированный фидбек вместо бесполезных комментариев.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="font-bold text-zinc-900">03</span>
+                <span>Прямая связь между фаундером и пользователями.</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

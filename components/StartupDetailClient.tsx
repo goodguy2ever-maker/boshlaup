@@ -100,6 +100,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   const [commentAuthor, setCommentAuthor] = useState('');
   const [commentRole, setCommentRole] = useState('Тестер');
   const [commentTag, setCommentTag] = useState('Идея');
+  const [willingness, setWillingness] = useState<'yes' | 'maybe' | 'no'>('yes');
   const [commentText, setCommentText] = useState('');
   const [submittingComment, setSubmittingComment] = useState(false);
 
@@ -155,6 +156,9 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
     if (!commentAuthor.trim() || !commentText.trim()) return;
 
     setSubmittingComment(true);
+    const willingnessLabel = willingness === 'yes' ? 'Готов пользоваться: Да' : willingness === 'maybe' ? 'Готов пользоваться: Возможно' : 'Готов пользоваться: Нет';
+    const structuredContent = `[${willingnessLabel}]\n${commentText.trim()}`;
+
     try {
       const res = await fetch(`/api/startups/${id}/comments`, {
         method: 'POST',
@@ -163,7 +167,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
           author: commentAuthor.trim(),
           role: commentRole,
           tag: commentTag,
-          content: commentText.trim(),
+          content: structuredContent,
         }),
       });
 
@@ -178,7 +182,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
           startupId: id,
           startupName: startup?.name || 'Стартап',
           tag: commentTag,
-          content: commentText.trim(),
+          content: structuredContent,
         });
         setCommentText('');
       }
@@ -300,23 +304,23 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-      {/* Back button (navigates back to previous page or feed) */}
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      {/* Back button */}
       <button
         type="button"
         onClick={handleBack}
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors mb-6 cursor-pointer"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-zinc-900 transition-colors mb-5 cursor-pointer"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-3.5 h-3.5" />
         <span>{t.detail.back}</span>
       </button>
 
       {/* Main Header Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-2xs mb-8">
-        <div className="flex flex-col sm:flex-row items-start justify-between gap-6 pb-6 border-b border-slate-100">
-          <div className="flex items-start gap-4 sm:gap-5">
+      <div className="bg-white rounded-xl p-5 sm:p-6 border border-zinc-200/90 shadow-subtle mb-6">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-5 pb-6 border-b border-zinc-100">
+          <div className="flex items-start gap-4">
             {/* Square Logo */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm shrink-0">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-zinc-50 border border-zinc-200/80 shrink-0">
               <img
                 src={startup.logoUrl || ''}
                 alt={startup.name}
@@ -325,8 +329,8 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
             </div>
 
             <div>
-              <div className="flex items-center gap-2.5 flex-wrap mb-1.5">
-                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              <div className="flex items-center gap-2 flex-wrap mb-1">
+                <h1 className="text-xl sm:text-2xl font-bold text-zinc-950 tracking-tight">
                   {startup.name}
                 </h1>
 
@@ -336,66 +340,55 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                       value={startup.stage || 'MVP / Прототип'}
                       disabled={updatingStage}
                       onChange={(e) => handleUpdateStage(e.target.value)}
-                      className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border appearance-none pr-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                        startup.stage?.includes('продажи')
-                          ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
-                          : startup.stage?.includes('MVP')
-                          ? 'bg-blue-50 text-blue-800 border-blue-300 hover:bg-blue-100'
-                          : 'bg-purple-50 text-purple-800 border-purple-300 hover:bg-purple-100'
-                      }`}
-                      title="Кликните, чтобы изменить стадию проекта (доступно автору)"
+                      className="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border border-zinc-200 bg-zinc-50 appearance-none pr-5 cursor-pointer text-zinc-700"
+                      title="Кликните, чтобы изменить стадию проекта"
                     >
                       <option value="Только идея">Только идея</option>
                       <option value="MVP / Прототип">MVP / Прототип</option>
                       <option value="Есть первые продажи">Есть первые продажи</option>
                     </select>
-                    <ChevronDown className="w-3 h-3 absolute right-1.5 pointer-events-none text-slate-500" />
+                    <ChevronDown className="w-3 h-3 absolute right-1.5 pointer-events-none text-zinc-400" />
                   </div>
                 ) : (
-                  <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md border ${
-                    startup.stage?.includes('продажи')
-                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                      : startup.stage?.includes('MVP')
-                      ? 'bg-blue-50 text-blue-700 border-blue-200'
-                      : 'bg-purple-50 text-purple-700 border-purple-200'
-                  }`}>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-700">
                     {startup.stage}
                   </span>
                 )}
 
                 {startup.firstLaunch && (
-                  <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{t.card.firstLaunch}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">
+                    {t.card.firstLaunch}
                   </span>
                 )}
               </div>
 
               {/* Tagline */}
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mb-3 font-normal">
+              <p className="text-zinc-600 text-xs sm:text-sm leading-relaxed max-w-xl mb-3 font-normal">
                 {startup.tagline}
               </p>
 
-              {/* Badges */}
-              <div className="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
-                <span className="font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
+              {/* Metadata row */}
+              <div className="flex items-center gap-2 text-xs text-zinc-500 flex-wrap">
+                {startup.founderNeed && startup.founderNeed !== 'Все' && (
+                  <span className="font-semibold text-zinc-800 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200 text-[11px]">
+                    Ищет: {startup.founderNeed}
+                  </span>
+                )}
+
+                <span className="font-medium text-zinc-600 bg-zinc-50 px-2 py-0.5 rounded border border-zinc-200/60 text-[11px]">
                   {startup.category}
                 </span>
 
-                <span className="inline-flex items-center gap-1 font-medium text-slate-600">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                <span className="inline-flex items-center gap-1 font-medium text-zinc-500 text-[11px]">
+                  <MapPin className="w-3 h-3 text-zinc-400" />
                   {startup.region}
-                </span>
-
-                <span className="font-semibold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100">
-                  {startup.founderNeed}
                 </span>
               </div>
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div className="flex sm:flex-col items-center gap-2.5 w-full sm:w-auto shrink-0">
+          <div className="flex sm:flex-col items-center gap-2 w-full sm:w-auto shrink-0">
             <a
               href={startup.websiteUrl}
               target="_blank"
@@ -405,27 +398,27 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                   fetch(`/api/startups/${id}/click`, { method: 'POST' }).catch(() => {});
                 } catch (err) {}
               }}
-              className="flex-1 sm:w-44 py-3 px-4 bg-[#18181B] hover:bg-[#27272A] text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-black/10 active:scale-95"
+              className="flex-1 sm:w-40 py-2 px-3 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
             >
-              <span>{t.detail.visitProduct}</span>
-              <ExternalLink className="w-4 h-4" />
+              <span>Попробовать проект</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
             <button
               onClick={handleUpvote}
-              className={`flex-1 sm:w-44 py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition-all active:scale-95 ${
+              className={`flex-1 sm:w-40 py-2 px-3 rounded-lg font-semibold text-xs flex items-center justify-center gap-1.5 border transition-all active:scale-95 ${
                 upvoted
-                  ? 'bg-[#FF5A1F] text-white border-[#FF5A1F] shadow-md shadow-orange-500/25'
-                  : 'bg-white border-slate-200 text-slate-700 hover:border-[#FF5A1F] hover:bg-[#FF5A1F]/5 hover:text-[#FF5A1F]'
+                  ? 'bg-zinc-900 text-white border-zinc-900 font-bold'
+                  : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50'
               }`}
             >
-              <ChevronUp className="w-5 h-5 stroke-[3]" />
-              <span>{upvoted ? 'Поддержано' : t.detail.upvoteBtn} ({upvotesCount})</span>
+              <ChevronUp className="w-4 h-4 stroke-[2.5]" />
+              <span>{upvoted ? 'Поддержано' : 'Поддержать'} ({upvotesCount})</span>
             </button>
 
             <button
               onClick={handleShare}
-              className="py-3 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors sm:w-44"
+              className="py-2 px-3 rounded-lg border border-zinc-200 hover:bg-zinc-50 text-zinc-600 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors sm:w-40"
             >
               <Share2 className="w-3.5 h-3.5" />
               <span>{copied ? 'Скопировано!' : t.detail.share}</span>
@@ -433,10 +426,10 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
           </div>
         </div>
 
-        {/* Media / Screenshot Banner (Shown ONLY if founder uploaded a real screenshot) */}
+        {/* Media / Screenshot Banner */}
         {startup.bannerUrl && (
-          <div className="mt-6">
-            <div className="rounded-2xl overflow-hidden border border-slate-200 aspect-video max-h-96 relative bg-slate-900">
+          <div className="mt-5">
+            <div className="rounded-lg overflow-hidden border border-zinc-200 aspect-video max-h-96 relative bg-zinc-900">
               <img
                 src={startup.bannerUrl}
                 alt={`${startup.name} preview`}
@@ -791,42 +784,72 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
         )}
       </div>
 
-      {/* Structured Comments Section */}
-      <section id="comments" className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-2xs">
-        <div className="pb-6 border-b border-slate-100">
-          <h2 className="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
-            <MessageCircle className="w-5 h-5 text-blue-600" />
-            <span>{t.detail.comments.title}</span>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
-              {startup.comments?.length || 0}
-            </span>
-          </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            {t.detail.comments.subtitle}
-          </p>
+      {/* Structured Feedback Section */}
+      <section id="comments" className="bg-white rounded-xl p-5 sm:p-6 border border-zinc-200/90 shadow-subtle">
+        <div className="pb-5 border-b border-zinc-100 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-zinc-950 flex items-center gap-2">
+              <MessageCircle className="w-4 h-4 text-zinc-700" />
+              <span>Структурированный фидбек</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-zinc-100 text-zinc-700">
+                {startup.comments?.length || 0}
+              </span>
+            </h2>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              Помогите создателям улучшить продукт: оставьте честный отзыв или сообщите о баге.
+            </p>
+          </div>
         </div>
 
-        {/* Structured comment form */}
-        <form onSubmit={handleAddComment} className="my-6 p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+        {/* Structured Feedback Form */}
+        <form onSubmit={handleAddComment} className="my-5 p-4 sm:p-5 rounded-lg bg-zinc-50 border border-zinc-200/80 space-y-4">
+          {/* Question 1: Willingness to use */}
           <div>
-            <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2">
-              Выберите тип фидбека:
+            <label className="block text-xs font-bold text-zinc-800 uppercase tracking-wider mb-2">
+              1. Будете ли вы пользоваться этим продуктом?
             </label>
             <div className="flex items-center gap-2 flex-wrap">
               {[
-                { key: 'Идея', label: t.detail.comments.tags.idea, color: 'hover:border-amber-400' },
-                { key: 'Баг', label: t.detail.comments.tags.bug, color: 'hover:border-rose-400' },
-                { key: 'Похвала', label: t.detail.comments.tags.praise, color: 'hover:border-emerald-400' },
-                { key: 'Вопрос', label: t.detail.comments.tags.question, color: 'hover:border-blue-400' },
+                { key: 'yes', label: 'Да, нужен / готов пользоваться' },
+                { key: 'maybe', label: 'Возможно, при доработках' },
+                { key: 'no', label: 'Пока нет' },
+              ].map((opt) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  onClick={() => setWillingness(opt.key as any)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                    willingness === opt.key
+                      ? 'bg-zinc-900 text-white border-zinc-900 font-semibold'
+                      : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-300'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Question 2: Category */}
+          <div>
+            <label className="block text-xs font-bold text-zinc-800 uppercase tracking-wider mb-2">
+              2. Тип обращения:
+            </label>
+            <div className="flex items-center gap-2 flex-wrap">
+              {[
+                { key: 'Идея', label: 'Идея по продукту' },
+                { key: 'Баг', label: 'Нашел баг' },
+                { key: 'Похвала', label: 'Что понравилось' },
+                { key: 'Вопрос', label: 'Вопрос фаундеру' },
               ].map((tg) => (
                 <button
                   key={tg.key}
                   type="button"
                   onClick={() => setCommentTag(tg.key)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                     commentTag === tg.key
-                      ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
-                      : `bg-white text-slate-700 border-slate-200 ${tg.color}`
+                      ? 'bg-[#FF5A1F] text-white border-[#FF5A1F] font-semibold'
+                      : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-300'
                   }`}
                 >
                   {tg.label}
@@ -835,22 +858,24 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <input
               type="text"
               required
               value={commentAuthor}
               onChange={(e) => setCommentAuthor(e.target.value)}
-              placeholder={t.detail.comments.authorPlaceholder}
-              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              placeholder="Ваше имя или @username"
+              className="w-full px-3 py-1.5 text-xs bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#FF5A1F] focus:border-[#FF5A1F]"
             />
             <select
               value={commentRole}
               onChange={(e) => setCommentRole(e.target.value)}
-              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              className="w-full px-3 py-1.5 text-xs bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#FF5A1F] focus:border-[#FF5A1F]"
             >
               <option value="Тестер">Бета-тестер</option>
-              <option value="Фаундер">Другой фаундер</option>
+              <option value="Разработчик">Разработчик</option>
+              <option value="Дизайнер">Дизайнер</option>
+              <option value="Фаундер">Фаундер</option>
               <option value="Пользователь">Пользователь</option>
             </select>
           </div>
@@ -860,78 +885,71 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
             rows={3}
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
-            placeholder={t.detail.comments.placeholder}
-            className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+            placeholder="Что конкретно понравилось? Что вызвало вопросы или какой баг вы обнаружили?"
+            className="w-full p-3 text-xs bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#FF5A1F] focus:border-[#FF5A1F] leading-relaxed"
           />
 
           <div className="flex justify-end">
             <button
               type="submit"
               disabled={submittingComment}
-              className="px-6 py-2.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-orange-500/25 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-1.5"
+              className="px-4 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-semibold text-xs rounded-lg shadow-xs transition-all active:scale-95 disabled:opacity-50 flex items-center gap-1.5"
             >
               <Send className="w-3.5 h-3.5" />
-              <span>{submittingComment ? 'Отправляем...' : t.detail.comments.sendBtn}</span>
+              <span>{submittingComment ? 'Отправляем...' : 'Отправить отзыв'}</span>
             </button>
           </div>
         </form>
 
-        {/* Comments List */}
-        <div className="space-y-3.5">
+        {/* Feedbacks List */}
+        <div className="space-y-3">
           {startup.comments && startup.comments.length > 0 ? (
             startup.comments.map((comment: any) => {
-              const tagIcons: Record<string, string> = {
-                'Идея': 'Идея',
-                'Баг': 'Нашел баг',
-                'Похвала': 'Похвала',
-                'Вопрос': 'Вопрос',
-              };
-
               return (
                 <div
                   key={comment.id}
-                  className="p-4 rounded-2xl bg-white border border-slate-100 hover:border-slate-200 transition-colors"
+                  className="p-3.5 sm:p-4 rounded-lg bg-zinc-50/70 border border-zinc-200/80 transition-colors"
                 >
                   <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-slate-900 text-xs sm:text-sm">
+                      <span className="font-bold text-zinc-900 text-xs">
                         {comment.author}
                       </span>
                       {comment.role && (
-                        <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-medium text-zinc-500 bg-white border border-zinc-200 px-1.5 py-0.2 rounded">
                           {comment.role}
                         </span>
                       )}
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
-                        {tagIcons[comment.tag] || comment.tag}
+                      <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">
+                        {comment.tag}
                       </span>
                     </div>
 
                     <button
                       onClick={() => handleCommentStatusToggle(comment.id, comment.status)}
-                      title="Кликните, чтобы изменить статус"
-                      className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full transition-all border ${
+                      title="Кликните, чтобы изменить статус (для фаундера)"
+                      className={`text-[10px] font-semibold px-2 py-0.5 rounded transition-all border ${
                         comment.status === 'Решено'
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
                           : comment.status === 'Взято в работу'
                           ? 'bg-amber-50 text-amber-800 border-amber-300'
-                          : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
+                          : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100'
                       }`}
                     >
-                      ✓ {comment.status}
+                      {comment.status || 'Новый отзыв'}
                     </button>
                   </div>
 
-                  <p className="text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+                  <p className="text-zinc-700 text-xs leading-relaxed whitespace-pre-line">
                     {comment.content}
                   </p>
                 </div>
               );
             })
           ) : (
-            <p className="text-center py-6 text-slate-400 text-xs">
-              {t.detail.comments.empty}
-            </p>
+            <div className="py-8 text-center text-zinc-400 text-xs">
+              Пока нет отзывов. Станьте первым, кто протестирует продукт и оставит обратную связь!
+            </div>
           )}
         </div>
       </section>

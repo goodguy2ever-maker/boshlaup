@@ -265,47 +265,47 @@ export default function SubmitStartupWizard() {
 
   if (!user.isLoggedIn) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center animate-in fade-in">
-        <div className="w-20 h-20 rounded-3xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto mb-6 text-[#FF5A1F] shadow-sm">
-          <Send className="w-10 h-10 ml-0.5" />
+      <div className="max-w-xl mx-auto px-4 py-16 text-center animate-in fade-in">
+        <div className="w-14 h-14 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto mb-5 text-[#FF5A1F]">
+          <Send className="w-7 h-7 ml-0.5 -rotate-12" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight mb-2">
           Вход для публикации стартапа
         </h1>
-        <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
-          Чтобы опубликовать проект на BoshlaUp, сначала авторизуйтесь через Telegram.
-          Это необходимо, чтобы проект закрепился за вашим профилем, и вы могли получать отзывы, баг-репорты и контакты первых тестеров.
+        <p className="text-zinc-600 text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
+          Чтобы опубликовать проект на BoshlaUp, авторизуйтесь через Telegram.
+          Проект будет привязан к вашему аккаунту для получения отзывов и баг-репортов.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 max-w-xs mx-auto">
           <button
             type="button"
             onClick={() => setAuthModalOpen(true)}
-            className="w-full sm:w-auto px-6 py-3.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-extrabold rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2.5 transition-all text-sm active:scale-95 cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-semibold rounded-lg shadow-xs flex items-center justify-center gap-2 transition-all text-xs active:scale-95 cursor-pointer"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-3.5 h-3.5" />
             <span>Войти через Telegram</span>
           </button>
           <Link
             href="/"
-            className="w-full sm:w-auto px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all text-sm text-center"
+            className="w-full sm:w-auto px-4 py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-medium rounded-lg transition-all text-xs text-center border border-zinc-200"
           >
             В каталог
           </Link>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-          <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
-            <p className="font-extrabold text-xs text-slate-900 mb-1">Без паролей</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">Вход по безопасному 6-значному PIN-коду из Telegram-бота.</p>
+        <div className="mt-10 pt-6 border-t border-zinc-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+          <div className="p-3.5 bg-white rounded-lg border border-zinc-200 shadow-subtle">
+            <p className="font-bold text-xs text-zinc-900 mb-0.5">Без паролей</p>
+            <p className="text-[11px] text-zinc-500 leading-relaxed">Быстрый вход по 6-значному PIN-коду из бота.</p>
           </div>
-          <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
-            <p className="font-extrabold text-xs text-slate-900 mb-1">Прямой фидбек</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">Уведомления о найденных багах приходят в ваш Telegram.</p>
+          <div className="p-3.5 bg-white rounded-lg border border-zinc-200 shadow-subtle">
+            <p className="font-bold text-xs text-zinc-900 mb-0.5">Прямой фидбек</p>
+            <p className="text-[11px] text-zinc-500 leading-relaxed">Уведомления о найденных багах приходят в Telegram.</p>
           </div>
-          <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
-            <p className="font-extrabold text-xs text-slate-900 mb-1">Статус Фаундера</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">Управление апдейтами, сменой стадий и офферами тестерам.</p>
+          <div className="p-3.5 bg-white rounded-lg border border-zinc-200 shadow-subtle">
+            <p className="font-bold text-xs text-zinc-900 mb-0.5">Статус Фаундера</p>
+            <p className="text-[11px] text-zinc-500 leading-relaxed">Управление апдейтами и сменой стадий развития.</p>
           </div>
         </div>
       </div>
@@ -313,30 +313,30 @@ export default function SubmitStartupWizard() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
       <button
         type="button"
         onClick={handleBackNav}
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors mb-6 cursor-pointer"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-zinc-900 transition-colors mb-5 cursor-pointer"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-3.5 h-3.5" />
         <span>{t.detail.back}</span>
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Side: Wizard Form (8 cols) */}
-        <div className="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-2xs">
+        <div className="lg:col-span-8 bg-white rounded-xl p-6 sm:p-7 border border-zinc-200/90 shadow-subtle">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <div className="mb-6">
+            <h1 className="text-xl sm:text-2xl font-bold text-zinc-950 tracking-tight">
               {t.wizard.title}
             </h1>
-            <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
+            <p className="text-zinc-500 text-xs sm:text-sm mt-0.5">
               {t.wizard.subtitle}
             </p>
 
             {/* Stepper progress */}
-            <div className="grid grid-cols-3 gap-2.5 mt-6">
+            <div className="grid grid-cols-3 gap-2 mt-5">
               {steps.map((s) => {
                 const isActive = currentStep === s.step;
                 const isPassed = currentStep > s.step;
@@ -347,23 +347,23 @@ export default function SubmitStartupWizard() {
                     onClick={() => {
                       if (isPassed) setCurrentStep(s.step);
                     }}
-                    className={`p-3 rounded-2xl text-left border transition-all ${
+                    className={`p-2.5 rounded-lg text-left border transition-all ${
                       isActive
-                        ? 'border-[#FF5A1F] bg-orange-50/50 shadow-xs'
+                        ? 'border-[#FF5A1F] bg-orange-50/40 text-zinc-900'
                         : isPassed
-                        ? 'border-emerald-200 bg-emerald-50/30 cursor-pointer'
-                        : 'border-slate-100 bg-slate-50 opacity-60'
+                        ? 'border-zinc-300 bg-zinc-50 text-zinc-700 cursor-pointer'
+                        : 'border-zinc-200 bg-white text-zinc-400'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-0.5">
-                      <span className={`text-[10px] font-extrabold uppercase tracking-wider ${
-                        isActive ? 'text-[#FF5A1F]' : isPassed ? 'text-emerald-700' : 'text-slate-400'
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                        isActive ? 'text-[#FF5A1F]' : isPassed ? 'text-zinc-700' : 'text-zinc-400'
                       }`}>
-                        {(t.wizard as any).stepWord || 'Шаг'} {s.step}
+                        Шаг {s.step}
                       </span>
-                      {isPassed && <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />}
+                      {isPassed && <Check className="w-3 h-3 text-zinc-700" />}
                     </div>
-                    <p className="font-extrabold text-xs text-slate-900 truncate">{s.label.split('. ')[1]}</p>
+                    <p className="font-semibold text-xs text-zinc-900 truncate">{s.label.split('. ')[1]}</p>
                   </button>
                 );
               })}

@@ -88,106 +88,106 @@ export default function FilterBar({
   };
 
   return (
-    <div className="space-y-3 mb-6">
-      {/* Row 1: Unified Segmented Navigation & View Switcher (Linear Style) */}
-      <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border border-slate-200/90 shadow-2xs">
+    <div className="space-y-2.5 mb-5">
+      {/* Row 1: Segmented Tabs & View Switcher */}
+      <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1 rounded-xl border border-zinc-200/80 shadow-subtle">
         {/* Left: Sorting Tabs */}
         <div className="flex items-center gap-1">
           <button
             onClick={() => setTab('topDay')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               tab === 'topDay'
-                ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-zinc-900 text-white font-bold'
+                : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
-            <Flame className="w-4 h-4" />
+            <Flame className="w-3.5 h-3.5" />
             <span>{t.filters.tabs.topDay}</span>
           </button>
 
           <button
             onClick={() => setTab('topWeek')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               tab === 'topWeek'
-                ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-zinc-900 text-white font-bold'
+                : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="w-3.5 h-3.5" />
             <span>{t.filters.tabs.topWeek}</span>
           </button>
 
           <button
             onClick={() => setTab('newLaunch')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               tab === 'newLaunch'
-                ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-zinc-900 text-white font-bold'
+                : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-3.5 h-3.5" />
             <span>{t.filters.tabs.newLaunch}</span>
           </button>
         </div>
 
         {/* Right: View Mode Toggle */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-xl gap-0.5 border border-slate-200/60">
+        <div className="flex items-center bg-zinc-100 p-0.5 rounded-lg gap-0.5 border border-zinc-200/60">
           <button
             type="button"
             onClick={() => setViewMode('cards')}
             title={t.filters.viewCards}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
               viewMode === 'cards'
-                ? 'bg-white text-slate-900 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white text-zinc-950 font-semibold shadow-2xs'
+                : 'text-zinc-500 hover:text-zinc-900'
             }`}
           >
             <LayoutGrid className="w-3.5 h-3.5" />
-            <span>{t.filters.viewCards}</span>
+            <span className="hidden sm:inline">{t.filters.viewCards}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setViewMode('compact')}
             title={t.filters.viewList}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
               viewMode === 'compact'
-                ? 'bg-white text-slate-900 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white text-zinc-950 font-semibold shadow-2xs'
+                : 'text-zinc-500 hover:text-zinc-900'
             }`}
           >
             <List className="w-3.5 h-3.5" />
-            <span>{t.filters.viewList}</span>
+            <span className="hidden sm:inline">{t.filters.viewList}</span>
           </button>
         </div>
       </div>
 
-      {/* Row 2: Unified Command Bar (Search + Dropdowns + Quick Toggle Chip) */}
-      <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
+      {/* Row 2: Search + Filter Dropdowns */}
+      <div className="bg-white rounded-xl p-2 sm:p-2.5 border border-zinc-200/80 shadow-subtle flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2">
         {/* Search */}
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t.nav.searchPlaceholder}
-            className="w-full pl-10 pr-8 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] transition-all font-medium"
+            className="w-full pl-9 pr-7 py-1.5 text-xs bg-zinc-50 border border-zinc-200 rounded-lg focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#FF5A1F] focus:border-[#FF5A1F] transition-all font-medium text-zinc-900"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Filter Controls Row: wrap smoothly with flexible column widths */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        {/* Filter Controls Row */}
+        <div className="flex flex-wrap items-center gap-2">
           {/* Category Dropdown */}
-          <div className="flex-1 min-w-[140px] max-w-full sm:max-w-[200px]">
+          <div className="flex-1 min-w-[130px] sm:w-36">
             <CustomSelect
               options={CATEGORIES}
               value={category}
@@ -197,7 +197,7 @@ export default function FilterBar({
           </div>
 
           {/* Stage Dropdown */}
-          <div className="flex-1 min-w-[140px] max-w-full sm:max-w-[200px]">
+          <div className="flex-1 min-w-[130px] sm:w-36">
             <CustomSelect
               options={STAGE_OPTIONS}
               value={stage}
@@ -207,7 +207,7 @@ export default function FilterBar({
           </div>
 
           {/* Founder Need Dropdown */}
-          <div className="flex-1 min-w-[160px] max-w-full sm:max-w-[220px]">
+          <div className="flex-1 min-w-[140px] sm:w-40">
             <CustomSelect
               options={NEED_OPTIONS}
               value={founderNeed}
@@ -221,7 +221,7 @@ export default function FilterBar({
             <button
               onClick={handleReset}
               title={t.filters.reset}
-              className="flex items-center gap-1 px-3 py-2.5 text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 transition-colors shrink-0"
+              className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg border border-rose-200/80 transition-colors shrink-0"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{t.filters.reset}</span>
