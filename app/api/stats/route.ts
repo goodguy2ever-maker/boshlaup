@@ -17,6 +17,10 @@ export async function GET() {
       totalStartups,
       totalUsers,
       totalFeedbacks: totalComments + totalReviews,
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+      },
     });
   } catch (error) {
     console.error('Error fetching public stats:', error);

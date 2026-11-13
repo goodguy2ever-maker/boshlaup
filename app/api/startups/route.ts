@@ -86,7 +86,11 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json(startups);
+    return NextResponse.json(startups, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30',
+      },
+    });
   } catch (error) {
     console.error('Error fetching startups:', error);
     return NextResponse.json({ error: 'Failed to fetch startups' }, { status: 500 });

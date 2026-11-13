@@ -45,14 +45,23 @@ body {
 }
 
 .animate-float-slow {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   animation: float-slow 14s ease-in-out infinite;
 }
 
 .animate-float-reverse {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   animation: float-reverse 18s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   animation: pulse-glow 7s ease-in-out infinite;
 }
 
