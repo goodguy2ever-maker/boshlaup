@@ -20,14 +20,23 @@ export async function GET(request: Request) {
       where.hasTesterBonus = true;
     }
 
-    if (search) {
-      where.OR = [
-        { name: { contains: search } },
-        { tagline: { contains: search } },
-        { description: { contains: search } },
-        { problem: { contains: search } },
-        { solution: { contains: search } },
-      ];
+    if (search && search.trim()) {
+      const terms = search.trim().split(/\s+/).filter(Boolean);
+      where.AND = terms.map(term => ({
+        OR: [
+          { name: { contains: term, mode: 'insensitive' } },
+          { tagline: { contains: term, mode: 'insensitive' } },
+          { description: { contains: term, mode: 'insensitive' } },
+          { problem: { contains: term, mode: 'insensitive' } },
+          { solution: { contains: term, mode: 'insensitive' } },
+          { founderName: { contains: term, mode: 'insensitive' } },
+          { telegramContact: { contains: term, mode: 'insensitive' } },
+          { category: { contains: term, mode: 'insensitive' } },
+          { region: { contains: term, mode: 'insensitive' } },
+          { targetAudience: { contains: term, mode: 'insensitive' } },
+          { earlyUserOffer: { contains: term, mode: 'insensitive' } },
+        ],
+      }));
     }
 
     if (category && category !== 'Все' && category !== 'All' && category !== 'Barchasi') {

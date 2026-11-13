@@ -36,25 +36,22 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3 sm:gap-6">
         {/* Brand Logo */}
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
+        <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+          <Link href="/" className="shrink-0 flex items-center group py-1">
             <img
               src="/logo.svg"
               alt="BoshlaUp"
               className="h-7 sm:h-8 w-auto object-contain transition-transform group-hover:scale-[1.02]"
             />
-            <span className="hidden sm:inline-block text-[9px] font-extrabold text-slate-400 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded tracking-widest uppercase">
-              LAUNCHPAD
-            </span>
           </Link>
 
           {/* Navigation links */}
-          <nav className="hidden sm:flex items-center gap-1 text-xs sm:text-sm font-medium">
+          <nav className="hidden sm:flex items-center gap-1.5 text-xs sm:text-sm font-medium shrink-0">
             <Link
               href="/"
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1.5 ${
                 pathname === '/'
-                  ? 'text-[#FF5A1F] bg-[#FF5A1F]/10 font-bold'
+                  ? 'text-[#FF5A1F] bg-orange-50 font-bold border border-orange-200/60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
@@ -63,9 +60,9 @@ export default function Navbar() {
             </Link>
             <Link
               href="/community"
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1.5 ${
                 pathname.startsWith('/community')
-                  ? 'text-[#FF5A1F] bg-[#FF5A1F]/10 font-bold'
+                  ? 'text-[#FF5A1F] bg-orange-50 font-bold border border-orange-200/60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
