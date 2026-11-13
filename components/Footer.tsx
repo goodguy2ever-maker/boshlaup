@@ -23,7 +23,7 @@ export default function Footer() {
           <Link href="/terms" className="hover:text-[#FF5A1F] transition-colors">Оферта</Link>
           <Link href="/privacy" className="hover:text-[#FF5A1F] transition-colors">Конфиденциальность</Link>
           <a
-            href="https://t.me/boshlaup_project"
+            href="https://t.me/boshlaup_projects"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#FF5A1F] hover:underline transition-colors font-bold"

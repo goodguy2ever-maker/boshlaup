@@ -14,7 +14,7 @@ async function broadcastLatest() {
   console.log('Broadcasting latest startup:', startup.name, `(${startup.id})`);
 
   const token = process.env.TELEGRAM_BOT_TOKEN || '9073543052:AAFj4tmSOUWaMXaOexSU9A2uB79DpNi-xTg';
-  const channel = process.env.TELEGRAM_CHANNEL_ID || '@boshlaup_project';
+  const channel = process.env.TELEGRAM_CHANNEL_ID || '@boshlaup_projects';
   const siteUrl = 'https://boshlaup.uz';
   const startupUrl = `${siteUrl}/startups/${startup.id}`;
 

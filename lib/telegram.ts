@@ -102,7 +102,7 @@ export async function broadcastStartupToChannel(startup: {
     ],
   };
 
-  let targetChannel = TELEGRAM_CHANNEL_ID || '@boshlaup_project';
+  let targetChannel = TELEGRAM_CHANNEL_ID || '@boshlaup_projects';
 
   try {
     const savedChannel = await prisma.userAccount.findUnique({
