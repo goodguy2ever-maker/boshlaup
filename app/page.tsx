@@ -22,9 +22,10 @@ import StartupCard from '@/components/StartupCard';
 import FilterBar, { ViewMode } from '@/components/FilterBar';
 import CompactList from '@/components/CompactList';
 import InvestorTable from '@/components/InvestorTable';
+import { localizeCategory, localizeRegion } from '@/lib/localize';
 
 export default function HomePage() {
-  const { t, investorMode, toggleInvestorMode } = useApp();
+  const { t, lang, investorMode, toggleInvestorMode } = useApp();
 
   const [startups, setStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -261,7 +262,7 @@ export default function HomePage() {
             <div className="bg-gradient-to-br from-orange-50 to-amber-50/60 border border-orange-200/80 rounded-3xl p-5 shadow-2xs">
               <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-orange-800 mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
-                <span>Проект дня в Узбекистане</span>
+                <span>{(t as any).home?.featuredBadge || 'Проект дня в Узбекистане'}</span>
               </div>
 
               <div className="flex items-center gap-3.5 mb-3">
@@ -276,7 +277,7 @@ export default function HomePage() {
                   </h4>
                   <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
                     <MapPin className="w-3 h-3 text-slate-400" />
-                    <span>{featuredStartup.region} • {featuredStartup.category}</span>
+                    <span>{localizeRegion(featuredStartup.region, lang)} • {localizeCategory(featuredStartup.category, lang)}</span>
                   </p>
                 </div>
               </div>
@@ -295,7 +296,7 @@ export default function HomePage() {
                 href={`/startups/${featuredStartup.id}`}
                 className="w-full py-2.5 px-3 bg-white hover:bg-slate-50 border border-orange-200 rounded-xl text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
               >
-                <span>Подробнее о проекте</span>
+                <span>{(t as any).home?.viewProject || 'Подробнее о проекте'}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#FF5A1F]" />
               </Link>
             </div>
@@ -308,17 +309,17 @@ export default function HomePage() {
               <div className="flex items-center gap-2 mb-2">
                 <Rocket className="w-4 h-4 text-[#FF5A1F]" />
                 <h3 className="font-extrabold text-white text-sm">
-                  Создаете свой стартап?
+                  {(t as any).home?.ctaTitle || 'Создаете свой стартап?'}
                 </h3>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed mb-4 font-normal">
-                Опубликуйте проект за 2 минуты без бюрократии. Получите первых пользователей, честный фидбек и поднимитесь в топ дня!
+                {(t as any).home?.ctaDesc || 'Опубликуйте проект за 2 минуты без бюрократии. Получите первых пользователей, честный фидбек и поднимитесь в топ дня!'}
               </p>
               <Link
                 href="/submit"
                 className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white shadow-md shadow-orange-500/25 active:scale-95"
               >
-                <span>+ Запустить проект бесплатно</span>
+                <span>{(t as any).home?.ctaBtn || '+ Запустить проект бесплатно'}</span>
               </Link>
             </div>
           </div>
@@ -332,11 +333,11 @@ export default function HomePage() {
                   <Users className="w-4 h-4" />
                 </div>
                 <h3 className="font-extrabold text-slate-900 text-sm">
-                  Сообщество фаундеров
+                  {(t as any).home?.communityTitle || 'Сообщество фаундеров'}
                 </h3>
               </div>
               <p className="text-xs text-slate-500 leading-relaxed mb-4 font-normal">
-                Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в экосистеме Узбекистана.
+                {(t as any).home?.communityDesc || 'Обсуждайте запуски, делитесь инсайтами и находите единомышленников и разработчиков в экосистеме Узбекистана.'}
               </p>
               <a
                 href="https://t.me/boshlaup_community"
@@ -345,7 +346,7 @@ export default function HomePage() {
                 className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
               >
                 <Send className="w-3.5 h-3.5 text-[#FF5A1F]" />
-                <span>Присоединиться к Telegram</span>
+                <span>{(t as any).home?.communityBtn || 'Присоединиться к Telegram'}</span>
               </a>
             </div>
           </div>

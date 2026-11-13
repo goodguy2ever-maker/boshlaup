@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/context/AppContext';
 import { FEATURES } from '@/lib/config';
+import { localizeStage, localizeRegion, localizeCategory, localizeNeed } from '@/lib/localize';
 import {
   MapPin,
   ExternalLink,
@@ -49,7 +50,7 @@ interface StartupCardProps {
 }
 
 export default function StartupCard({ startup, rank, isOwner, onToggleActive, isToggling }: StartupCardProps) {
-  const { t, investorMode, isUpvoted, toggleUpvote } = useApp();
+  const { t, lang, investorMode, isUpvoted, toggleUpvote } = useApp();
   const upvoted = isUpvoted(startup.id);
   const [upvotesCount, setUpvotesCount] = useState(startup.upvotes);
   const [animating, setAnimating] = useState(false);
@@ -172,7 +173,7 @@ export default function StartupCard({ startup, rank, isOwner, onToggleActive, is
 
             {/* Stage badge */}
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${getStageColor(startup.stage)}`}>
-              {startup.stage}
+              {localizeStage(startup.stage, lang)}
             </span>
 
             {/* First launch badge */}
@@ -201,18 +202,18 @@ export default function StartupCard({ startup, rank, isOwner, onToggleActive, is
 
             {/* Category */}
             <span className="font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px]">
-              {startup.category}
+              {localizeCategory(startup.category, lang)}
             </span>
 
             {/* Region / City */}
             <span className="inline-flex items-center gap-1 font-medium text-slate-500 text-[11px]">
               <MapPin className="w-3 h-3 text-slate-400" />
-              <span>{startup.region}</span>
+              <span>{localizeRegion(startup.region, lang)}</span>
             </span>
 
             {/* Founder need */}
             <span className="text-[11px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md font-semibold border border-blue-100">
-              {startup.founderNeed}
+              {localizeNeed(startup.founderNeed, lang)}
             </span>
 
             {/* Comments count */}

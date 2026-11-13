@@ -47,6 +47,9 @@ import {
   Loader2
 } from 'lucide-react';
 
+import { Language } from '@/lib/i18n';
+import { localizeRegion, localizeStage } from '@/lib/localize';
+
 function CategoryIcon({ name, className }: { name: string; className?: string }) {
   switch (name) {
     case 'Bot': return <Bot className={className} />;
@@ -84,20 +87,20 @@ function detectContactType(contact: string) {
   return { label: 'Контакт', icon: MessageCircle, color: 'text-slate-700 bg-slate-50 border-slate-200' };
 }
 
-const REGION_OPTIONS = [
-  { value: 'Ташкент', label: 'Ташкент' },
-  { value: 'Самарканд', label: 'Самарканд' },
-  { value: 'Бухара', label: 'Бухара' },
-  { value: 'Фергана', label: 'Фергана' },
-  { value: 'Андижан', label: 'Андижан' },
-  { value: 'Наманган', label: 'Наманган' },
-  { value: 'Узбекистан', label: 'Весь Узбекистан' },
-  { value: 'Global', label: 'Global / Весь мир' },
-];
-
 export default function SubmitStartupWizard() {
   const router = useRouter();
-  const { t, user, setAuthModalOpen } = useApp();
+  const { t, lang, user, setAuthModalOpen } = useApp();
+
+  const REGION_OPTIONS = [
+    { value: 'Ташкент', label: localizeRegion('Ташкент', lang) },
+    { value: 'Самарканд', label: localizeRegion('Самарканд', lang) },
+    { value: 'Бухара', label: localizeRegion('Бухара', lang) },
+    { value: 'Фергана', label: localizeRegion('Фергана', lang) },
+    { value: 'Андижан', label: localizeRegion('Андижан', lang) },
+    { value: 'Наманган', label: localizeRegion('Наманган', lang) },
+    { value: 'Узбекистан', label: localizeRegion('Весь Узбекистан', lang) },
+    { value: 'Global', label: localizeRegion('Global', lang) },
+  ];
 
   const CATEGORY_CARDS = [
     { value: 'AI', label: t.wizard.categories.ai.label, iconName: 'Bot', desc: t.wizard.categories.ai.desc },
@@ -289,17 +292,17 @@ export default function SubmitStartupWizard() {
   ];
 
   if (!user.isLoggedIn) {
+    const gate = (t as any).submitGate || {};
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center animate-in fade-in">
         <div className="w-20 h-20 rounded-3xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto mb-6 text-[#FF5A1F] shadow-sm">
           <Send className="w-10 h-10 ml-0.5" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
-          Вход для публикации стартапа
+          {gate.title || 'Вход для публикации стартапа'}
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
-          Чтобы опубликовать проект на BoshlaUp, сначала авторизуйтесь через Telegram.
-          Это необходимо, чтобы проект закрепился за вашим профилем, и вы могли получать отзывы, баг-репорты и контакты первых тестеров.
+          {gate.desc || 'Чтобы опубликовать проект на BoshlaUp, сначала авторизуйтесь через Telegram. Это необходимо, чтобы проект закрепился за вашим профилем, и вы могли получать отзывы, баг-репорты и контакты первых тестеров.'}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
@@ -309,28 +312,28 @@ export default function SubmitStartupWizard() {
             className="w-full sm:w-auto px-6 py-3.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white font-extrabold rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2.5 transition-all text-sm active:scale-95 cursor-pointer"
           >
             <Send className="w-4 h-4" />
-            <span>Войти через Telegram</span>
+            <span>{gate.loginBtn || 'Войти через Telegram'}</span>
           </button>
           <Link
             href="/"
             className="w-full sm:w-auto px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all text-sm text-center"
           >
-            В каталог
+            {gate.toCatalog || 'В каталог'}
           </Link>
         </div>
 
         <div className="mt-12 pt-8 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
           <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
-            <p className="font-extrabold text-xs text-slate-900 mb-1">Без паролей</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">Вход по безопасному 6-значному PIN-коду из Telegram-бота.</p>
+            <p className="font-extrabold text-xs text-slate-900 mb-1">{gate.card1Title || 'Без паролей'}</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">{gate.card1Desc || 'Вход по безопасному 6-значному PIN-коду из Telegram-бота.'}</p>
           </div>
           <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
-            <p className="font-extrabold text-xs text-slate-900 mb-1">Прямой фидбек</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">Уведомления о найденных багах приходят в ваш Telegram.</p>
+            <p className="font-extrabold text-xs text-slate-900 mb-1">{gate.card2Title || 'Прямой фидбек'}</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">{gate.card2Desc || 'Уведомления о найденных багах приходят в ваш Telegram.'}</p>
           </div>
           <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-2xs">
-            <p className="font-extrabold text-xs text-slate-900 mb-1">Статус Фаундера</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">Управление апдейтами, сменой стадий и офферами тестерам.</p>
+            <p className="font-extrabold text-xs text-slate-900 mb-1">{gate.card3Title || 'Статус Фаундера'}</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">{gate.card3Desc || 'Управление апдейтами, сменой стадий и офферами тестерам.'}</p>
           </div>
         </div>
       </div>
@@ -546,14 +549,20 @@ export default function SubmitStartupWizard() {
                     <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5 flex items-center justify-between">
                       <span className="flex items-center gap-1">
                         <Globe className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{isIdeaStage ? 'Ссылка (если есть)' : t.wizard.linkLabel}</span>
+                        <span>
+                          {isIdeaStage
+                            ? (lang === 'uz' ? 'Havola (mavjud bo‘lsa)' : lang === 'en' ? 'Website URL (if available)' : 'Ссылка (если есть)')
+                            : t.wizard.linkLabel}
+                        </span>
                       </span>
                       {isIdeaStage ? (
                         <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
-                          Необязательно для идеи
+                          {(t as any).submitGate?.ideaOptional || 'Необязательно для идеи'}
                         </span>
                       ) : (
-                        <span className="text-[10px] font-bold text-rose-500">* Обязательно</span>
+                        <span className="text-[10px] font-bold text-rose-500">
+                          {(t as any).submitGate?.required || '* Обязательно'}
+                        </span>
                       )}
                     </label>
                     <input
@@ -563,14 +572,18 @@ export default function SubmitStartupWizard() {
                       onChange={(e) => setWebsiteUrl(e.target.value)}
                       placeholder={
                         isIdeaStage
-                          ? 'https://... (или оставьте пустым, если сайта еще нет)'
+                          ? (t as any).submitGate?.ideaLinkPlaceholder || 'https://... (или оставьте пустым, если сайта еще нет)'
                           : t.wizard.linkPlaceholder
                       }
                       className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] transition-all font-medium"
                     />
                     {isIdeaStage && (
                       <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
-                        💡 Для стадии идеи сайт не обязателен. Можно прикрепить презентацию, Figma, Telegram-канал или оставить поле пустым.
+                        {lang === 'uz'
+                          ? '💡 G‘oya bosqichi uchun veb-sayt majburiy emas. Taqdimot, Figma, Telegram-kanal havolasini qo‘yishingiz yoki bo‘sh qoldirishingiz mumkin.'
+                          : lang === 'en'
+                          ? '💡 A live website is not required for the idea stage. You can link a pitch deck, Figma mockup, Telegram channel, or leave it blank.'
+                          : '💡 Для стадии идеи сайт не обязателен. Можно прикрепить презентацию, Figma, Telegram-канал или оставить поле пустым.'}
                       </p>
                     )}
                   </div>
@@ -787,7 +800,9 @@ export default function SubmitStartupWizard() {
 
                   {/* Format suggestion chips */}
                   <div className="flex items-center gap-1.5 flex-wrap mt-2">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Примеры:</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      {(t as any).submitGate?.examples || 'Примеры:'}
+                    </span>
                     {user?.telegram && telegramContact !== user.telegram && (
                       <button
                         type="button"
@@ -795,7 +810,7 @@ export default function SubmitStartupWizard() {
                         className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-orange-50 text-[#FF5A1F] border border-orange-200 hover:bg-orange-100 transition-colors cursor-pointer flex items-center gap-1"
                       >
                         <MessageCircle className="w-3 h-3" />
-                        <span>Мой ник: {user.telegram}</span>
+                        <span>{(t as any).submitGate?.myNick || 'Мой ник:'} {user.telegram}</span>
                       </button>
                     )}
                     <button
@@ -814,16 +829,16 @@ export default function SubmitStartupWizard() {
                       }}
                       className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer"
                     >
-                      t.me/мой_бот
+                      t.me/bot
                     </button>
                     <button
                       type="button"
                       onClick={() => {
-                        if (!telegramContact.startsWith('t.me/')) setTelegramContact('t.me/канал');
+                        if (!telegramContact.startsWith('t.me/')) setTelegramContact('t.me/channel');
                       }}
                       className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer"
                     >
-                      t.me/канал
+                      t.me/channel
                     </button>
                     <button
                       type="button"
@@ -832,7 +847,7 @@ export default function SubmitStartupWizard() {
                       }}
                       className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer"
                     >
-                      +998 (телефон)
+                      +998
                     </button>
                   </div>
 
@@ -852,25 +867,73 @@ export default function SubmitStartupWizard() {
                       className="mt-0.5 w-4 h-4 text-[#FF5A1F] rounded border-slate-300 focus:ring-[#FF5A1F] cursor-pointer"
                     />
                     <span className="text-xs text-slate-600 leading-snug font-medium">
-                      Я подтверждаю согласие с{' '}
-                      <Link
-                        href="/terms"
-                        target="_blank"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
-                      >
-                        Пользовательским соглашением (офертой)
-                      </Link>{' '}
-                      и{' '}
-                      <Link
-                        href="/privacy"
-                        target="_blank"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
-                      >
-                        Политикой конфиденциальности
-                      </Link>{' '}
-                      платформы *
+                      {lang === 'uz' ? (
+                        <>
+                          Platformaning{' '}
+                          <Link
+                            href="/terms"
+                            target="_blank"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                          >
+                            Foydalanuvchi shartnomasi (oferta)
+                          </Link>{' '}
+                          va{' '}
+                          <Link
+                            href="/privacy"
+                            target="_blank"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                          >
+                            Maxfiylik siyosatiga
+                          </Link>{' '}
+                          roziman *
+                        </>
+                      ) : lang === 'en' ? (
+                        <>
+                          I agree to the{' '}
+                          <Link
+                            href="/terms"
+                            target="_blank"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                          >
+                            Terms of Service
+                          </Link>{' '}
+                          and{' '}
+                          <Link
+                            href="/privacy"
+                            target="_blank"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                          >
+                            Privacy Policy
+                          </Link>{' '}
+                          *
+                        </>
+                      ) : (
+                        <>
+                          Я подтверждаю согласие с{' '}
+                          <Link
+                            href="/terms"
+                            target="_blank"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                          >
+                            Пользовательским соглашением (офертой)
+                          </Link>{' '}
+                          и{' '}
+                          <Link
+                            href="/privacy"
+                            target="_blank"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[#FF5A1F] underline font-bold hover:text-[#E04810]"
+                          >
+                            Политикой конфиденциальности
+                          </Link>{' '}
+                          платформы *
+                        </>
+                      )}
                     </span>
                   </label>
                 </div>

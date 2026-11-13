@@ -36,36 +36,41 @@ import {
   EyeOff,
   Loader2
 } from 'lucide-react';
+import { Language } from '@/lib/i18n';
+import { localizeStage, localizeRegion, localizeCategory, localizeNeed } from '@/lib/localize';
 
-function formatContactLink(contact: string) {
+function formatContactLink(contact: string, lang: Language = 'ru') {
   const trimmed = contact.trim();
   const cleanDigits = trimmed.replace(/[\s\-\(\)]/g, '');
   if (trimmed.startsWith('+') || (/^\d{9,14}$/.test(cleanDigits))) {
     const phone = cleanDigits.startsWith('+') ? cleanDigits : `+${cleanDigits}`;
+    const prefix = lang === 'uz' ? "Qo'ng'iroq qilish" : lang === 'en' ? 'Call' : 'Позвонить';
     return {
       href: `tel:${phone}`,
-      label: `Позвонить (${trimmed})`,
+      label: `${prefix} (${trimmed})`,
       type: 'phone'
     };
   }
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    const prefix = lang === 'uz' ? "Bog'lanish" : lang === 'en' ? 'Contact' : 'Связаться';
     return {
       href: trimmed,
-      label: `Связаться: ${trimmed.replace(/^https?:\/\//, '')}`,
+      label: `${prefix}: ${trimmed.replace(/^https?:\/\//, '')}`,
       type: 'link'
     };
   }
   if (trimmed.startsWith('t.me/')) {
     return {
       href: `https://${trimmed}`,
-      label: `Открыть: ${trimmed}`,
+      label: `Telegram: ${trimmed}`,
       type: 'telegram'
     };
   }
   const username = trimmed.replace(/^@/, '');
+  const prefix = lang === 'uz' ? "Telegram'da yozish" : lang === 'en' ? 'Message on Telegram' : 'Написать в Telegram';
   return {
     href: `https://t.me/${username}`,
-    label: `Написать в Telegram (@${username})`,
+    label: `${prefix} (@${username})`,
     type: 'telegram'
   };
 }
@@ -75,7 +80,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   const params = useParams();
   const id = (params?.id as string) || initialStartup?.id;
 
-  const { t, user, isUpvoted, toggleUpvote, claimBonus, hasClaimedBonus, addReview } = useApp();
+  const { t, lang, user, isUpvoted, toggleUpvote, claimBonus, hasClaimedBonus, addReview } = useApp();
 
   const [startup, setStartup] = useState<any>(initialStartup || null);
   const [loading, setLoading] = useState(!initialStartup);
@@ -369,10 +374,14 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
             </div>
             <div>
               <p className="font-extrabold text-sm text-amber-950">
-                Проект отключен и скрыт из публичного каталога
+                {(t as any).detailExt?.inactiveBanner || 'Проект отключен и скрыт из публичного каталога'}
               </p>
               <p className="text-xs text-amber-800">
-                Посетители каталога не видят этот проект. Только вы можете открыть эту страницу по прямой ссылке.
+                {lang === 'uz'
+                  ? 'Katalog tashrif buyuruvchilari bu loyihani ko‘rmaydi. Faqat siz to‘g‘ridan-to‘g‘ri havola orqali ochishingiz mumkin.'
+                  : lang === 'en'
+                  ? 'Catalog visitors cannot see this startup. Only you can view it via direct link.'
+                  : 'Посетители каталога не видят этот проект. Только вы можете открыть эту страницу по прямой ссылке.'}
               </p>
             </div>
           </div>
@@ -382,7 +391,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
             className="px-4 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs font-bold rounded-xl shadow-md transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer"
           >
             {updatingActive ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Eye className="w-3.5 h-3.5" />}
-            <span>Включить проект в каталог</span>
+            <span>{(t as any).detailExt?.activateBtn || 'Включить проект в каталог'}</span>
           </button>
         </div>
       )}
@@ -421,9 +430,9 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                       }`}
                       title="Кликните, чтобы изменить стадию проекта (доступно автору)"
                     >
-                      <option value="Только идея">Только идея</option>
-                      <option value="MVP / Прототип">MVP / Прототип</option>
-                      <option value="Есть первые продажи">Есть первые продажи</option>
+                      <option value="Только идея">{localizeStage('Только идея', lang)}</option>
+                      <option value="MVP / Прототип">{localizeStage('MVP / Прототип', lang)}</option>
+                      <option value="Есть первые продажи">{localizeStage('Есть первые продажи', lang)}</option>
                     </select>
                     <ChevronDown className="w-3 h-3 absolute right-1.5 pointer-events-none text-slate-500" />
                   </div>
@@ -435,7 +444,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                       ? 'bg-blue-50 text-blue-700 border-blue-200'
                       : 'bg-purple-50 text-purple-700 border-purple-200'
                   }`}>
-                    {startup.stage}
+                    {localizeStage(startup.stage, lang)}
                   </span>
                 )}
 
@@ -455,16 +464,16 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
               {/* Badges */}
               <div className="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
                 <span className="font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
-                  {startup.category}
+                  {localizeCategory(startup.category, lang)}
                 </span>
 
                 <span className="inline-flex items-center gap-1 font-medium text-slate-600">
                   <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                  {startup.region}
+                  {localizeRegion(startup.region, lang)}
                 </span>
 
                 <span className="font-semibold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100">
-                  {startup.founderNeed}
+                  {localizeNeed(startup.founderNeed, lang)}
                 </span>
               </div>
             </div>
@@ -493,7 +502,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                 title="Проект находится на стадии идеи и еще разрабатывается"
               >
                 <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Стадия идеи (сайта нет)</span>
+                <span>{(t as any).detailExt?.ideaBadge || 'Стадия идеи (сайта нет)'}</span>
               </div>
             )}
 
@@ -506,7 +515,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
               }`}
             >
               <ChevronUp className="w-5 h-5 stroke-[3]" />
-              <span>{upvoted ? 'Поддержано' : t.detail.upvoteBtn} ({upvotesCount})</span>
+              <span>{upvoted ? ((t as any).detailExt?.supported || 'Поддержано') : t.detail.upvoteBtn} ({upvotesCount})</span>
             </button>
 
             <button
@@ -514,7 +523,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
               className="py-3 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors sm:w-44"
             >
               <Share2 className="w-3.5 h-3.5" />
-              <span>{copied ? 'Скопировано!' : t.detail.share}</span>
+              <span>{copied ? ((t as any).detailExt?.copied || 'Скопировано!') : t.detail.share}</span>
             </button>
 
             {isOwner && !isInactive && (
@@ -525,7 +534,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                 title="Скрыть проект из каталога"
               >
                 {updatingActive ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <EyeOff className="w-3.5 h-3.5" />}
-                <span>Отключить проект</span>
+                <span>{(t as any).detailExt?.deactivateBtn || 'Отключить проект'}</span>
               </button>
             )}
           </div>
@@ -595,7 +604,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>Структурированный питч</span>
+            <span>{(t as any).detailExt?.structuredPitch || 'Структурированный питч'}</span>
           </button>
 
           <button
@@ -669,12 +678,12 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
                 </div>
                 <div>
                   <h4 className="font-extrabold text-slate-900 text-sm">{startup.founderName}</h4>
-                  <p className="text-xs text-slate-500">{startup.founderBio || 'Основатель стартапа'}</p>
+                  <p className="text-xs text-slate-500">{startup.founderBio || (t as any).detailExt?.founderTitle || 'Основатель стартапа'}</p>
                 </div>
               </div>
 
               {startup.telegramContact && (() => {
-                const info = formatContactLink(startup.telegramContact);
+                const info = formatContactLink(startup.telegramContact, lang);
                 return (
                   <a
                     href={info.href}

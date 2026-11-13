@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useApp } from '@/context/AppContext';
 import {
   MessageSquare,
   ChevronUp,
@@ -19,15 +20,17 @@ import {
   X
 } from 'lucide-react';
 
-const CATEGORIES = [
-  { id: 'Все', label: 'Все темы', icon: MessageSquare },
-  { id: 'Co-founders', label: 'Поиск кофаундера', icon: Users },
-  { id: 'Advice', label: 'Советы фаундерам', icon: Lightbulb },
-  { id: 'Feedback', label: 'Запрос фидбека', icon: Target },
-  { id: 'General', label: 'Общее обсуждение', icon: Coffee },
-];
-
 export default function CommunityPage() {
+  const { t, lang } = useApp();
+  const comm = (t as any).community || {};
+
+  const CATEGORIES = [
+    { id: 'Все', label: comm.tabs?.all || 'Все темы', icon: MessageSquare },
+    { id: 'Co-founders', label: comm.tabs?.cofounder || 'Поиск кофаундера', icon: Users },
+    { id: 'Advice', label: comm.tabs?.advice || 'Советы фаундерам', icon: Lightbulb },
+    { id: 'Feedback', label: comm.tabs?.feedback || 'Запрос фидбека', icon: Target },
+    { id: 'General', label: comm.tabs?.general || 'Общее обсуждение', icon: Coffee },
+  ];
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('Все');
@@ -120,22 +123,22 @@ export default function CommunityPage() {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[#FF5A1F] text-xs font-bold mb-2 border border-orange-100">
             <Users className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            <span>Комьюнити фаундеров и создателей</span>
+            <span>{comm.badge || 'Комьюнити фаундеров и создателей'}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Обсуждения & Нетворкинг
+            {comm.title || 'Обсуждения & Нетворкинг'}
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            Задавайте вопросы, делитесь инсайтами, ищите кофаундеров и получайте фидбек
+            {comm.subtitle || 'Задавайте вопросы, делитесь инсайтами, ищите кофаундеров и получайте фидбек'}
           </p>
         </div>
 
         <button
           onClick={() => setShowNewPostModal(true)}
-          className="flex items-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 active:scale-95 transition-all"
+          className="flex items-center gap-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 active:scale-95 transition-all cursor-pointer"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
-          <span>Создать тему</span>
+          <span>{comm.createTopic || 'Создать тему'}</span>
         </button>
       </div>
 
@@ -173,7 +176,7 @@ export default function CommunityPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Поиск по темам, вопросам или авторам..."
+              placeholder={comm.searchPlaceholder || 'Поиск по темам, вопросам или авторам...'}
               className="w-full pl-10 pr-8 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] transition-all font-medium"
             />
             {searchQuery && (
@@ -187,7 +190,7 @@ export default function CommunityPage() {
           </div>
 
           <div className="text-xs font-semibold text-slate-500 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl shrink-0">
-            Тем: <span className="font-bold text-slate-900">{filteredPosts.length}</span>
+            {comm.topicsCount || 'Тем:'} <span className="font-bold text-slate-900">{filteredPosts.length}</span>
           </div>
         </div>
       </div>
@@ -258,7 +261,10 @@ export default function CommunityPage() {
                   <div className="flex items-center gap-4 text-xs text-slate-500">
                     <div className="flex items-center gap-1 font-semibold text-slate-700">
                       <MessageCircle className="w-4 h-4 text-slate-400" />
-                      <span>{post._count?.comments || 0} ответов</span>
+                      <span>
+                        {post._count?.comments || 0}{' '}
+                        {lang === 'uz' ? 'ta fikr' : lang === 'en' ? 'answers' : 'ответов'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -286,7 +292,9 @@ export default function CommunityPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="font-extrabold text-xl text-slate-900">Новая тема в комьюнити</h3>
+              <h3 className="font-extrabold text-xl text-slate-900">
+                {lang === 'uz' ? 'Yangi muhokama mavzusi' : lang === 'en' ? 'New Community Topic' : 'Новая тема в комьюнити'}
+              </h3>
               <button
                 onClick={() => setShowNewPostModal(false)}
                 className="text-slate-400 hover:text-slate-600 text-sm font-bold"
@@ -298,58 +306,76 @@ export default function CommunityPage() {
             <form onSubmit={handleCreatePost} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-                  Категория темы
+                  {lang === 'uz' ? 'Mavzu toifasi' : lang === 'en' ? 'Topic Category' : 'Категория темы'}
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 >
-                  <option value="Advice">Советы фаундерам</option>
-                  <option value="Co-founders">Поиск кофаундера</option>
-                  <option value="Feedback">Запрос фидбека</option>
-                  <option value="General">Общее обсуждение</option>
+                  <option value="Advice">{comm.tabs?.advice || 'Советы фаундерам'}</option>
+                  <option value="Co-founders">{comm.tabs?.cofounder || 'Поиск кофаундера'}</option>
+                  <option value="Feedback">{comm.tabs?.feedback || 'Запрос фидбека'}</option>
+                  <option value="General">{comm.tabs?.general || 'Общее обсуждение'}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-                  Заголовок темы *
+                  {lang === 'uz' ? 'Mavzu sarlavhasi *' : lang === 'en' ? 'Topic Title *' : 'Заголовок темы *'}
                 </label>
                 <input
                   type="text"
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="О чем хотите спросить или рассказать?"
+                  placeholder={
+                    lang === 'uz'
+                      ? 'Nima haqida so‘ramoqchi yoki aytmoqchisiz?'
+                      : lang === 'en'
+                      ? 'What do you want to ask or share?'
+                      : 'О чем хотите спросить или рассказать?'
+                  }
                   className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-                  Ваше имя или фаундер-ник *
+                  {lang === 'uz' ? 'Ismingiz yoki fasoschi niki *' : lang === 'en' ? 'Your Name or Founder Handle *' : 'Ваше имя или фаундер-ник *'}
                 </label>
                 <input
                   type="text"
                   required
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="Например, Тимур (AI Startup)"
+                  placeholder={
+                    lang === 'uz'
+                      ? 'Masalan, Timur (AI Startup)'
+                      : lang === 'en'
+                      ? 'e.g., Alex (FinTech Founder)'
+                      : 'Например, Тимур (AI Startup)'
+                  }
                   className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-                  Текст публикации *
+                  {lang === 'uz' ? 'Mavzu matni *' : lang === 'en' ? 'Topic Details *' : 'Текст публикации *'}
                 </label>
                 <textarea
                   required
                   rows={4}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Поделитесь подробностями, вопросом или предложением..."
+                  placeholder={
+                    lang === 'uz'
+                      ? 'Tafsilotlar, savol yoki taklifingizni yozing...'
+                      : lang === 'en'
+                      ? 'Share your details, question, or proposal...'
+                      : 'Поделитесь подробностями, вопросом или предложением...'
+                  }
                   className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F]"
                 />
               </div>
@@ -358,16 +384,18 @@ export default function CommunityPage() {
                 <button
                   type="button"
                   onClick={() => setShowNewPostModal(false)}
-                  className="px-4 py-2 text-sm text-slate-600 font-semibold hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 text-sm text-slate-600 font-semibold hover:bg-slate-100 rounded-xl cursor-pointer"
                 >
-                  Отмена
+                  {lang === 'uz' ? 'Bekor qilish' : lang === 'en' ? 'Cancel' : 'Отмена'}
                 </button>
                 <button
                   type="submit"
                   disabled={creating}
-                  className="px-6 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-50"
+                  className="px-6 py-2 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
-                  {creating ? 'Создаем...' : 'Опубликовать'}
+                  {creating
+                    ? (lang === 'uz' ? 'Yaratilmoqda...' : lang === 'en' ? 'Posting...' : 'Создаем...')
+                    : (lang === 'uz' ? 'Chop etish' : lang === 'en' ? 'Publish' : 'Опубликовать')}
                 </button>
               </div>
             </form>
