@@ -128,8 +128,12 @@ export async function POST(request: Request) {
 
     const cleanName = sanitizeText(name, 100);
     const cleanTagline = sanitizeText(tagline, 150);
-    const cleanWebsiteUrl = sanitizeUrl(websiteUrl);
+    const cleanWebsiteUrl = websiteUrl ? sanitizeUrl(websiteUrl) : null;
     const cleanCategory = sanitizeText(category, 50);
+
+    const isIdeaStage = typeof stage === 'string' && (
+      stage.toLowerCase().includes('иде') || stage.toLowerCase().includes('idea')
+    );
 
     if (!telegramUserId) {
       return NextResponse.json(
@@ -138,9 +142,13 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!cleanName || !cleanTagline || !cleanWebsiteUrl || !cleanCategory) {
+    if (!cleanName || !cleanTagline || (!isIdeaStage && !cleanWebsiteUrl) || !cleanCategory) {
       return NextResponse.json(
-        { error: 'Заполните корректно обязательные поля: название, слоган, ссылку и категорию' },
+        {
+          error: !isIdeaStage && !cleanWebsiteUrl
+            ? 'Для MVP и стартапов с продажами ссылка на сайт обязательна'
+            : 'Заполните корректно обязательные поля: название, слоган и категорию'
+        },
         { status: 400 }
       );
     }
@@ -168,7 +176,7 @@ export async function POST(request: Request) {
         problem: problem ? sanitizeText(problem, 2000) : null,
         solution: solution ? sanitizeText(solution, 2000) : null,
         targetAudience: targetAudience ? sanitizeText(targetAudience, 1000) : null,
-        websiteUrl: cleanWebsiteUrl,
+        websiteUrl: cleanWebsiteUrl || '',
         category: cleanCategory,
         region: sanitizeText(region || 'Ташкент', 60),
         logoUrl: logoUrl ? sanitizeText(logoUrl, 1000) : `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(cleanName)}`,

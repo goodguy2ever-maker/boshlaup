@@ -143,6 +143,7 @@ export default function SubmitStartupWizard() {
   const [solution, setSolution] = useState('');
   const [targetAudience, setTargetAudience] = useState('');
   const [stage, setStage] = useState('MVP / Прототип');
+  const isIdeaStage = stage === 'Только идея' || stage.toLowerCase().includes('иде') || stage.toLowerCase().includes('idea');
 
   // Step 3 fields
   const [founderNeed, setFounderNeed] = useState('Ищу тестеров');
@@ -184,7 +185,10 @@ export default function SubmitStartupWizard() {
     if (currentStep === 1) {
       if (!name.trim()) return setError('Укажите название стартапа');
       if (!tagline.trim()) return setError('Укажите слоган продукта');
-      if (!websiteUrl.trim()) return setError('Укажите ссылку на сайт или Telegram-бота');
+      const isIdeaStage = stage === 'Только идея' || stage.toLowerCase().includes('иде') || stage.toLowerCase().includes('idea');
+      if (!isIdeaStage && !websiteUrl.trim()) {
+        return setError('Укажите ссылку на сайт или Telegram-бота');
+      }
       if (category === 'Другое' && !customCategory.trim()) {
         return setError((t.wizard as any).customCategoryError || 'Укажите название вашей сферы (например: LegalTech, Туризм, Робототехника)');
       }
@@ -438,6 +442,44 @@ export default function SubmitStartupWizard() {
                   </p>
                 </div>
 
+                {/* Stage Selection in Step 1 (Basics) */}
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+                    {t.wizard.stageLabel}
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {STAGE_CARDS.map((stg) => {
+                      const isSelected = stage === stg.value;
+                      const IconComp = stg.icon;
+                      return (
+                        <button
+                          key={stg.value}
+                          type="button"
+                          onClick={() => setStage(stg.value)}
+                          className={`p-3.5 rounded-2xl text-left border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#FF5A1F] bg-orange-50/70 shadow-sm ring-1 ring-[#FF5A1F]/30'
+                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-2xs'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1.5">
+                            <div className={`p-1.5 rounded-lg ${isSelected ? 'bg-[#FF5A1F] text-white' : 'bg-slate-100 text-slate-600'}`}>
+                              <IconComp className="w-4 h-4" />
+                            </div>
+                            {isSelected && <Check className="w-3.5 h-3.5 text-[#FF5A1F] stroke-[3]" />}
+                          </div>
+                          <span className={`font-extrabold text-xs block ${isSelected ? 'text-[#FF5A1F]' : 'text-slate-800'}`}>
+                            {stg.label}
+                          </span>
+                          <span className="text-[10px] text-slate-400 block mt-0.5 font-medium">
+                            {stg.desc}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {/* Category Cards (No emojis, clean Lucide icons) */}
                 <div>
                   <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
@@ -501,18 +543,36 @@ export default function SubmitStartupWizard() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-1">
-                      <Globe className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{t.wizard.linkLabel}</span>
+                    <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5 flex items-center justify-between">
+                      <span className="flex items-center gap-1">
+                        <Globe className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{isIdeaStage ? 'Ссылка (если есть)' : t.wizard.linkLabel}</span>
+                      </span>
+                      {isIdeaStage ? (
+                        <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                          Необязательно для идеи
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold text-rose-500">* Обязательно</span>
+                      )}
                     </label>
                     <input
                       type="url"
-                      required
+                      required={!isIdeaStage}
                       value={websiteUrl}
                       onChange={(e) => setWebsiteUrl(e.target.value)}
-                      placeholder={t.wizard.linkPlaceholder}
+                      placeholder={
+                        isIdeaStage
+                          ? 'https://... (или оставьте пустым, если сайта еще нет)'
+                          : t.wizard.linkPlaceholder
+                      }
                       className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5A1F]/20 focus:border-[#FF5A1F] transition-all font-medium"
                     />
+                    {isIdeaStage && (
+                      <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+                        💡 Для стадии идеи сайт не обязателен. Можно прикрепить презентацию, Figma, Telegram-канал или оставить поле пустым.
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -590,47 +650,9 @@ export default function SubmitStartupWizard() {
               </div>
             )}
 
-            {/* STEP 2: ESSENCE & DETAILS (Only problem & solution, no fake banners) */}
+            {/* STEP 2: ESSENCE & DETAILS (Problem, solution, audience) */}
             {currentStep === 2 && (
               <div className="space-y-5 animate-in fade-in">
-                {/* Stage Selection */}
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
-                    {t.wizard.stageLabel}
-                  </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    {STAGE_CARDS.map((stg) => {
-                      const isSelected = stage === stg.value;
-                      const IconComp = stg.icon;
-                      return (
-                        <button
-                          key={stg.value}
-                          type="button"
-                          onClick={() => setStage(stg.value)}
-                          className={`p-3.5 rounded-2xl text-left border transition-all ${
-                            isSelected
-                              ? 'border-[#FF5A1F] bg-orange-50/70 shadow-sm ring-1 ring-[#FF5A1F]/30'
-                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-2xs'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-1.5">
-                            <div className={`p-1.5 rounded-lg ${isSelected ? 'bg-[#FF5A1F] text-white' : 'bg-slate-100 text-slate-600'}`}>
-                              <IconComp className="w-4 h-4" />
-                            </div>
-                            {isSelected && <Check className="w-3.5 h-3.5 text-[#FF5A1F] stroke-[3]" />}
-                          </div>
-                          <span className={`font-extrabold text-xs block ${isSelected ? 'text-[#FF5A1F]' : 'text-slate-800'}`}>
-                            {stg.label}
-                          </span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5 font-medium">
-                            {stg.desc}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
                 <div>
                   <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">
                     {t.wizard.problemLabel}

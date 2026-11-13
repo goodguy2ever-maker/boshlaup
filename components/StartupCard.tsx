@@ -151,22 +151,24 @@ export default function StartupCard({ startup, rank, isOwner, onToggleActive, is
               {startup.name}
             </Link>
 
-            {/* Visit site external link */}
-            <a
-              href={startup.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.stopPropagation();
-                try {
-                  fetch(`/api/startups/${startup.id}/click`, { method: 'POST' }).catch(() => {});
-                } catch (err) {}
-              }}
-              className="text-slate-400 hover:text-slate-700 transition-colors p-0.5 rounded"
-              title="Перейти на сайт"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            {/* Visit site external link (only if website is provided) */}
+            {startup.websiteUrl ? (
+              <a
+                href={startup.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  try {
+                    fetch(`/api/startups/${startup.id}/click`, { method: 'POST' }).catch(() => {});
+                  } catch (err) {}
+                }}
+                className="text-slate-400 hover:text-slate-700 transition-colors p-0.5 rounded"
+                title="Перейти на сайт"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : null}
 
             {/* Stage badge */}
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${getStageColor(startup.stage)}`}>

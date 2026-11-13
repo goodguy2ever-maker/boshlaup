@@ -472,20 +472,30 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
 
           {/* Action CTAs */}
           <div className="flex sm:flex-col items-center gap-2.5 w-full sm:w-auto shrink-0">
-            <a
-              href={startup.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                try {
-                  fetch(`/api/startups/${id}/click`, { method: 'POST' }).catch(() => {});
-                } catch (err) {}
-              }}
-              className="flex-1 sm:w-44 py-3 px-4 bg-[#18181B] hover:bg-[#27272A] text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-black/10 active:scale-95"
-            >
-              <span>{t.detail.visitProduct}</span>
-              <ExternalLink className="w-4 h-4" />
-            </a>
+            {startup.websiteUrl ? (
+              <a
+                href={startup.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  try {
+                    fetch(`/api/startups/${id}/click`, { method: 'POST' }).catch(() => {});
+                  } catch (err) {}
+                }}
+                className="flex-1 sm:w-44 py-3 px-4 bg-[#18181B] hover:bg-[#27272A] text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-black/10 active:scale-95"
+              >
+                <span>{t.detail.visitProduct}</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            ) : (
+              <div
+                className="flex-1 sm:w-44 py-3 px-3 bg-amber-50 border border-amber-200 text-amber-900 font-extrabold rounded-xl text-xs sm:text-xs flex items-center justify-center gap-1.5 text-center shadow-2xs"
+                title="Проект находится на стадии идеи и еще разрабатывается"
+              >
+                <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>Стадия идеи (сайта нет)</span>
+              </div>
+            )}
 
             <button
               onClick={handleUpvote}
