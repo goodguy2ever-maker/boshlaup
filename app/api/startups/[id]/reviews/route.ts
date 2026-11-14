@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { notifyFounderFeedback } from '@/lib/telegram';
 
 export async function POST(
   request: Request,
@@ -40,13 +41,33 @@ export async function POST(
     const total = allReviews.reduce((sum, r) => sum + r.rating, 0);
     const avgRating = Number((total / allReviews.length).toFixed(1));
 
-    await prisma.startup.update({
+    const updatedStartup = await prisma.startup.update({
       where: { id: params.id },
       data: {
         rating: avgRating,
         reviewCount: allReviews.length,
       },
+      select: {
+        id: true,
+        name: true,
+        telegramUserId: true,
+      },
     });
+
+    if (updatedStartup.telegramUserId) {
+      try {
+        await notifyFounderFeedback(
+          updatedStartup.telegramUserId,
+          updatedStartup.name,
+          `Отзыв (${numRating}★)`,
+          author,
+          comment,
+          params.id
+        );
+      } catch (e) {
+        console.error('Failed to notify founder of review:', e);
+      }
+    }
 
     return NextResponse.json(newReview, { status: 201 });
   } catch (error) {

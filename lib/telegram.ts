@@ -202,23 +202,24 @@ export async function notifyFounderFeedback(
 ) {
   if (!telegramId) return;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://boshlaup.uz';
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://boshlaup.uz';
   const tagIcons: Record<string, string> = {
-    'Баг': '[XATOLIK / BUG]',
-    'Идея': '[G\'OYA / TAKLIF]',
-    'Похвала': '[MINNATDORCHILIK]',
-    'Вопрос': '[SAVOL]',
+    'Баг': '🐞 [XATOLIK / BAG-REPORT]',
+    'Идея': '💡 [YANGI G\'OYA / TAKLIF]',
+    'Похвала': '👏 [MINNATDORCHILIK / MAQTOV]',
+    'Вопрос': '❓ [SAVOL]',
   };
 
-  const title = tagIcons[tag] || '[FIKR-MULOHAZA]';
-  const text = `<b>${title}: "${startupName}" loyihangiz bo'yicha!</b>\n\n` +
+  const title = tagIcons[tag] || `💬 [${tag.toUpperCase()}]`;
+  const text = `<b>${title}</b>\n\n` +
+    `Loyiha: <b>«${startupName}»</b>\n` +
     `👤 <b>Kimdan:</b> ${author}\n` +
-    `💬 <b>Xabar:</b>\n"${content}"\n\n` +
-    `<i>Testerga javob bering yoki loyihangiz sahifasida ko'ring:</i>`;
+    `💬 <b>Fikr-mulohaza:</b>\n<i>"${content}"</i>\n\n` +
+    `<i>Loyiha sahifasiga o'tish uchun quyidagi tugmani bosing:</i>`;
 
   const markup = {
     inline_keyboard: [
-      [{ text: "Saytda ko'rish ➔", url: `${siteUrl}/startups/${startupId}#comments` }]
+      [{ text: "Saytda ochish ➔", url: `${siteUrl}/startups/${startupId}#comments` }]
     ]
   };
 

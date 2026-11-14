@@ -46,14 +46,18 @@ export async function POST(
 
     // If founder has connected Telegram ID, send instant DM notification!
     if (updatedStartup.telegramUserId) {
-      notifyFounderFeedback(
-        updatedStartup.telegramUserId,
-        updatedStartup.name,
-        tag || 'Идея',
-        author,
-        content,
-        params.id
-      ).catch(() => {});
+      try {
+        await notifyFounderFeedback(
+          updatedStartup.telegramUserId,
+          updatedStartup.name,
+          tag || 'Идея',
+          author,
+          content,
+          params.id
+        );
+      } catch (notifyErr) {
+        console.error('Failed to notify founder on Telegram:', notifyErr);
+      }
     }
 
     return NextResponse.json(comment, { status: 201 });
