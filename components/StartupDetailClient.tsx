@@ -382,9 +382,11 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
   if (!startup) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Стартап не найден</h2>
+        <h2 className="text-xl font-bold text-slate-800 mb-2">
+          {lang === 'uz' ? 'Startap topilmadi' : lang === 'en' ? 'Startup not found' : 'Стартап не найден'}
+        </h2>
         <Link href="/" className="text-blue-600 font-bold text-sm hover:underline">
-          Вернуться на главную
+          {lang === 'uz' ? 'Bosh sahifaga qaytish' : lang === 'en' ? 'Back to homepage' : 'Вернуться на главную'}
         </Link>
       </div>
     );
@@ -399,17 +401,21 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
           <EyeOff className="w-8 h-8 text-slate-400" />
         </div>
         <h1 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
-          Проект временно отключен
+          {lang === 'uz' ? 'Loyiha vaqtincha o\'chirilgan' : lang === 'en' ? 'Project temporarily disabled' : 'Проект временно отключен'}
         </h1>
         <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-          Автор стартапа временно скрыл этот проект из каталога или проводит обновление.
+          {lang === 'uz' 
+            ? 'Loyiha muallifi uni vaqtincha yashirgan yoki yangilanishlar olib bormoqda.' 
+            : lang === 'en' 
+            ? 'The founder has temporarily hidden this project or is performing updates.' 
+            : 'Автор стартапа временно скрыл этот проект из каталога или проводит обновление.'}
         </p>
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white text-xs font-bold rounded-xl shadow-md transition-all active:scale-95"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Вернуться в каталог стартапов</span>
+          <span>{lang === 'uz' ? 'Startaplar katalogiga qaytish' : lang === 'en' ? 'Back to startup directory' : 'Вернуться в каталог стартапов'}</span>
         </Link>
       </div>
     );
@@ -1019,7 +1025,7 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
         <form onSubmit={handleAddComment} className="my-6 p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
           <div>
             <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2">
-              Выберите тип фидбека:
+              {lang === 'uz' ? 'Fikr-mulohaza turini tanlang:' : lang === 'en' ? 'Select feedback type:' : 'Выберите тип фидбека:'}
             </label>
             <div className="flex items-center gap-2 flex-wrap">
               {[
@@ -1058,9 +1064,9 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
               onChange={(e) => setCommentRole(e.target.value)}
               className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
             >
-              <option value="Тестер">Бета-тестер</option>
-              <option value="Фаундер">Другой фаундер</option>
-              <option value="Пользователь">Пользователь</option>
+              <option value="Тестер">{lang === 'uz' ? 'Beta-tester' : lang === 'en' ? 'Beta Tester' : 'Бета-тестер'}</option>
+              <option value="Фаундер">{lang === 'uz' ? 'Boshqa asoschi' : lang === 'en' ? 'Fellow Founder' : 'Другой фаундер'}</option>
+              <option value="Пользователь">{lang === 'uz' ? 'Foydalanuvchi' : lang === 'en' ? 'User' : 'Пользователь'}</option>
             </select>
           </div>
 

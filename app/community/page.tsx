@@ -210,10 +210,14 @@ export default function CommunityPage() {
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
           <MessageSquare className="w-10 h-10 text-slate-300 mx-auto mb-3" />
           <h3 className="font-bold text-slate-800 text-lg mb-1">
-            {searchQuery ? 'Ничего не найдено по вашему запросу' : 'Пока нет тем в этой категории'}
+            {searchQuery
+              ? (lang === 'uz' ? 'Qidiruv bo‘yicha hech narsa topilmadi' : lang === 'en' ? 'Nothing found for your search' : 'Ничего не найдено по вашему запросу')
+              : (lang === 'uz' ? 'Ushbu toifada hali mavzular yo‘q' : lang === 'en' ? 'No topics in this category yet' : 'Пока нет тем в этой категории')}
           </h3>
           <p className="text-slate-500 text-sm mb-4">
-            {searchQuery ? 'Попробуйте изменить формулировку поиска' : 'Будьте первым, кто начнет обсуждение!'}
+            {searchQuery
+              ? (lang === 'uz' ? 'Qidiruv so‘zini o‘zgartirib ko‘ring' : lang === 'en' ? 'Try changing your search terms' : 'Попробуйте изменить формулировку поиска')
+              : (lang === 'uz' ? 'Birinchi bo‘lib muhokama boshlang!' : lang === 'en' ? 'Be the first to start a discussion!' : 'Будьте первым, кто начнет обсуждение!')}
           </p>
           <button
             onClick={() => {
@@ -222,7 +226,9 @@ export default function CommunityPage() {
             }}
             className="text-sm font-bold text-[#FF5A1F] hover:underline"
           >
-            {searchQuery ? 'Очистить поиск' : '+ Написать первый пост'}
+            {searchQuery
+              ? (lang === 'uz' ? 'Qidiruvni tozalash' : lang === 'en' ? 'Clear search' : 'Очистить поиск')
+              : (lang === 'uz' ? '+ Birinchi postni yozish' : lang === 'en' ? '+ Write first post' : '+ Написать первый пост')}
           </button>
         </div>
       ) : (
@@ -342,7 +348,7 @@ export default function CommunityPage() {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-                  {lang === 'uz' ? 'Ismingiz yoki fasoschi niki *' : lang === 'en' ? 'Your Name or Founder Handle *' : 'Ваше имя или фаундер-ник *'}
+                  {lang === 'uz' ? 'Ismingiz yoki asoschi taxallusi *' : lang === 'en' ? 'Your Name or Founder Handle *' : 'Ваше имя или фаундер-ник *'}
                 </label>
                 <input
                   type="text"
