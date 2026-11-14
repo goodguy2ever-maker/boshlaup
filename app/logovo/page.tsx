@@ -26,7 +26,8 @@ import {
   Eye,
   BarChart3,
   Check,
-  Lock
+  Lock,
+  Activity
 } from 'lucide-react';
 
 function AdminLogo({ url, name }: { url?: string; name: string }) {
@@ -200,6 +201,136 @@ export default function AdminAnalyticsDashboard() {
             <span>Запустить стартап</span>
           </Link>
         </div>
+      </div>
+
+      {/* Live Traffic & Visitor Analytics (Посещаемость сайта) */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white rounded-3xl p-6 sm:p-7 shadow-xl mb-8 border border-slate-700 relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-700/80">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+              <h2 className="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
+                <span>Живая аналитика посещаемости BoshlaUp</span>
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400">
+              Статистика визитов всех посетителей сайта в реальном времени (включая незарегистрированных)
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-black flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>{data?.onlineUsers || 1} онлайн сейчас</span>
+            </span>
+          </div>
+        </div>
+
+        {/* 3 Traffic Metrics */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5">
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Сейчас на сайте</span>
+              <Activity className="w-4 h-4 text-emerald-400" />
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl sm:text-3xl font-black text-emerald-400">{data?.onlineUsers || 1}</span>
+              <span className="text-xs text-slate-300">активных</span>
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1 font-medium">Сессий за последние 3 минуты</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Посещений сегодня</span>
+              <Calendar className="w-4 h-4 text-[#FF5A1F]" />
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl sm:text-3xl font-black text-white">{data?.visitsToday || 0}</span>
+              <span className="text-xs font-semibold text-[#FF5A1F]">
+                ({data?.uniqueVisitorsToday || 0} уникальных)
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1 font-medium">Визитов с 00:00 (по Ташкенту)</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Всего просмотров</span>
+              <TrendingUp className="w-4 h-4 text-blue-400" />
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl sm:text-3xl font-black text-white">{data?.totalVisits || 0}</span>
+              <span className="text-xs text-slate-300">просмотров</span>
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1 font-medium">Суммарный трафик платформы</p>
+          </div>
+        </div>
+
+        {/* 7-Day Traffic Chart & Top Pages */}
+        {data?.dailyTraffic && data.dailyTraffic.length > 0 && (
+          <div className="mt-5 pt-5 border-t border-slate-700/80 grid grid-cols-1 lg:grid-cols-12 gap-5">
+            {/* 7-Day Chart */}
+            <div className="lg:col-span-8">
+              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <BarChart3 className="w-3.5 h-3.5 text-[#FF5A1F]" />
+                <span>Динамика посещений за последние 7 дней</span>
+              </h4>
+              <div className="grid grid-cols-7 gap-2 items-end h-28 pt-2">
+                {(() => {
+                  const maxV = Math.max(...data.dailyTraffic.map((d: any) => d.visits), 5);
+                  return data.dailyTraffic.map((day: any) => {
+                    const heightPercent = Math.max(12, Math.round((day.visits / maxV) * 100));
+                    return (
+                      <div key={day.date} className="flex flex-col items-center gap-1.5 h-full justify-end group">
+                        <span className="text-[10px] font-bold text-slate-300 opacity-80 group-hover:text-white transition-opacity">
+                          {day.visits}
+                        </span>
+                        <div className="w-full bg-slate-700 rounded-t-lg h-full max-h-20 flex items-end overflow-hidden">
+                          <div
+                            className="w-full bg-gradient-to-t from-[#FF5A1F] to-orange-400 rounded-t-lg transition-all duration-500 group-hover:from-orange-400 group-hover:to-amber-300"
+                            style={{ height: `${heightPercent}%` }}
+                          />
+                        </div>
+                        <span className="text-[10px] font-semibold text-slate-400 truncate w-full text-center">
+                          {day.date}
+                        </span>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </div>
+
+            {/* Top Visited Pages */}
+            <div className="lg:col-span-4 bg-white/5 rounded-2xl p-4 border border-white/5">
+              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2.5">
+                Популярные страницы сегодня
+              </h4>
+              <div className="space-y-2">
+                {data.topPagesToday && data.topPagesToday.length > 0 ? (
+                  data.topPagesToday.map((p: any) => (
+                    <div key={p.path} className="flex items-center justify-between text-xs py-1 border-b border-white/5 last:border-0">
+                      <span className="text-slate-300 font-mono text-[11px] truncate max-w-[160px]" title={p.path}>
+                        {p.path === '/' ? 'Главная (/)' : p.path}
+                      </span>
+                      <span className="font-bold text-[#FF5A1F] bg-[#FF5A1F]/15 px-2 py-0.5 rounded-md text-[10px]">
+                        {p.count} перех.
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[11px] text-slate-500 py-2">Сегодня переходов пока не зафиксировано</p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 5 Main Platform KPI Cards */}

@@ -99,6 +99,70 @@ export async function GET() {
       },
     }).catch(() => []);
 
+    // Real-time active users & traffic analytics
+    const now = new Date();
+    const threeMinAgo = new Date(Date.now() - 3 * 60 * 1000);
+    // Start of today in Tashkent timezone (UTC+5)
+    const tashkentOffsetMs = 5 * 60 * 60 * 1000;
+    const tashkentNow = new Date(now.getTime() + tashkentOffsetMs);
+    const todayStartUtc = new Date(Date.UTC(tashkentNow.getUTCFullYear(), tashkentNow.getUTCMonth(), tashkentNow.getUTCDate()) - tashkentOffsetMs);
+    const sevenDaysAgo = new Date(todayStartUtc.getTime() - 6 * 24 * 60 * 60 * 1000);
+
+    const [
+      onlineUsers,
+      totalVisits,
+      todayVisitsList,
+      recentVisits,
+    ] = await Promise.all([
+      prisma.activeSession.count({
+        where: { lastSeen: { gte: threeMinAgo } },
+      }).catch(() => 0),
+      prisma.siteVisit.count().catch(() => 0),
+      prisma.siteVisit.findMany({
+        where: { createdAt: { gte: todayStartUtc } },
+        select: { sessionId: true, path: true },
+      }).catch(() => []),
+      prisma.siteVisit.findMany({
+        where: { createdAt: { gte: sevenDaysAgo } },
+        select: { createdAt: true },
+      }).catch(() => []),
+    ]);
+
+    const visitsToday = todayVisitsList.length;
+    const uniqueVisitorsToday = new Set(todayVisitsList.map(v => v.sessionId).filter(Boolean)).size;
+
+    // Group visits by day for last 7 days
+    const daysMap: Record<string, number> = {};
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(todayStartUtc.getTime() - i * 24 * 60 * 60 * 1000 + tashkentOffsetMs);
+      const key = `${d.getUTCDate()} ${['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'][d.getUTCMonth()]}`;
+      daysMap[key] = 0;
+    }
+
+    recentVisits.forEach(v => {
+      const d = new Date(v.createdAt.getTime() + tashkentOffsetMs);
+      const key = `${d.getUTCDate()} ${['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'][d.getUTCMonth()]}`;
+      if (daysMap[key] !== undefined) {
+        daysMap[key]++;
+      }
+    });
+
+    const dailyTraffic = Object.entries(daysMap).map(([date, visits]) => ({
+      date,
+      visits,
+    }));
+
+    // Top paths visited today
+    const pathCountMap: Record<string, number> = {};
+    todayVisitsList.forEach(v => {
+      const p = v.path || '/';
+      pathCountMap[p] = (pathCountMap[p] || 0) + 1;
+    });
+    const topPagesToday = Object.entries(pathCountMap)
+      .map(([path, count]) => ({ path, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
     return NextResponse.json({
       totalUsers,
       totalAuthCodes,
@@ -106,6 +170,12 @@ export async function GET() {
       totalClicks,
       totalUpvotes,
       totalFeedback: totalComments + totalReviews,
+      onlineUsers,
+      visitsToday,
+      uniqueVisitorsToday,
+      totalVisits,
+      dailyTraffic,
+      topPagesToday,
       stages,
       regions,
       categories,

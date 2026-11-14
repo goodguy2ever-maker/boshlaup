@@ -138,3 +138,24 @@ model PostComment {
   content   String
   createdAt DateTime @default(now())
 }
+
+model SiteVisit {
+  id        String   @id @default(cuid())
+  path      String   @default("/")
+  ip        String?
+  userAgent String?
+  sessionId String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([sessionId])
+}
+
+model ActiveSession {
+  sessionId String   @id
+  ip        String?
+  path      String?  @default("/")
+  lastSeen  DateTime @default(now())
+
+  @@index([lastSeen])
+}

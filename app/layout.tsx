@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MobileNavBar from '@/components/MobileNavBar';
 import TelegramAuthModal from '@/components/TelegramAuthModal';
+import SiteAnalyticsTracker from '@/components/SiteAnalyticsTracker';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://boshlaup.uz';
 
@@ -131,6 +132,7 @@ export default function RootLayout({
           <Footer />
           <MobileNavBar />
           <TelegramAuthModal />
+          <SiteAnalyticsTracker />
         </AppProvider>
       </body>
     </html>
