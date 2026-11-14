@@ -204,21 +204,21 @@ export async function notifyFounderFeedback(
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://boshlaup.uz';
   const tagIcons: Record<string, string> = {
-    'Баг': '[БАГ]',
-    'Идея': '[ИДЕЯ]',
-    'Похвала': '[ПОХВАЛА]',
-    'Вопрос': '[ВОПРОС]',
+    'Баг': '[XATOLIK / BUG]',
+    'Идея': '[G\'OYA / TAKLIF]',
+    'Похвала': '[MINNATDORCHILIK]',
+    'Вопрос': '[SAVOL]',
   };
 
-  const title = tagIcons[tag] || '[ОТЗЫВ]';
-  const text = `<b>${title} по вашему проекту ${startupName}!</b>\n\n` +
-    `<b>От:</b> ${author}\n` +
-    `<b>Сообщение:</b>\n"${content}"\n\n` +
-    `Ответьте тестеру или пометьте как решено на сайте:`;
+  const title = tagIcons[tag] || '[FIKR-MULOHAZA]';
+  const text = `<b>${title}: "${startupName}" loyihangiz bo'yicha!</b>\n\n` +
+    `👤 <b>Kimdan:</b> ${author}\n` +
+    `💬 <b>Xabar:</b>\n"${content}"\n\n` +
+    `<i>Testerga javob bering yoki loyihangiz sahifasida ko'ring:</i>`;
 
   const markup = {
     inline_keyboard: [
-      [{ text: 'Открыть на сайте →', url: `${siteUrl}/startups/${startupId}#comments` }]
+      [{ text: "Saytda ko'rish ➔", url: `${siteUrl}/startups/${startupId}#comments` }]
     ]
   };
 
@@ -236,9 +236,9 @@ export async function notifyFounderBonusClaim(
 ) {
   if (!telegramId) return;
 
-  const text = `<b>Новый запрос бонуса тестера!</b>\n\n` +
-    `Пользователь <b>${userTelegram}</b> хочет протестировать ваш стартап <b>${startupName}</b> и получить предложенный бонус.\n\n` +
-    `Свяжитесь с ним в Telegram, чтобы выдать доступ!`;
+  const text = `🎁 <b>Tester bonusi uchun yangi so'rov!</b>\n\n` +
+    `Foydalanuvchi <b>${userTelegram}</b> sizning <b>"${startupName}"</b> startapingizni sinab ko'rmoqchi va va'da qilingan bonusni olishni so'radi.\n\n` +
+    `Ruxsat berish uchun foydalanuvchi bilan Telegram orqali bog'laning!`;
 
   return await sendTelegramMessage(telegramId, text);
 }

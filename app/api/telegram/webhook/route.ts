@@ -122,10 +122,10 @@ export async function POST(request: Request) {
 
     const inlineKeyboard = {
       inline_keyboard: [
-        [{ text: 'Войти на BoshlaUp →', url: APP_URL }],
+        [{ text: "BoshlaUp ga kirish ➔", url: APP_URL }],
         [
-          { text: 'Опубликовать стартап', url: `${APP_URL}/submit` },
-          { text: 'Каталог проектов', url: APP_URL },
+          { text: "Loyiha qo'shish 🚀", url: `${APP_URL}/submit` },
+          { text: "Loyihalar katalogi 📂", url: APP_URL },
         ],
       ],
     };
@@ -134,28 +134,28 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       replyText =
-        `<b>С возвращением в BoshlaUp, ${existingUser.firstName || firstName}!</b>\n\n` +
-        `Ваш аккаунт: <b>${username || existingUser.username || existingUser.firstName}</b>\n` +
-        `Роль: <b>${existingUser.role || 'Фаундер / Бета-тестер'}</b>\n\n` +
-        `<b>Код для входа на сайте:</b>\n` +
+        `👋 <b>BoshlaUp ga xush kelibsiz, ${existingUser.firstName || firstName}!</b>\n\n` +
+        `Sizning profilingiz: <b>${username || existingUser.username || existingUser.firstName}</b>\n` +
+        `Maqom: <b>${existingUser.role || 'Asoschi / Tester'}</b>\n\n` +
+        `🔐 <b>Saytga kirish kodingiz:</b>\n` +
         `<code>${code}</code>\n` +
-        `<i>(код действителен 15 минут)</i>\n\n` +
-        `<i>Бот активен: сюда мгновенно приходят отзывы, баги и запросы бонусов от первых тестеров ваших стартапов.</i>`;
+        `<i>(ushbu kod 15 daqiqa davomida amal qiladi)</i>\n\n` +
+        `<i>Бот faol: startaplaringiz bo'yicha bildirishnomalar, fikrlar va yangiliklar shu yerga keladi.</i>`;
     } else {
       replyText =
-        `<b>Ассалому алейкум, ${firstName}!</b>\n\n` +
-        `Добро пожаловать в <b>BoshlaUp</b> — платформу для запуска IT-стартапов, поиска первых бета-тестеров и привлечения инвестиций в Узбекистане.\n\n` +
-        `<b>Что дает BoshlaUp:</b>\n` +
-        `• <b>Фаундерам:</b> запуск MVP за 3 минуты, получение реальных первых пользователей и сбор багов.\n` +
-        `• <b>Тестерам:</b> бонусы от создателей продуктов за качественные отзывы и поиск багов.\n` +
-        `• <b>Инвесторам:</b> радар ранних перспективных проектов региона с прямыми контактами фаундеров.\n\n` +
-        `<b>Ваш код для входа на сайте:</b>\n` +
+        `🚀 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
+        `<b>BoshlaUp</b> — O'zbekistondagi IT-startaplarni ishga tushirish, ilk foydalanuvchilar va testerlarni topish platformasiga xush kelibsiz!\n\n` +
+        `<b>BoshlaUp nima beradi:</b>\n` +
+        `• <b>Asoschilar uchun:</b> MVP'ni 3 daqiqada taqdim etish, ilk foydalanuvchilar va fikr-mulohazalar to'plash.\n` +
+        `• <b>Testerlar uchun:</b> yangi loyihalarni birinchilardan bo'lib sinash va asoschilardan bonuslar olish.\n` +
+        `• <b>Investorlar uchun:</b> istiqbolli loyihalar va asoschilar bilan to'g'ridan-to'g'ri aloqa.\n\n` +
+        `🔐 <b>Saytga kirish kodingiz:</b>\n` +
         `<code>${code}</code>\n` +
-        `<i>(код действителен 15 минут)</i>\n\n` +
-        `<b>Как войти:</b>\n` +
-        `1. Нажмите кнопку <b>«Войти на BoshlaUp»</b> ниже.\n` +
-        `2. В окне входа введите 6-значный код: <code>${code}</code>.\n\n` +
-        `После входа ваш Telegram будет привязан, и вы начнете получать уведомления о фидбеке!`;
+        `<i>(ushbu kod 15 daqiqa davomida amal qiladi)</i>\n\n` +
+        `<b>Qanday kiriladi:</b>\n` +
+        `1. Quyidagi <b>«BoshlaUp ga kirish ➔»</b> tugmasini bosing.\n` +
+        `2. Saytdagi oynaga 6 xonali kodni kiriting: <code>${code}</code>\n\n` +
+        `<i>Kirganingizdan so'ng Telegram profilingiz ulanadi va barcha bildirishnomalar shu botga keladi!</i>`;
     }
 
     await sendTelegramMessage(chatId, replyText, inlineKeyboard);
