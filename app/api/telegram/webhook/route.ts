@@ -122,10 +122,10 @@ export async function POST(request: Request) {
 
     const inlineKeyboard = {
       inline_keyboard: [
-        [{ text: "BoshlaUp ga kirish ➔", url: APP_URL }],
+        [{ text: "🔗 BoshlaUp ga kirish ➔", url: APP_URL }],
         [
-          { text: "Loyiha qo'shish 🚀", url: `${APP_URL}/submit` },
-          { text: "Loyihalar katalogi 📂", url: APP_URL },
+          { text: "🚀 Loyiha qo'shish", url: `${APP_URL}/submit` },
+          { text: "📂 Loyihalar katalogi", url: APP_URL },
         ],
       ],
     };
@@ -134,28 +134,24 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       replyText =
-        `👋 <b>BoshlaUp ga xush kelibsiz, ${existingUser.firstName || firstName}!</b>\n\n` +
-        `Sizning profilingiz: <b>${username || existingUser.username || existingUser.firstName}</b>\n` +
-        `Maqom: <b>${existingUser.role || 'Asoschi / Tester'}</b>\n\n` +
-        `🔐 <b>Saytga kirish kodingiz:</b>\n` +
-        `<code>${code}</code>\n` +
+        `👋 <b>Assalomu alaykum, ${existingUser.firstName || firstName}!</b>\n\n` +
+        `<b>BoshlaUp</b> — O'zbekistondagi IT-startaplarni ishga tushirish, ilk foydalanuvchilar va testerlarni topish platformasiga xush kelibsiz!\n\n` +
+        `🔐 <b>Saytga kirish kodingiz:</b> <code>${code}</code>\n` +
         `<i>(ushbu kod 15 daqiqa davomida amal qiladi)</i>\n\n` +
-        `<i>Бот faol: startaplaringiz bo'yicha bildirishnomalar, fikrlar va yangiliklar shu yerga keladi.</i>`;
+        `<b>Qanday kiriladi:</b>\n\n` +
+        `1. Quyidagi <b>«BoshlaUp ga kirish ➔»</b> tugmasini bosing.\n` +
+        `2. Saytdagi oynaga 6 xonali kodni kiriting: <code>${code}</code>`;
     } else {
       replyText =
         `🚀 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
         `<b>BoshlaUp</b> — O'zbekistondagi IT-startaplarni ishga tushirish, ilk foydalanuvchilar va testerlarni topish platformasiga xush kelibsiz!\n\n` +
         `<b>BoshlaUp nima beradi:</b>\n` +
-        `• <b>Asoschilar uchun:</b> MVP'ni 3 daqiqada taqdim etish, ilk foydalanuvchilar va fikr-mulohazalar to'plash.\n` +
-        `• <b>Testerlar uchun:</b> yangi loyihalarni birinchilardan bo'lib sinash va asoschilardan bonuslar olish.\n` +
-        `• <b>Investorlar uchun:</b> istiqbolli loyihalar va asoschilar bilan to'g'ridan-to'g'ri aloqa.\n\n` +
-        `🔐 <b>Saytga kirish kodingiz:</b>\n` +
-        `<code>${code}</code>\n` +
+        `• <b>Asoschilar uchun:</b> MVP'ni 3 daqiqada taqdim etish, ilk foydalanuvchilar va fikr-mulohazalar to'plash.\n\n` +
+        `🔐 <b>Saytga kirish kodingiz:</b> <code>${code}</code>\n` +
         `<i>(ushbu kod 15 daqiqa davomida amal qiladi)</i>\n\n` +
-        `<b>Qanday kiriladi:</b>\n` +
+        `<b>Qanday kiriladi:</b>\n\n` +
         `1. Quyidagi <b>«BoshlaUp ga kirish ➔»</b> tugmasini bosing.\n` +
-        `2. Saytdagi oynaga 6 xonali kodni kiriting: <code>${code}</code>\n\n` +
-        `<i>Kirganingizdan so'ng Telegram profilingiz ulanadi va barcha bildirishnomalar shu botga keladi!</i>`;
+        `2. Saytdagi oynaga 6 xonali kodni kiriting: <code>${code}</code>`;
     }
 
     await sendTelegramMessage(chatId, replyText, inlineKeyboard);

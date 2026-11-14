@@ -109,7 +109,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Add Project CTA */}
+          {/* Add Project CTA - Desktop only, mobile has it in Bottom Nav */}
           <button
             type="button"
             onClick={() => {
@@ -119,11 +119,10 @@ export default function Navbar() {
                 router.push('/submit');
               }
             }}
-            className="h-9 sm:h-10 inline-flex items-center gap-1 sm:gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-2.5 sm:px-4 rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-orange-500/25 hover:shadow-md transition-all active:scale-95 cursor-pointer whitespace-nowrap shrink-0"
+            className="hidden sm:inline-flex h-10 items-center gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-4 rounded-xl text-sm font-bold shadow-sm shadow-orange-500/25 hover:shadow-md transition-all active:scale-95 cursor-pointer whitespace-nowrap shrink-0"
           >
             <Plus className="w-4 h-4 stroke-[2.8] shrink-0" />
-            <span className="hidden sm:inline whitespace-nowrap">{t.nav.addProject}</span>
-            <span className="sm:hidden whitespace-nowrap">{t.nav.addProjectShort}</span>
+            <span className="whitespace-nowrap">{t.nav.addProject}</span>
           </button>
 
           {/* Admin shortcut button if Nazarov is logged in */}
@@ -138,14 +137,14 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Telegram Auth / User Profile */}
+          {/* Telegram Auth / User Profile - Desktop only, mobile has it in Bottom Nav */}
           {user.isLoggedIn ? (
-            <div className="relative shrink-0">
+            <div className="hidden sm:block relative shrink-0">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="h-9 sm:h-10 flex items-center gap-1.5 sm:gap-2 p-1 sm:px-2.5 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 shrink-0"
+                className="h-10 flex items-center gap-2 px-2.5 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 shrink-0"
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-slate-200 shadow-2xs shrink-0">
+                <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-200 shadow-2xs shrink-0">
                   <img
                     src={user.avatar}
                     alt={user.name}
@@ -202,12 +201,11 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => setAuthModalOpen(true)}
-              className="h-9 sm:h-10 inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 rounded-xl text-xs font-bold bg-[#18181B] hover:bg-[#27272A] text-white transition-all active:scale-95 shadow-sm whitespace-nowrap shrink-0 cursor-pointer"
+              className="hidden sm:inline-flex h-10 items-center gap-1.5 px-3.5 rounded-xl text-xs font-bold bg-[#18181B] hover:bg-[#27272A] text-white transition-all active:scale-95 shadow-sm whitespace-nowrap shrink-0 cursor-pointer"
               title={t.profile.loginWithTelegram}
             >
               <Send className="w-3.5 h-3.5 -rotate-12 text-[#FF5A1F] shrink-0" />
-              <span className="hidden sm:inline whitespace-nowrap">{t.profile.loginWithTelegram}</span>
-              <span className="sm:hidden whitespace-nowrap">{lang === 'uz' ? 'Kirish' : lang === 'en' ? 'Sign in' : 'Войти'}</span>
+              <span className="whitespace-nowrap">{t.profile.loginWithTelegram}</span>
             </button>
           )}
         </div>
