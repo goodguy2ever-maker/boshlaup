@@ -36,53 +36,53 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3 sm:gap-6">
         {/* Brand Logo */}
-        <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+        <div className="flex items-center gap-3 sm:gap-6 shrink-0">
           <Link href="/" className="shrink-0 flex items-center group py-1">
             <img
               src="/logo.svg"
               alt="BoshlaUp"
-              className="h-7 sm:h-8 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+              className="h-6 sm:h-7.5 w-auto object-contain transition-transform group-hover:scale-[1.02] shrink-0"
             />
           </Link>
 
           {/* Navigation links */}
-          <nav className="hidden sm:flex items-center gap-1.5 text-xs sm:text-sm font-medium shrink-0">
+          <nav className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-medium shrink-0">
             <Link
               href="/"
-              className={`px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1.5 ${
+              className={`h-10 px-3.5 rounded-xl transition-colors flex items-center gap-1.5 whitespace-nowrap ${
                 pathname === '/'
                   ? 'text-[#FF5A1F] bg-orange-50 font-bold border border-orange-200/60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              <Compass className="w-4 h-4" />
+              <Compass className="w-4 h-4 shrink-0" />
               <span>{t.nav.catalog}</span>
             </Link>
             <Link
               href="/community"
-              className={`px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1.5 ${
+              className={`h-10 px-3.5 rounded-xl transition-colors flex items-center gap-1.5 whitespace-nowrap ${
                 pathname.startsWith('/community')
                   ? 'text-[#FF5A1F] bg-orange-50 font-bold border border-orange-200/60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageSquare className="w-4 h-4 shrink-0" />
               <span>{t.nav.community || 'Сообщество'}</span>
             </Link>
           </nav>
         </div>
 
         {/* Right Section: Language, Add Project, Telegram Auth / User Profile */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Language Switcher */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-xs font-bold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 transition-colors shadow-2xs"
+              className="h-9 sm:h-10 flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 text-xs font-bold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 transition-colors shadow-2xs whitespace-nowrap shrink-0"
             >
-              <Globe className="w-3.5 h-3.5 text-slate-500" />
+              <Globe className="w-3.5 h-3.5 text-slate-500 shrink-0" />
               <span className="uppercase text-[11px] font-black">{lang}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
+              <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
             </button>
 
             {langOpen && (
@@ -119,33 +119,33 @@ export default function Navbar() {
                 router.push('/submit');
               }
             }}
-            className="flex items-center gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-orange-500/25 hover:shadow-md transition-all active:scale-95 cursor-pointer"
+            className="h-9 sm:h-10 inline-flex items-center gap-1 sm:gap-1.5 bg-[#FF5A1F] hover:bg-[#E04810] text-white px-2.5 sm:px-4 rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-orange-500/25 hover:shadow-md transition-all active:scale-95 cursor-pointer whitespace-nowrap shrink-0"
           >
-            <Plus className="w-4 h-4 stroke-[2.8]" />
-            <span className="hidden sm:inline">{t.nav.addProject}</span>
-            <span className="sm:hidden">{t.nav.addProjectShort}</span>
+            <Plus className="w-4 h-4 stroke-[2.8] shrink-0" />
+            <span className="hidden sm:inline whitespace-nowrap">{t.nav.addProject}</span>
+            <span className="sm:hidden whitespace-nowrap">{t.nav.addProjectShort}</span>
           </button>
 
           {/* Admin shortcut button if Nazarov is logged in */}
           {isAdmin && (
             <Link
               href="/logovo"
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#18181B] hover:bg-black text-white text-xs font-bold shadow-xs border border-slate-700 transition-all hover:border-[#FF5A1F]"
+              className="hidden md:inline-flex items-center gap-1.5 h-10 px-3 rounded-xl bg-[#18181B] hover:bg-black text-white text-xs font-bold shadow-xs border border-slate-700 transition-all hover:border-[#FF5A1F] whitespace-nowrap shrink-0"
               title={(t.nav as any).adminLairTooltip || 'Логово администратора'}
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A1F]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A1F] shrink-0" />
               <span>{(t.nav as any).adminLair || 'Логово'}</span>
             </Link>
           )}
 
           {/* Telegram Auth / User Profile */}
           {user.isLoggedIn ? (
-            <div className="relative">
+            <div className="relative shrink-0">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 p-1 sm:px-2.5 sm:py-1.5 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200"
+                className="h-9 sm:h-10 flex items-center gap-1.5 sm:gap-2 p-1 sm:px-2.5 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 shrink-0"
               >
-                <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-200 shadow-2xs">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-slate-200 shadow-2xs shrink-0">
                   <img
                     src={user.avatar}
                     alt={user.name}
@@ -156,7 +156,7 @@ export default function Navbar() {
                   <span className="text-xs font-bold text-slate-800 leading-none truncate max-w-[100px]">{user.name}</span>
                   <span className="text-[10px] text-blue-600 font-semibold mt-0.5">{user.telegram || 'Telegram'}</span>
                 </div>
-                <ChevronDown className="w-3 h-3 text-slate-400 hidden xl:block" />
+                <ChevronDown className="w-3 h-3 text-slate-400 hidden xl:block shrink-0" />
               </button>
 
               {userMenuOpen && (
@@ -202,10 +202,12 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => setAuthModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-[#18181B] hover:bg-[#27272A] text-white transition-all active:scale-95 shadow-sm"
+              className="h-9 sm:h-10 inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 rounded-xl text-xs font-bold bg-[#18181B] hover:bg-[#27272A] text-white transition-all active:scale-95 shadow-sm whitespace-nowrap shrink-0 cursor-pointer"
+              title={t.profile.loginWithTelegram}
             >
-              <Send className="w-3.5 h-3.5 -rotate-12 text-[#FF5A1F]" />
-              <span>{t.profile.loginWithTelegram}</span>
+              <Send className="w-3.5 h-3.5 -rotate-12 text-[#FF5A1F] shrink-0" />
+              <span className="hidden sm:inline whitespace-nowrap">{t.profile.loginWithTelegram}</span>
+              <span className="sm:hidden whitespace-nowrap">{lang === 'uz' ? 'Kirish' : lang === 'en' ? 'Sign in' : 'Войти'}</span>
             </button>
           )}
         </div>

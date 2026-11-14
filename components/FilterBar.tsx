@@ -94,48 +94,48 @@ export default function FilterBar({
   return (
     <div className="space-y-3 mb-6">
       {/* Row 1: Unified Segmented Navigation & View Switcher (Linear Style) */}
-      <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-1.5 rounded-2xl border-2 border-orange-200/80 hover:border-[#FF5A1F]/60 shadow-2xs hover:shadow-md hover:shadow-orange-500/5 transition-all">
+      <div className="flex items-center justify-between gap-2.5 sm:gap-3 flex-wrap sm:flex-nowrap bg-white p-1.5 rounded-2xl border-2 border-orange-200/80 hover:border-[#FF5A1F]/60 shadow-2xs hover:shadow-md hover:shadow-orange-500/5 transition-all">
         {/* Left: Sorting Tabs */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar flex-nowrap w-full sm:w-auto pb-1 sm:pb-0">
           <button
             onClick={() => setTab('topDay')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap shrink-0 transition-all ${
               tab === 'topDay'
                 ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <Flame className="w-4 h-4" />
-            <span>{t.filters.tabs.topDay}</span>
+            <Flame className="w-4 h-4 shrink-0" />
+            <span className="whitespace-nowrap">{t.filters.tabs.topDay}</span>
           </button>
 
           <button
             onClick={() => setTab('topWeek')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap shrink-0 transition-all ${
               tab === 'topWeek'
                 ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <Zap className="w-4 h-4" />
-            <span>{t.filters.tabs.topWeek}</span>
+            <Zap className="w-4 h-4 shrink-0" />
+            <span className="whitespace-nowrap">{t.filters.tabs.topWeek}</span>
           </button>
 
           <button
             onClick={() => setTab('newLaunch')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap shrink-0 transition-all ${
               tab === 'newLaunch'
                 ? 'bg-[#FF5A1F] text-white shadow-sm shadow-orange-500/25'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <Sparkles className="w-4 h-4" />
-            <span>{t.filters.tabs.newLaunch}</span>
+            <Sparkles className="w-4 h-4 shrink-0" />
+            <span className="whitespace-nowrap">{t.filters.tabs.newLaunch}</span>
           </button>
         </div>
 
         {/* Right: View Mode Toggle */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-xl gap-0.5 border border-slate-200/60">
+        <div className="flex items-center bg-slate-100 p-1 rounded-xl gap-0.5 border border-slate-200/60 shrink-0">
           <button
             type="button"
             onClick={() => setViewMode('cards')}

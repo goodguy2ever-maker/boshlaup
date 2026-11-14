@@ -3,6 +3,7 @@ import './globals.css';
 import { AppProvider } from '@/context/AppContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MobileNavBar from '@/components/MobileNavBar';
 import TelegramAuthModal from '@/components/TelegramAuthModal';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://boshlaup.uz';
@@ -124,10 +125,11 @@ export default function RootLayout({
         </div>
         <AppProvider>
           <Navbar />
-          <main className="flex-1">
+          <main className="flex-1 pb-20 sm:pb-0">
             {children}
           </main>
           <Footer />
+          <MobileNavBar />
           <TelegramAuthModal />
         </AppProvider>
       </body>
