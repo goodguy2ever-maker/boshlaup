@@ -137,28 +137,6 @@ export default function HomePage() {
               <span>{t.hero.launchBtn}</span>
             </Link>
           </div>
-
-          {/* Quick Metrics (100% Live & Dynamic from Database) */}
-          <div className="mt-6 pt-5 border-t border-slate-700/60 flex items-center gap-6 sm:gap-10 text-left">
-            <div>
-              <p className="text-lg sm:text-xl font-black text-white tracking-tight">
-                {stats.totalStartups}
-              </p>
-              <p className="text-[11px] text-slate-400">{(t.hero as any).liveStartups || 'Проектов в каталоге'}</p>
-            </div>
-            <div>
-              <p className="text-lg sm:text-xl font-black text-emerald-400 tracking-tight">
-                {stats.totalUsers}
-              </p>
-              <p className="text-[11px] text-slate-400">{(t.hero as any).liveUsers || 'Пользователей'}</p>
-            </div>
-            <div>
-              <p className="text-lg sm:text-xl font-black text-[#FF5A1F] tracking-tight">
-                {stats.totalFeedbacks}
-              </p>
-              <p className="text-[11px] text-slate-400">{(t.hero as any).liveFeedbacks || 'Идей и баг-репортов'}</p>
-            </div>
-          </div>
         </div>
       </section>
 
