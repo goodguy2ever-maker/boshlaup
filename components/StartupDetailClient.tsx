@@ -283,14 +283,17 @@ export default function StartupDetailClient({ initialStartup }: { initialStartup
     } catch (e) {}
   };
 
-  // Founder check: matched by Telegram username, Telegram user ID, or local creation record
+  // Founder check: strictly verified by telegramUserId if logged in, or local creation record if guest
   const isOwner = Boolean(
-    (user?.isLoggedIn &&
-      ((user.telegram && startup?.telegramContact && user.telegram.replace('@', '').toLowerCase() === startup.telegramContact.replace('@', '').toLowerCase()) ||
-       (user.telegramId && startup?.telegramUserId && String(user.telegramId) === String(startup.telegramUserId)))) ||
-    (typeof window !== 'undefined' && (() => {
+    (user?.isLoggedIn && user.telegramId && startup?.telegramUserId && String(user.telegramId) === String(startup.telegramUserId)) ||
+    (!user?.isLoggedIn && typeof window !== 'undefined' && (() => {
       try {
-        const localIds = JSON.parse(localStorage.getItem('starthub_my_startup_ids') || '[]');
+        const localIds = JSON.parse(
+          localStorage.getItem('starthub_my_startups') ||
+          localStorage.getItem('boshlaup_my_startups') ||
+          localStorage.getItem('starthub_my_startup_ids') ||
+          '[]'
+        );
         return Array.isArray(localIds) && localIds.includes(id);
       } catch {
         return false;

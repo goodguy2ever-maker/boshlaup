@@ -95,24 +95,16 @@ export default function ProfilePage() {
     }
   };
 
-  // Filter projects created by this user
+  // Filter projects created by this user:
+  // Strict rule: If user is logged in via Telegram, ownership is determined strictly by telegramUserId.
+  // telegramContact is only a public contact link for visitors/investors and does not grant ownership.
+  // localStorage is used only as fallback for guest users who haven't logged in yet.
   const myProjects = allStartups.filter(s => {
-    // 1. Matched by localStorage created ID in this browser
+    if (user.telegramId) {
+      return Boolean(s.telegramUserId && String(user.telegramId) === String(s.telegramUserId));
+    }
+
     if (localCreatedIds.includes(s.id)) return true;
-
-    // 2. Matched by Telegram ID
-    if (user.telegramId && s.telegramUserId && String(user.telegramId) === String(s.telegramUserId)) {
-      return true;
-    }
-
-    // 3. Matched by Telegram username (@nazarov_df)
-    if (user.telegram && s.telegramContact) {
-      const cleanUser = user.telegram.replace('@', '').trim().toLowerCase();
-      const cleanContact = s.telegramContact.replace('@', '').trim().toLowerCase();
-      if (cleanUser && cleanContact && cleanUser === cleanContact) {
-        return true;
-      }
-    }
 
     return false;
   });
